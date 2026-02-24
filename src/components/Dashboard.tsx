@@ -10,12 +10,6 @@ import {
   Bell,
   Search,
   ChevronLeft,
-  Clock,
-  CheckCircle,
-  Plus,
-  Upload,
-  Phone,
-  HeadphonesIcon,
   UserCog,
   ShieldCheck,
   ClipboardList,
@@ -171,21 +165,6 @@ export default function Dashboard({ onClose }: DashboardProps) {
     () => sidebar.find((item) => item.id === activeTab)?.label ?? 'Dashboard',
     [activeTab, sidebar]
   );
-
-  const getStatusBadge = (status: Case['status']) => {
-    const configs = {
-      pending: { label: 'Pending', className: 'bg-warning/10 text-warning' },
-      'in-progress': { label: 'In progress', className: 'bg-primary/10 text-primary' },
-      completed: { label: 'Completed', className: 'bg-success/10 text-success' },
-      rejected: { label: 'Rejected', className: 'bg-error/10 text-error' },
-    };
-    return <Badge className={configs[status].className}>{configs[status].label}</Badge>;
-  };
-
-  const getActivityIcon = (type: Activity['type']) => {
-    const icons = { case_update: CheckCircle, document_upload: Upload, message: MessageSquare, appointment: Calendar };
-    return icons[type];
-  };
 
   const updateRequestStatus = (id: string, status: AdminRequest['status']) => {
     setAdminRequests((prev) => prev.map((r) => (r.id === id ? { ...r, status } : r)));
