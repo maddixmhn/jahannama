@@ -9,7 +9,7 @@ export type Locale = 'fa' | 'en';
 
 function App() {
   const [locale, setLocale] = useState<Locale>('fa');
-  const [isDark, setIsDark] = useState(false);
+  const [isDark, setIsDark] = useState(true);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [isDashboardOpen, setIsDashboardOpen] = useState(false);
 

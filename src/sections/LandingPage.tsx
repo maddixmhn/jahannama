@@ -115,9 +115,11 @@ export default function LandingPage({
   const { isAuthenticated } = useAuth();
   const sectionRefs = useRef<HTMLElement[]>([]);
   const cardRefs = useRef<HTMLDivElement[]>([]);
+  const bubbleRefs = useRef<HTMLDivElement[]>([]);
 
   sectionRefs.current = [];
   cardRefs.current = [];
+  bubbleRefs.current = [];
 
   const addSection = (el: HTMLElement | null) => {
     if (el && !sectionRefs.current.includes(el)) sectionRefs.current.push(el);
@@ -125,6 +127,10 @@ export default function LandingPage({
 
   const addCard = (el: HTMLDivElement | null) => {
     if (el && !cardRefs.current.includes(el)) cardRefs.current.push(el);
+  };
+
+  const addBubble = (el: HTMLDivElement | null) => {
+    if (el && !bubbleRefs.current.includes(el)) bubbleRefs.current.push(el);
   };
 
   useLayoutEffect(() => {
@@ -180,6 +186,21 @@ export default function LandingPage({
         duration: 5,
         ease: 'sine.inOut',
       });
+
+      bubbleRefs.current.forEach((bubble, index) => {
+        gsap.to(bubble, {
+          y: -220 - index * 24,
+          x: index % 2 === 0 ? 40 : -36,
+          rotation: index % 2 === 0 ? 14 : -14,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: 'main',
+            start: 'top top',
+            end: 'bottom bottom',
+            scrub: 1.3,
+          },
+        });
+      });
     });
 
     return () => {
@@ -193,6 +214,20 @@ export default function LandingPage({
       <div className="fixed inset-0 pointer-events-none overflow-hidden">
         <div data-orb="a" className="absolute -top-20 -left-20 h-72 w-72 rounded-full bg-primary/25 blur-3xl" />
         <div data-orb="b" className="absolute top-1/2 -right-24 h-80 w-80 rounded-full bg-secondary/20 blur-3xl" />
+        {[...Array(14)].map((_, i) => (
+          <div
+            key={i}
+            ref={addBubble}
+            className="absolute rounded-full bg-gradient-to-br from-primary/18 to-secondary/14 dark:from-primary/24 dark:to-secondary/20 border border-white/25 dark:border-slate-700/40 backdrop-blur-sm"
+            style={{
+              width: `${28 + (i % 5) * 16}px`,
+              height: `${28 + (i % 5) * 16}px`,
+              left: `${5 + (i * 7) % 90}%`,
+              top: `${12 + (i * 9) % 86}%`,
+            }}
+          />
+        ))}
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(148,163,184,0.08)_1px,transparent_1px),linear-gradient(to_bottom,rgba(148,163,184,0.08)_1px,transparent_1px)] bg-[size:48px_48px] dark:bg-[linear-gradient(to_right,rgba(51,65,85,0.22)_1px,transparent_1px),linear-gradient(to_bottom,rgba(51,65,85,0.22)_1px,transparent_1px)]" />
       </div>
 
       <header className="sticky top-0 z-50 backdrop-blur-xl bg-white/70 dark:bg-slate-950/55 border-b border-white/40 dark:border-slate-800">
@@ -263,7 +298,7 @@ export default function LandingPage({
             </div>
 
             <div data-hero-el className="relative">
-              <div className="rounded-[2rem] p-6 border border-white/50 dark:border-slate-700 bg-white/65 dark:bg-slate-900/65 backdrop-blur-2xl shadow-2xl">
+              <div className="rounded-[2rem] p-6 border border-white/70 dark:border-slate-700/80 bg-white/72 dark:bg-slate-900/78 backdrop-blur-2xl shadow-2xl">
                 <img src="/images/hero-bg.jpg" alt="hero" className="rounded-2xl h-[460px] w-full object-cover" />
                 <div className="mt-4 grid grid-cols-2 gap-3">
                   <div className="rounded-xl bg-primary/10 dark:bg-primary/15 p-4"><p className="text-xs text-slate-500 dark:text-slate-400">Case Confidence</p><p className="text-xl font-bold text-primary">94%</p></div>
@@ -281,7 +316,7 @@ export default function LandingPage({
             {t.features.map(([name, text], i) => {
               const Icon = i === 0 ? ShieldCheck : i === 1 ? Compass : Waypoints;
               return (
-                <div ref={addCard} key={name} className="rounded-2xl p-6 bg-white/75 dark:bg-slate-900/70 border border-white/60 dark:border-slate-700 shadow-lg">
+                <div ref={addCard} key={name} className="rounded-2xl p-6 bg-white/82 dark:bg-slate-900/76 border border-white/75 dark:border-slate-700/90 shadow-lg backdrop-blur-xl">
                   <div className="w-11 h-11 rounded-xl bg-primary/10 dark:bg-primary/20 grid place-content-center mb-4">
                     <Icon className="w-5 h-5 text-primary" />
                   </div>
