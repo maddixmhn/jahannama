@@ -1,16 +1,8 @@
 import { useEffect, useState } from 'react';
 import { AuthProvider } from '@/context/AuthContext';
-import Navigation from '@/components/Navigation';
 import AuthModal from '@/components/AuthModal';
 import Dashboard from '@/components/Dashboard';
-import Hero from '@/sections/Hero';
-import Services from '@/sections/Services';
-import Statistics from '@/sections/Statistics';
-import Process from '@/sections/Process';
-import SignalStrip from '@/sections/SignalStrip';
-import Testimonials from '@/sections/Testimonials';
-import CTA from '@/sections/CTA';
-import Footer from '@/sections/Footer';
+import LandingPage from '@/sections/LandingPage';
 import './App.css';
 
 export type Locale = 'fa' | 'en';
@@ -38,27 +30,15 @@ function App() {
 
   return (
     <AuthProvider>
-      <div className="min-h-screen bg-white">
-        <Navigation 
-          onAuthClick={openAuthModal} 
-          onDashboardClick={openDashboard}
+      <div className="min-h-screen bg-background text-foreground transition-colors">
+        <LandingPage
           locale={locale}
           onLocaleChange={setLocale}
           isDark={isDark}
-          onLogoClick={() => setIsDark((prev) => !prev)}
+          onToggleDark={() => setIsDark((prev) => !prev)}
+          onAuthClick={openAuthModal}
+          onDashboardClick={openDashboard}
         />
-
-        <main>
-          <Hero onCtaClick={openAuthModal} locale={locale} />
-          <Services locale={locale} />
-          <Statistics locale={locale} />
-          <Process locale={locale} />
-          <SignalStrip locale={locale} />
-          <Testimonials locale={locale} />
-          <CTA onCtaClick={openAuthModal} locale={locale} />
-        </main>
-
-        <Footer locale={locale} />
 
         <AuthModal 
           isOpen={isAuthModalOpen} 
