@@ -1,27 +1,55 @@
 import { useEffect, useRef, useState } from 'react';
 import { ArrowLeft, Clock, Users, Globe, Shield, ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import type { Locale } from '@/App';
 
 interface HeroProps {
   onCtaClick: () => void;
+  locale: Locale;
 }
 
-const floatingCards = [
-  { icon: Clock, label: 'پردازش سریع', delay: '0s' },
-  { icon: Users, label: 'تیم متخصص', delay: '0.5s' },
-  { icon: Globe, label: 'شبکه جهانی', delay: '1s' },
-];
+const content = {
+  fa: {
+    badge: 'مورد اعتماد هزاران نفر',
+    title1: 'سفر شما به سوی',
+    title2: 'آغازی نو',
+    title3: 'اینجا شروع می شود',
+    subtitle:
+      'راهنمای حرفه ای برای متقاضیان پناهندگی و مهاجرت. همراه شما از ارزیابی پرونده تا اقدام نهایی.',
+    cta: 'مشاوره رایگان',
+    services: 'مشاهده خدمات',
+    scroll: 'اسکرول کنید',
+    cards: ['پردازش سریع', 'تیم متخصص', 'شبکه جهانی'],
+    stats: [
+      { value: '500+', label: 'پرونده موفق' },
+      { value: '98%', label: 'رضایت کاربران' },
+      { value: '24/7', label: 'پشتیبانی' },
+    ],
+  },
+  en: {
+    badge: 'Trusted by thousands of clients',
+    title1: 'Your path toward',
+    title2: 'a new beginning',
+    title3: 'starts right here',
+    subtitle:
+      'Professional guidance for asylum and immigration applicants, from early assessment to final submission.',
+    cta: 'Free Consultation',
+    services: 'Explore Services',
+    scroll: 'Scroll down',
+    cards: ['Fast Processing', 'Expert Team', 'Global Network'],
+    stats: [
+      { value: '500+', label: 'Successful cases' },
+      { value: '98%', label: 'Client satisfaction' },
+      { value: '24/7', label: 'Support' },
+    ],
+  },
+};
 
-const stats = [
-  { value: '500+', label: 'مورد موفق' },
-  { value: '98%', label: 'رضایت مشتری' },
-  { value: '24/7', label: 'پشتیبانی' },
-];
-
-export default function Hero({ onCtaClick }: HeroProps) {
+export default function Hero({ onCtaClick, locale }: HeroProps) {
   const [isLoaded, setIsLoaded] = useState(false);
   const heroRef = useRef<HTMLDivElement>(null);
   const [scrollY, setScrollY] = useState(0);
+  const t = content[locale];
 
   useEffect(() => {
     setIsLoaded(true);
@@ -45,97 +73,77 @@ export default function Hero({ onCtaClick }: HeroProps) {
     <section
       id="home"
       ref={heroRef}
-      className="relative min-h-screen flex items-center overflow-hidden bg-gradient-to-br from-primary-light via-white to-white"
+      className="relative min-h-screen flex items-center overflow-hidden bg-gradient-to-br from-primary-light via-white to-[#f7fafe]"
     >
-      {/* Animated Background Shapes */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div 
+        <div
           className="absolute -top-40 -right-40 w-96 h-96 bg-primary/10 rounded-full blur-3xl animate-float"
           style={{ transform: `translateY(${scrollY * 0.1}px)` }}
         />
-        <div 
+        <div
           className="absolute top-1/2 -left-20 w-72 h-72 bg-secondary/10 rounded-full blur-3xl animate-float-slow"
           style={{ transform: `translateY(${scrollY * -0.15}px)`, animationDelay: '2s' }}
-        />
-        <div 
-          className="absolute bottom-20 right-1/4 w-64 h-64 bg-primary/5 rounded-full blur-3xl animate-float"
-          style={{ transform: `translateY(${scrollY * 0.08}px)`, animationDelay: '1s' }}
-        />
-        
-        {/* Grid Pattern */}
-        <div 
-          className="absolute inset-0 opacity-[0.03]"
-          style={{
-            backgroundImage: `linear-gradient(#1B8BFF 1px, transparent 1px), linear-gradient(90deg, #1B8BFF 1px, transparent 1px)`,
-            backgroundSize: '60px 60px',
-          }}
         />
       </div>
 
       <div className="relative w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-          {/* Content */}
-          <div className="text-center lg:text-right order-2 lg:order-1">
-            {/* Badge */}
-            <div 
+          <div className="text-center lg:text-start order-2 lg:order-1">
+            <div
               className={`inline-flex items-center gap-2 px-4 py-2 bg-primary/10 rounded-full mb-6 transition-all duration-700 ${
                 isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
               }`}
             >
               <Shield className="w-4 h-4 text-primary" />
-              <span className="text-sm font-medium text-primary">مورد اعتماد هزاران نفر</span>
+              <span className="text-sm font-medium text-primary">{t.badge}</span>
             </div>
 
-            {/* Headline */}
-            <h1 
+            <h1
               className={`text-4xl sm:text-5xl lg:text-6xl font-display font-bold text-navy leading-tight mb-6 transition-all duration-700 delay-100 ${
                 isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
               }`}
             >
-              سفر شما به سوی
-              <span className="block gradient-text mt-2">آغازی نو</span>
-              اینجا شروع می‌شود
+              {t.title1}
+              <span className="block gradient-text mt-2">{t.title2}</span>
+              {t.title3}
             </h1>
 
-            {/* Subheadline */}
-            <p 
+            <p
               className={`text-lg text-gray-600 mb-8 max-w-xl mx-auto lg:mx-0 transition-all duration-700 delay-200 ${
                 isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
               }`}
             >
-              راهنمای متخصص برای متقاضیان پناهندگی و مسافران. مشاوره حرفه‌ای برای کمک به شما در مسیر امنیت و فرصت‌های جدید.
+              {t.subtitle}
             </p>
 
-            {/* CTA Buttons */}
-            <div 
+            <div
               className={`flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-10 transition-all duration-700 delay-300 ${
                 isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
               }`}
             >
-              <Button 
+              <Button
                 onClick={onCtaClick}
                 className="btn-primary text-lg px-8 py-4 animate-scale-pulse"
               >
-                مشاوره رایگان
+                {t.cta}
                 <ArrowLeft className="w-5 h-5 mr-2" />
               </Button>
-              <Button 
+              <Button
                 variant="outline"
                 className="btn-outline text-lg px-8 py-4"
                 onClick={() => document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' })}
               >
-                مشاهده خدمات
+                {t.services}
               </Button>
             </div>
 
-            {/* Stats */}
-            <div 
+            <div
               className={`flex flex-wrap justify-center lg:justify-start gap-8 transition-all duration-700 delay-400 ${
                 isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
               }`}
             >
-              {stats.map((stat, index) => (
-                <div key={index} className="text-center lg:text-right">
+              {t.stats.map((stat) => (
+                <div key={stat.label} className="text-center lg:text-start">
                   <p className="text-2xl font-bold text-navy">{stat.value}</p>
                   <p className="text-sm text-gray-500">{stat.label}</p>
                 </div>
@@ -143,56 +151,53 @@ export default function Hero({ onCtaClick }: HeroProps) {
             </div>
           </div>
 
-          {/* Visual */}
           <div className="relative order-1 lg:order-2">
-            {/* Main Image */}
-            <div 
+            <div
               className={`relative transition-all duration-1000 delay-200 ${
                 isLoaded ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-12 scale-95'
               }`}
             >
               <div className="relative rounded-3xl overflow-hidden shadow-2xl">
                 <img
-                  src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=80"
-                  alt="Beautiful mountain landscape"
-                  className="w-full h-[400px] lg:h-[500px] object-cover"
+                  src="/images/hero-bg.jpg"
+                  alt="Hero"
+                  className="w-full h-[400px] lg:h-[520px] object-cover"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-navy/30 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-navy/35 to-transparent" />
               </div>
 
-              {/* Floating Cards */}
-              {floatingCards.map((card, index) => (
-                <div
-                  key={index}
-                  className={`absolute glass rounded-2xl p-4 shadow-xl floating transition-all duration-700 ${
-                    isLoaded ? 'opacity-100 scale-100' : 'opacity-0 scale-90'
-                  }`}
-                  style={{
-                    animationDelay: card.delay,
-                    [index === 0 ? 'top' : index === 1 ? 'bottom' : 'top']: index === 2 ? '1/2' : '-20px',
-                    [index === 0 ? 'right' : index === 1 ? 'left' : 'left']: index === 2 ? '-20px' : '-30px',
-                    transform: index === 2 ? 'translateY(-50%)' : undefined,
-                  }}
-                >
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center">
-                      <card.icon className="w-5 h-5 text-primary" />
+              {t.cards.map((label, index) => {
+                const Icon = index === 0 ? Clock : index === 1 ? Users : Globe;
+                const positionClass =
+                  index === 0
+                    ? '-top-5 -right-6'
+                    : index === 1
+                      ? '-bottom-5 -left-6'
+                      : 'top-1/2 -left-8 -translate-y-1/2';
+                return (
+                  <div
+                    key={label}
+                    className={`absolute ${positionClass} glass rounded-2xl p-4 shadow-xl floating transition-all duration-700 ${
+                      isLoaded ? 'opacity-100 scale-100' : 'opacity-0 scale-90'
+                    }`}
+                    style={{ animationDelay: `${index * 0.5}s` }}
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center">
+                        <Icon className="w-5 h-5 text-primary" />
+                      </div>
+                      <span className="font-medium text-sm whitespace-nowrap">{label}</span>
                     </div>
-                    <span className="font-medium text-sm whitespace-nowrap">{card.label}</span>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
-
-            {/* Decorative Elements */}
-            <div className="absolute -z-10 -bottom-10 -right-10 w-64 h-64 bg-primary/10 rounded-full blur-3xl" />
           </div>
         </div>
       </div>
 
-      {/* Scroll Indicator */}
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-gray-400">
-        <span className="text-sm">اسکرول کنید</span>
+        <span className="text-sm">{t.scroll}</span>
         <ChevronDown className="w-5 h-5 animate-bounce" />
       </div>
     </section>

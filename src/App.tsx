@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { AuthProvider } from '@/context/AuthContext';
 import Navigation from '@/components/Navigation';
 import AuthModal from '@/components/AuthModal';
@@ -12,7 +12,10 @@ import CTA from '@/sections/CTA';
 import Footer from '@/sections/Footer';
 import './App.css';
 
+export type Locale = 'fa' | 'en';
+
 function App() {
+  const [locale, setLocale] = useState<Locale>('fa');
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [isDashboardOpen, setIsDashboardOpen] = useState(false);
 
@@ -22,35 +25,37 @@ function App() {
   const openDashboard = () => setIsDashboardOpen(true);
   const closeDashboard = () => setIsDashboardOpen(false);
 
+  useEffect(() => {
+    document.documentElement.lang = locale;
+    document.documentElement.dir = locale === 'fa' ? 'rtl' : 'ltr';
+  }, [locale]);
+
   return (
     <AuthProvider>
       <div className="min-h-screen bg-white">
-        {/* Navigation */}
         <Navigation 
           onAuthClick={openAuthModal} 
           onDashboardClick={openDashboard}
+          locale={locale}
+          onLocaleChange={setLocale}
         />
 
-        {/* Main Content */}
         <main>
-          <Hero onCtaClick={openAuthModal} />
-          <Services />
-          <Statistics />
-          <Process />
-          <Testimonials />
-          <CTA onCtaClick={openAuthModal} />
+          <Hero onCtaClick={openAuthModal} locale={locale} />
+          <Services locale={locale} />
+          <Statistics locale={locale} />
+          <Process locale={locale} />
+          <Testimonials locale={locale} />
+          <CTA onCtaClick={openAuthModal} locale={locale} />
         </main>
 
-        {/* Footer */}
-        <Footer />
+        <Footer locale={locale} />
 
-        {/* Auth Modal */}
         <AuthModal 
           isOpen={isAuthModalOpen} 
           onClose={closeAuthModal} 
         />
 
-        {/* Dashboard */}
         {isDashboardOpen && (
           <Dashboard onClose={closeDashboard} />
         )}

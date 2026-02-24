@@ -1,27 +1,52 @@
 import { useEffect, useRef } from 'react';
 import { Briefcase, Users, Headphones, Clock, Award, Globe } from 'lucide-react';
 import { useScrollReveal, useCountUp } from '@/hooks/useScrollReveal';
+import type { Locale } from '@/App';
 
-const stats = [
-  { id: '1', value: 500, suffix: '+', label: 'مورد موفق', icon: Briefcase },
-  { id: '2', value: 98, suffix: '%', label: 'رضایت مشتری', icon: Users },
-  { id: '3', value: 50, suffix: '+', label: 'مشاور متخصص', icon: Headphones },
-  { id: '4', value: 24, suffix: '/7', label: 'پشتیبانی', icon: Clock },
-  { id: '5', value: 15, suffix: '+', label: 'سال تجربه', icon: Award },
-  { id: '6', value: 30, suffix: '+', label: 'کشور تحت پوشش', icon: Globe },
-];
+interface StatisticsProps {
+  locale: Locale;
+}
 
-function StatCard({ 
-  value, 
-  suffix, 
-  label, 
-  icon: Icon, 
+const content = {
+  fa: {
+    badge: 'آمار و ارقام',
+    title: 'اعتماد ما در اعداد دیده می شود',
+    subtitle: 'سال ها تجربه و صدها پرونده موفق، پشتوانه کیفیت خدمات ماست.',
+    stats: [
+      { id: '1', value: 500, suffix: '+', label: 'پرونده موفق', icon: Briefcase },
+      { id: '2', value: 98, suffix: '%', label: 'رضایت مشتری', icon: Users },
+      { id: '3', value: 50, suffix: '+', label: 'مشاور متخصص', icon: Headphones },
+      { id: '4', value: 24, suffix: '/7', label: 'پشتیبانی', icon: Clock },
+      { id: '5', value: 15, suffix: '+', label: 'سال تجربه', icon: Award },
+      { id: '6', value: 30, suffix: '+', label: 'کشور تحت پوشش', icon: Globe },
+    ],
+  },
+  en: {
+    badge: 'By The Numbers',
+    title: 'Our impact in measurable results',
+    subtitle: 'Years of experience and successful outcomes define our reliability.',
+    stats: [
+      { id: '1', value: 500, suffix: '+', label: 'Successful cases', icon: Briefcase },
+      { id: '2', value: 98, suffix: '%', label: 'Client satisfaction', icon: Users },
+      { id: '3', value: 50, suffix: '+', label: 'Expert advisors', icon: Headphones },
+      { id: '4', value: 24, suffix: '/7', label: 'Support hours', icon: Clock },
+      { id: '5', value: 15, suffix: '+', label: 'Years of experience', icon: Award },
+      { id: '6', value: 30, suffix: '+', label: 'Countries covered', icon: Globe },
+    ],
+  },
+};
+
+function StatCard({
+  value,
+  suffix,
+  label,
+  icon: Icon,
   delay,
-  isVisible 
-}: { 
-  value: number; 
-  suffix: string; 
-  label: string; 
+  isVisible,
+}: {
+  value: number;
+  suffix: string;
+  label: string;
   icon: React.ElementType;
   delay: number;
   isVisible: boolean;
@@ -40,7 +65,7 @@ function StatCard({
   }, [isVisible, delay, startAnimation]);
 
   return (
-    <div 
+    <div
       className={`text-center transition-all duration-700 ${
         isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
       }`}
@@ -58,57 +83,36 @@ function StatCard({
   );
 }
 
-export default function Statistics() {
+export default function Statistics({ locale }: StatisticsProps) {
   const { ref, isVisible } = useScrollReveal<HTMLDivElement>({ threshold: 0.3 });
+  const t = content[locale];
 
   return (
     <section className="relative py-24 bg-navy-dark overflow-hidden">
-      {/* Background Effects */}
       <div className="absolute inset-0">
-        {/* Radial Gradient */}
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-navy via-navy-dark to-black" />
-        
-        {/* Animated Particles */}
-        <div className="absolute inset-0 overflow-hidden">
-          {[...Array(20)].map((_, i) => (
-            <div
-              key={i}
-              className="absolute w-1 h-1 bg-primary/30 rounded-full animate-float"
-              style={{
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
-                animationDelay: `${Math.random() * 5}s`,
-                animationDuration: `${5 + Math.random() * 5}s`,
-              }}
-            />
-          ))}
-        </div>
-
-        {/* Glow Effects */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-primary/10 rounded-full blur-3xl" />
       </div>
 
       <div ref={ref} className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Header */}
-        <div 
+        <div
           className={`text-center mb-16 transition-all duration-700 ${
             isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
           }`}
         >
           <span className="inline-block px-4 py-2 bg-primary/20 text-primary rounded-full text-sm font-medium mb-4">
-            آمار و ارقام
+            {t.badge}
           </span>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-display font-bold text-white mb-4">
-            در اعداد، اعتماد ما را ببینید
+            {t.title}
           </h2>
           <p className="text-lg text-gray-400 max-w-2xl mx-auto">
-            سال‌ها تجربه و هزاران مورد موفق، سند اعتبار ماست
+            {t.subtitle}
           </p>
         </div>
 
-        {/* Stats Grid */}
         <div className="grid grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12">
-          {stats.map((stat, index) => (
+          {t.stats.map((stat, index) => (
             <StatCard
               key={stat.id}
               value={stat.value}
@@ -120,35 +124,6 @@ export default function Statistics() {
             />
           ))}
         </div>
-
-        {/* Connecting Lines (SVG) */}
-        <svg
-          className="absolute inset-0 w-full h-full pointer-events-none opacity-10"
-          style={{ zIndex: 0 }}
-        >
-          <defs>
-            <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="#1B8BFF" stopOpacity="0" />
-              <stop offset="50%" stopColor="#1B8BFF" stopOpacity="1" />
-              <stop offset="100%" stopColor="#1B8BFF" stopOpacity="0" />
-            </linearGradient>
-          </defs>
-          {[...Array(5)].map((_, i) => (
-            <line
-              key={i}
-              x1={`${10 + i * 20}%`}
-              y1="30%"
-              x2={`${20 + i * 15}%`}
-              y2="70%"
-              stroke="url(#lineGradient)"
-              strokeWidth="1"
-              className={`transition-all duration-1000 ${
-                isVisible ? 'opacity-100' : 'opacity-0'
-              }`}
-              style={{ transitionDelay: `${500 + i * 100}ms` }}
-            />
-          ))}
-        </svg>
       </div>
     </section>
   );

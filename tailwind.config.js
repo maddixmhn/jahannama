@@ -45,8 +45,8 @@ module.exports = {
         },
       },
       fontFamily: {
-        display: ['"Space Grotesk"', 'sans-serif'],
-        body: ['Inter', 'sans-serif'],
+        display: ['Outfit', 'sans-serif'],
+        body: ['"Plus Jakarta Sans"', 'sans-serif'],
         persian: ['Vazirmatn', 'sans-serif'],
       },
       borderRadius: {

@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
-import { Menu, X, User, LogOut, ChevronDown } from 'lucide-react';
+import { Menu, X, User, LogOut, ChevronDown, Languages } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import { Button } from '@/components/ui/button';
+import type { Locale } from '@/App';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,20 +14,57 @@ import {
 interface NavigationProps {
   onAuthClick: () => void;
   onDashboardClick: () => void;
+  locale: Locale;
+  onLocaleChange: (locale: Locale) => void;
 }
 
-const navLinks = [
-  { href: '#home', label: 'صفحه اصلی' },
-  { href: '#services', label: 'خدمات' },
-  { href: '#process', label: 'روند کار' },
-  { href: '#testimonials', label: 'نظرات' },
-  { href: '#contact', label: 'تماس' },
-];
+const content = {
+  fa: {
+    brand: 'Panahyar',
+    links: [
+      { href: '#home', label: 'خانه' },
+      { href: '#services', label: 'خدمات' },
+      { href: '#process', label: 'فرایند' },
+      { href: '#testimonials', label: 'نظرات' },
+      { href: '#contact', label: 'تماس' },
+    ],
+    dashboard: 'پنل کاربری',
+    logout: 'خروج',
+    login: 'ورود',
+    cta: 'مشاوره رایگان',
+    mobileAuth: 'ورود / ثبت نام',
+    switchAria: 'تغییر زبان',
+    switchLabel: 'EN',
+  },
+  en: {
+    brand: 'Panahyar',
+    links: [
+      { href: '#home', label: 'Home' },
+      { href: '#services', label: 'Services' },
+      { href: '#process', label: 'Process' },
+      { href: '#testimonials', label: 'Stories' },
+      { href: '#contact', label: 'Contact' },
+    ],
+    dashboard: 'Dashboard',
+    logout: 'Logout',
+    login: 'Sign in',
+    cta: 'Free Consultation',
+    mobileAuth: 'Login / Register',
+    switchAria: 'Switch language',
+    switchLabel: 'FA',
+  },
+};
 
-export default function Navigation({ onAuthClick, onDashboardClick }: NavigationProps) {
+export default function Navigation({
+  onAuthClick,
+  onDashboardClick,
+  locale,
+  onLocaleChange,
+}: NavigationProps) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { user, isAuthenticated, logout } = useAuth();
+  const t = content[locale];
 
   useEffect(() => {
     const handleScroll = () => {
@@ -50,39 +88,32 @@ export default function Navigation({ onAuthClick, onDashboardClick }: Navigation
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between">
-          {/* Logo */}
+        <div className="flex items-center justify-between gap-4">
           <a
             href="#home"
             className={`flex items-center gap-2 transition-all duration-300 ${
-              isScrolled ? 'scale-90' : 'scale-100'
+              isScrolled ? 'scale-95' : 'scale-100'
             }`}
           >
             <div className="w-10 h-10 bg-gradient-to-br from-primary to-primary-dark rounded-xl flex items-center justify-center shadow-glow">
               <span className="text-white font-bold text-lg">P</span>
             </div>
-            <span className={`font-display font-bold text-xl ${isScrolled ? 'text-navy' : 'text-navy'}`}>
-              Panahyar
-            </span>
+            <span className="font-display font-bold text-xl text-navy">{t.brand}</span>
           </a>
 
-          {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center gap-8">
-            {navLinks.map((link) => (
+            {t.links.map((link) => (
               <a
                 key={link.href}
                 href={link.href}
-                className={`animated-underline text-sm font-medium transition-colors ${
-                  isScrolled ? 'text-gray-700 hover:text-primary' : 'text-gray-700 hover:text-primary'
-                }`}
+                className="animated-underline text-sm font-medium text-gray-700 hover:text-primary transition-colors"
               >
                 {link.label}
               </a>
             ))}
           </div>
 
-          {/* Auth Buttons */}
-          <div className="hidden lg:flex items-center gap-4">
+          <div className="hidden lg:flex items-center gap-3">
             {isAuthenticated ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
@@ -99,13 +130,13 @@ export default function Navigation({ onAuthClick, onDashboardClick }: Navigation
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" className="w-48">
                   <DropdownMenuItem onClick={onDashboardClick}>
-                    <User className="w-4 h-4 ml-2" />
-                    پنل کاربری
+                    <User className="w-4 h-4 mr-2" />
+                    {t.dashboard}
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem onClick={handleLogout} className="text-error">
-                    <LogOut className="w-4 h-4 ml-2" />
-                    خروج
+                    <LogOut className="w-4 h-4 mr-2" />
+                    {t.logout}
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
@@ -116,22 +147,31 @@ export default function Navigation({ onAuthClick, onDashboardClick }: Navigation
                   onClick={onAuthClick}
                   className="text-gray-700 hover:text-primary hover:bg-primary/10"
                 >
-                  ورود
+                  {t.login}
                 </Button>
                 <Button
                   onClick={onAuthClick}
                   className="btn-primary"
                 >
-                  مشاوره رایگان
+                  {t.cta}
                 </Button>
               </>
             )}
+            <Button
+              variant="outline"
+              onClick={() => onLocaleChange(locale === 'fa' ? 'en' : 'fa')}
+              className="rounded-xl border-primary/20"
+              aria-label={t.switchAria}
+            >
+              <Languages className="w-4 h-4 mr-2" />
+              {t.switchLabel}
+            </Button>
           </div>
 
-          {/* Mobile Menu Button */}
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             className="lg:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors"
+            aria-label="menu"
           >
             {isMobileMenuOpen ? (
               <X className="w-6 h-6 text-gray-700" />
@@ -141,14 +181,13 @@ export default function Navigation({ onAuthClick, onDashboardClick }: Navigation
           </button>
         </div>
 
-        {/* Mobile Menu */}
         <div
           className={`lg:hidden overflow-hidden transition-all duration-500 ${
-            isMobileMenuOpen ? 'max-h-96 mt-4' : 'max-h-0'
+            isMobileMenuOpen ? 'max-h-[520px] mt-4' : 'max-h-0'
           }`}
         >
           <div className="bg-white/95 backdrop-blur-xl rounded-2xl shadow-xl p-4 space-y-2">
-            {navLinks.map((link) => (
+            {t.links.map((link) => (
               <a
                 key={link.href}
                 href={link.href}
@@ -166,18 +205,18 @@ export default function Navigation({ onAuthClick, onDashboardClick }: Navigation
                       onDashboardClick();
                       setIsMobileMenuOpen(false);
                     }}
-                    className="w-full px-4 py-3 rounded-xl text-right hover:bg-primary/10 hover:text-primary transition-colors"
+                    className="w-full px-4 py-3 rounded-xl text-start hover:bg-primary/10 hover:text-primary transition-colors"
                   >
-                    پنل کاربری
+                    {t.dashboard}
                   </button>
                   <button
                     onClick={() => {
                       handleLogout();
                       setIsMobileMenuOpen(false);
                     }}
-                    className="w-full px-4 py-3 rounded-xl text-right text-error hover:bg-error/10 transition-colors"
+                    className="w-full px-4 py-3 rounded-xl text-start text-error hover:bg-error/10 transition-colors"
                   >
-                    خروج
+                    {t.logout}
                   </button>
                 </>
               ) : (
@@ -188,9 +227,15 @@ export default function Navigation({ onAuthClick, onDashboardClick }: Navigation
                   }}
                   className="w-full btn-primary"
                 >
-                  ورود / ثبت نام
+                  {t.mobileAuth}
                 </button>
               )}
+              <button
+                onClick={() => onLocaleChange(locale === 'fa' ? 'en' : 'fa')}
+                className="w-full px-4 py-3 rounded-xl border border-primary/20 text-primary hover:bg-primary/5 transition-colors"
+              >
+                {locale === 'fa' ? 'Switch to English' : 'تغییر به فارسی'}
+              </button>
             </div>
           </div>
         </div>
