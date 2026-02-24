@@ -187,6 +187,9 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
                   <Button type="submit" className="w-full btn-primary" disabled={isLoading}>
                     {isLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : 'Sign in'}
                   </Button>
+                  <p className="text-xs text-center text-gray-500 dark:text-gray-400">
+                    Admin demo: admin@panahyar.com / 123456
+                  </p>
                 </form>
               </TabsContent>
 

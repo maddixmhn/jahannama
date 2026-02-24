@@ -20,6 +20,13 @@ const MOCK_USERS: User[] = [
     role: 'user',
     createdAt: new Date(),
   },
+  {
+    id: 'admin-1',
+    name: 'Admin Panel',
+    email: 'admin@panahyar.com',
+    role: 'admin',
+    createdAt: new Date(),
+  },
 ];
 
 export function AuthProvider({ children }: { children: ReactNode }) {

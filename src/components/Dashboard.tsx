@@ -18,6 +18,10 @@ import {
   HeadphonesIcon,
   UserCog,
   ShieldCheck,
+  ClipboardList,
+  ShoppingCart,
+  Check,
+  X,
 } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import { Button } from '@/components/ui/button';
@@ -33,12 +37,49 @@ interface DashboardProps {
   onClose: () => void;
 }
 
-type DashboardTab = 'dashboard' | 'cases' | 'documents' | 'messages' | 'appointments' | 'settings';
+type UserTab = 'dashboard' | 'cases' | 'documents' | 'messages' | 'appointments' | 'settings';
+type AdminTab = 'admin-overview' | 'requests' | 'orders' | 'messages' | 'appointments' | 'settings';
+type DashboardTab = UserTab | AdminTab;
 
-const sidebarItems: Array<{ id: DashboardTab; icon: ElementType; label: string }> = [
+type AdminRequest = {
+  id: string;
+  customer: string;
+  service: string;
+  status: 'pending' | 'approved' | 'rejected';
+};
+type AdminOrder = {
+  id: string;
+  customer: string;
+  packageName: string;
+  amount: number;
+  status: 'new' | 'processing' | 'completed';
+};
+type AdminMessage = {
+  id: string;
+  from: string;
+  text: string;
+  replied: boolean;
+};
+type AdminAppointment = {
+  id: string;
+  customer: string;
+  slot: string;
+  status: 'requested' | 'booked' | 'done';
+};
+
+const userSidebar: Array<{ id: UserTab; icon: ElementType; label: string }> = [
   { id: 'dashboard', icon: LayoutDashboard, label: 'Dashboard' },
   { id: 'cases', icon: FolderOpen, label: 'My Cases' },
   { id: 'documents', icon: FileText, label: 'Documents' },
+  { id: 'messages', icon: MessageSquare, label: 'Messages' },
+  { id: 'appointments', icon: Calendar, label: 'Appointments' },
+  { id: 'settings', icon: Settings, label: 'Settings' },
+];
+
+const adminSidebar: Array<{ id: AdminTab; icon: ElementType; label: string }> = [
+  { id: 'admin-overview', icon: LayoutDashboard, label: 'Admin Overview' },
+  { id: 'requests', icon: ClipboardList, label: 'Customer Requests' },
+  { id: 'orders', icon: ShoppingCart, label: 'Orders' },
   { id: 'messages', icon: MessageSquare, label: 'Messages' },
   { id: 'appointments', icon: Calendar, label: 'Appointments' },
   { id: 'settings', icon: Settings, label: 'Settings' },
@@ -87,7 +128,7 @@ const mockActivities: Activity[] = [
   },
 ];
 
-const stats = [
+const userStats = [
   { id: 'cases', label: 'Active cases', value: '2', icon: FolderOpen, color: 'bg-primary/10 text-primary' },
   { id: 'documents', label: 'Pending docs', value: '3', icon: FileText, color: 'bg-warning/10 text-warning' },
   { id: 'messages', label: 'Unread messages', value: '5', icon: MessageSquare, color: 'bg-secondary/10 text-secondary' },
@@ -95,13 +136,41 @@ const stats = [
 ];
 
 export default function Dashboard({ onClose }: DashboardProps) {
-  const [activeTab, setActiveTab] = useState<DashboardTab>('dashboard');
   const { user, logout } = useAuth();
+  const isAdmin = user?.role === 'admin';
+  const [activeTab, setActiveTab] = useState<DashboardTab>(isAdmin ? 'admin-overview' : 'dashboard');
+
+  const [adminRequests, setAdminRequests] = useState<AdminRequest[]>([
+    { id: 'R-1001', customer: 'Sarah M', service: 'Asylum Filing', status: 'pending' },
+    { id: 'R-1002', customer: 'John D', service: 'Family Reunification', status: 'pending' },
+    { id: 'R-1003', customer: 'Ahmad K', service: 'Travel Document', status: 'approved' },
+  ]);
+  const [adminOrders, setAdminOrders] = useState<AdminOrder[]>([
+    { id: 'O-501', customer: 'Maria L', packageName: 'Premium Legal', amount: 890, status: 'new' },
+    { id: 'O-502', customer: 'David P', packageName: 'Document Pack', amount: 240, status: 'processing' },
+    { id: 'O-503', customer: 'Leila N', packageName: 'Settlement Plus', amount: 460, status: 'completed' },
+  ]);
+  const [adminMessages, setAdminMessages] = useState<AdminMessage[]>([
+    { id: 'M-1', from: 'Sarah M', text: 'Can I update my appointment date?', replied: false },
+    { id: 'M-2', from: 'Ahmad K', text: 'I uploaded my passport. Please review.', replied: false },
+    { id: 'M-3', from: 'John D', text: 'Need help with sponsorship docs.', replied: true },
+  ]);
+  const [adminAppointments, setAdminAppointments] = useState<AdminAppointment[]>([
+    { id: 'A-1', customer: 'Sarah M', slot: '2026-03-02 10:00', status: 'requested' },
+    { id: 'A-2', customer: 'John D', slot: '2026-03-02 14:30', status: 'booked' },
+    { id: 'A-3', customer: 'Ahmad K', slot: '2026-03-03 09:15', status: 'requested' },
+  ]);
 
   const handleLogout = () => {
     logout();
     onClose();
   };
+
+  const sidebar = isAdmin ? adminSidebar : userSidebar;
+  const tabTitle = useMemo(
+    () => sidebar.find((item) => item.id === activeTab)?.label ?? 'Dashboard',
+    [activeTab, sidebar]
+  );
 
   const getStatusBadge = (status: Case['status']) => {
     const configs = {
@@ -110,36 +179,38 @@ export default function Dashboard({ onClose }: DashboardProps) {
       completed: { label: 'Completed', className: 'bg-success/10 text-success' },
       rejected: { label: 'Rejected', className: 'bg-error/10 text-error' },
     };
-    const config = configs[status];
-    return <Badge className={config.className}>{config.label}</Badge>;
+    return <Badge className={configs[status].className}>{configs[status].label}</Badge>;
   };
 
   const getActivityIcon = (type: Activity['type']) => {
-    const icons = {
-      case_update: CheckCircle,
-      document_upload: Upload,
-      message: MessageSquare,
-      appointment: Calendar,
-    };
+    const icons = { case_update: CheckCircle, document_upload: Upload, message: MessageSquare, appointment: Calendar };
     return icons[type];
   };
 
-  const tabTitle = useMemo(
-    () => sidebarItems.find((item) => item.id === activeTab)?.label ?? 'Dashboard',
-    [activeTab]
-  );
+  const updateRequestStatus = (id: string, status: AdminRequest['status']) => {
+    setAdminRequests((prev) => prev.map((r) => (r.id === id ? { ...r, status } : r)));
+  };
+  const updateOrderStatus = (id: string, status: AdminOrder['status']) => {
+    setAdminOrders((prev) => prev.map((o) => (o.id === id ? { ...o, status } : o)));
+  };
+  const replyToMessage = (id: string) => {
+    setAdminMessages((prev) => prev.map((m) => (m.id === id ? { ...m, replied: true } : m)));
+  };
+  const bookAppointment = (id: string) => {
+    setAdminAppointments((prev) => prev.map((a) => (a.id === id ? { ...a, status: 'booked' } : a)));
+  };
 
-  const renderDashboardHome = () => (
+  const renderUserDashboard = () => (
     <>
       <div className="mb-8">
         <h1 className="text-2xl font-bold mb-2">Welcome back, {user?.name}!</h1>
         <p className="text-gray-500 dark:text-gray-400">
-          Use the sidebar to switch sections. Each section is now fully clickable and loads its own content.
+          Use the sidebar to switch sections. Each section is clickable and loads its own content.
         </p>
       </div>
 
       <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-        {stats.map((stat) => (
+        {userStats.map((stat) => (
           <Card key={stat.id} className="card-hover dark:bg-slate-900 dark:border-slate-800">
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
@@ -155,85 +226,111 @@ export default function Dashboard({ onClose }: DashboardProps) {
           </Card>
         ))}
       </div>
+    </>
+  );
+
+  const renderAdminOverview = () => (
+    <>
+      <div className="mb-8">
+        <h1 className="text-2xl font-bold mb-2">Admin Control Center</h1>
+        <p className="text-gray-500 dark:text-gray-400">
+          Manage requests, orders, customer messages, and appointment booking from one place.
+        </p>
+      </div>
 
       <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-        <Button variant="outline" className="h-auto py-4 flex flex-col items-center gap-2 dark:border-slate-700 dark:hover:bg-slate-800">
-          <Plus className="w-6 h-6" />
-          <span>New case</span>
-        </Button>
-        <Button variant="outline" className="h-auto py-4 flex flex-col items-center gap-2 dark:border-slate-700 dark:hover:bg-slate-800">
-          <Upload className="w-6 h-6" />
-          <span>Upload document</span>
-        </Button>
-        <Button variant="outline" className="h-auto py-4 flex flex-col items-center gap-2 dark:border-slate-700 dark:hover:bg-slate-800">
-          <Phone className="w-6 h-6" />
-          <span>Call advisor</span>
-        </Button>
-        <Button variant="outline" className="h-auto py-4 flex flex-col items-center gap-2 dark:border-slate-700 dark:hover:bg-slate-800">
-          <HeadphonesIcon className="w-6 h-6" />
-          <span>Support</span>
-        </Button>
-      </div>
-
-      <div className="grid lg:grid-cols-2 gap-6">
-        <Card className="dark:bg-slate-900 dark:border-slate-800">
-          <CardHeader className="flex flex-row items-center justify-between">
-            <CardTitle>Recent cases</CardTitle>
-            <Button variant="ghost" size="sm" className="text-primary">View all</Button>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              {mockCases.map((caseItem) => (
-                <div
-                  key={caseItem.id}
-                  className="flex items-center justify-between p-4 bg-gray-50 dark:bg-slate-800 rounded-xl hover:bg-gray-100 dark:hover:bg-slate-700 transition-colors cursor-pointer"
-                  onClick={() => setActiveTab('cases')}
-                >
-                  <div>
-                    <h4 className="font-medium mb-1 dark:text-white">{caseItem.title}</h4>
-                    <p className="text-sm text-gray-500 dark:text-gray-300">{caseItem.description}</p>
-                  </div>
-                  <div className="flex flex-col items-end gap-2">
-                    {getStatusBadge(caseItem.status)}
-                    <span className="text-xs text-gray-400">{caseItem.updatedAt.toLocaleDateString('en-US')}</span>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="dark:bg-slate-900 dark:border-slate-800">
-          <CardHeader className="flex flex-row items-center justify-between">
-            <CardTitle>Recent activity</CardTitle>
-            <Button variant="ghost" size="sm" className="text-primary">View all</Button>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              {mockActivities.map((activity) => {
-                const Icon = getActivityIcon(activity.type);
-                return (
-                  <div key={activity.id} className="flex items-start gap-4 p-4 bg-gray-50 dark:bg-slate-800 rounded-xl">
-                    <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
-                      activity.status === 'completed' ? 'bg-success/10 text-success' : 'bg-primary/10 text-primary'
-                    }`}>
-                      <Icon className="w-5 h-5" />
-                    </div>
-                    <div className="flex-1">
-                      <p className="font-medium mb-1 dark:text-white">{activity.title}</p>
-                      <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-300">
-                        <Clock className="w-4 h-4" />
-                        <span>{activity.date.toLocaleDateString('en-US')}</span>
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </CardContent>
-        </Card>
+        <Card className="dark:bg-slate-900 dark:border-slate-800"><CardContent className="p-5"><p className="text-sm text-gray-500">Pending requests</p><p className="text-3xl font-bold text-primary">{adminRequests.filter((r) => r.status === 'pending').length}</p></CardContent></Card>
+        <Card className="dark:bg-slate-900 dark:border-slate-800"><CardContent className="p-5"><p className="text-sm text-gray-500">Open orders</p><p className="text-3xl font-bold text-secondary">{adminOrders.filter((o) => o.status !== 'completed').length}</p></CardContent></Card>
+        <Card className="dark:bg-slate-900 dark:border-slate-800"><CardContent className="p-5"><p className="text-sm text-gray-500">Unreplied messages</p><p className="text-3xl font-bold text-warning">{adminMessages.filter((m) => !m.replied).length}</p></CardContent></Card>
+        <Card className="dark:bg-slate-900 dark:border-slate-800"><CardContent className="p-5"><p className="text-sm text-gray-500">Requested appointments</p><p className="text-3xl font-bold text-success">{adminAppointments.filter((a) => a.status === 'requested').length}</p></CardContent></Card>
       </div>
     </>
+  );
+
+  const renderRequests = () => (
+    <Card className="dark:bg-slate-900 dark:border-slate-800">
+      <CardHeader><CardTitle>Customer Requests</CardTitle></CardHeader>
+      <CardContent className="space-y-3">
+        {adminRequests.map((item) => (
+          <div key={item.id} className="rounded-xl border border-gray-200 dark:border-slate-700 p-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div>
+              <p className="font-semibold">{item.customer}</p>
+              <p className="text-sm text-gray-500 dark:text-gray-400">{item.service}</p>
+              <Badge className="mt-2">{item.status}</Badge>
+            </div>
+            <div className="flex gap-2">
+              <Button size="sm" className="btn-primary" onClick={() => updateRequestStatus(item.id, 'approved')}>
+                <Check className="w-4 h-4 mr-1" /> Approve
+              </Button>
+              <Button size="sm" variant="outline" onClick={() => updateRequestStatus(item.id, 'rejected')} className="dark:border-slate-700">
+                <X className="w-4 h-4 mr-1" /> Reject
+              </Button>
+            </div>
+          </div>
+        ))}
+      </CardContent>
+    </Card>
+  );
+
+  const renderOrders = () => (
+    <Card className="dark:bg-slate-900 dark:border-slate-800">
+      <CardHeader><CardTitle>Order Management</CardTitle></CardHeader>
+      <CardContent className="space-y-3">
+        {adminOrders.map((order) => (
+          <div key={order.id} className="rounded-xl border border-gray-200 dark:border-slate-700 p-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div>
+              <p className="font-semibold">{order.customer}</p>
+              <p className="text-sm text-gray-500 dark:text-gray-400">{order.packageName} - ${order.amount}</p>
+              <Badge className="mt-2">{order.status}</Badge>
+            </div>
+            <div className="flex gap-2">
+              <Button size="sm" variant="outline" onClick={() => updateOrderStatus(order.id, 'processing')} className="dark:border-slate-700">Set Processing</Button>
+              <Button size="sm" className="btn-primary" onClick={() => updateOrderStatus(order.id, 'completed')}>Set Completed</Button>
+            </div>
+          </div>
+        ))}
+      </CardContent>
+    </Card>
+  );
+
+  const renderAdminMessages = () => (
+    <Card className="dark:bg-slate-900 dark:border-slate-800">
+      <CardHeader><CardTitle>Message Center</CardTitle></CardHeader>
+      <CardContent className="space-y-3">
+        {adminMessages.map((msg) => (
+          <div key={msg.id} className="rounded-xl border border-gray-200 dark:border-slate-700 p-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div>
+              <p className="font-semibold">{msg.from}</p>
+              <p className="text-sm text-gray-500 dark:text-gray-400">{msg.text}</p>
+              <Badge className="mt-2">{msg.replied ? 'Replied' : 'Pending reply'}</Badge>
+            </div>
+            <Button size="sm" className="btn-primary" onClick={() => replyToMessage(msg.id)} disabled={msg.replied}>
+              {msg.replied ? 'Replied' : 'Reply'}
+            </Button>
+          </div>
+        ))}
+      </CardContent>
+    </Card>
+  );
+
+  const renderAdminAppointments = () => (
+    <Card className="dark:bg-slate-900 dark:border-slate-800">
+      <CardHeader><CardTitle>Appointment Booking</CardTitle></CardHeader>
+      <CardContent className="space-y-3">
+        {adminAppointments.map((app) => (
+          <div key={app.id} className="rounded-xl border border-gray-200 dark:border-slate-700 p-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div>
+              <p className="font-semibold">{app.customer}</p>
+              <p className="text-sm text-gray-500 dark:text-gray-400">{app.slot}</p>
+              <Badge className="mt-2">{app.status}</Badge>
+            </div>
+            <Button size="sm" className="btn-primary" onClick={() => bookAppointment(app.id)} disabled={app.status !== 'requested'}>
+              {app.status === 'requested' ? 'Book Time' : 'Booked'}
+            </Button>
+          </div>
+        ))}
+      </CardContent>
+    </Card>
   );
 
   const renderSimpleList = (title: string, items: string[]) => (
@@ -251,10 +348,10 @@ export default function Dashboard({ onClose }: DashboardProps) {
     </Card>
   );
 
-  const renderContent = () => {
-    switch (activeTab) {
+  const renderUserContent = () => {
+    switch (activeTab as UserTab) {
       case 'dashboard':
-        return renderDashboardHome();
+        return renderUserDashboard();
       case 'cases':
         return renderSimpleList('My Cases', mockCases.map((c) => `${c.title} - ${c.description}`));
       case 'documents':
@@ -284,7 +381,34 @@ export default function Dashboard({ onClose }: DashboardProps) {
           </div>
         );
       default:
-        return renderDashboardHome();
+        return renderUserDashboard();
+    }
+  };
+
+  const renderAdminContent = () => {
+    switch (activeTab as AdminTab) {
+      case 'admin-overview':
+        return renderAdminOverview();
+      case 'requests':
+        return renderRequests();
+      case 'orders':
+        return renderOrders();
+      case 'messages':
+        return renderAdminMessages();
+      case 'appointments':
+        return renderAdminAppointments();
+      case 'settings':
+        return (
+          <Card className="dark:bg-slate-900 dark:border-slate-800">
+            <CardHeader><CardTitle>Admin Settings</CardTitle></CardHeader>
+            <CardContent className="space-y-3">
+              <Button variant="outline" className="dark:border-slate-700">Manage Team Access</Button>
+              <Button variant="outline" className="dark:border-slate-700">Notification Rules</Button>
+            </CardContent>
+          </Card>
+        );
+      default:
+        return renderAdminOverview();
     }
   };
 
@@ -297,18 +421,16 @@ export default function Dashboard({ onClose }: DashboardProps) {
               <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center">
                 <span className="font-bold text-lg">P</span>
               </div>
-              <span className="font-display font-bold text-xl">Panahyar</span>
+              <span className="font-display font-bold text-xl">{isAdmin ? 'Admin Panel' : 'Panahyar'}</span>
             </div>
 
             <nav className="space-y-1">
-              {sidebarItems.map((item) => (
+              {sidebar.map((item) => (
                 <button
                   key={item.id}
                   onClick={() => setActiveTab(item.id)}
                   className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all cursor-pointer ${
-                    activeTab === item.id
-                      ? 'bg-primary text-white shadow-lg'
-                      : 'text-gray-400 hover:bg-white/10 hover:text-white'
+                    activeTab === item.id ? 'bg-primary text-white shadow-lg' : 'text-gray-400 hover:bg-white/10 hover:text-white'
                   }`}
                 >
                   <item.icon className="w-5 h-5" />
@@ -337,7 +459,7 @@ export default function Dashboard({ onClose }: DashboardProps) {
                 <button onClick={onClose} className="p-2 hover:bg-gray-100 dark:hover:bg-slate-800 rounded-lg">
                   <ChevronLeft className="w-6 h-6 dark:text-gray-100" />
                 </button>
-                <span className="font-display font-bold text-lg dark:text-white">Panahyar</span>
+                <span className="font-display font-bold text-lg dark:text-white">{isAdmin ? 'Admin Panel' : 'Panahyar'}</span>
               </div>
 
               <div className="hidden md:flex items-center gap-4 flex-1 max-w-xl">
@@ -355,9 +477,7 @@ export default function Dashboard({ onClose }: DashboardProps) {
 
                 <div className="flex items-center gap-3">
                   <Avatar className="w-10 h-10 bg-primary/10">
-                    <AvatarFallback className="text-primary font-medium">
-                      {user?.name?.charAt(0) || 'U'}
-                    </AvatarFallback>
+                    <AvatarFallback className="text-primary font-medium">{user?.name?.charAt(0) || 'U'}</AvatarFallback>
                   </Avatar>
                   <div className="hidden sm:block">
                     <p className="font-medium text-sm dark:text-white">{user?.name}</p>
@@ -369,7 +489,9 @@ export default function Dashboard({ onClose }: DashboardProps) {
           </header>
 
           <ScrollArea className="flex-1 p-6">
-            <div className="max-w-6xl mx-auto">{renderContent()}</div>
+            <div className="max-w-6xl mx-auto">
+              {isAdmin ? renderAdminContent() : renderUserContent()}
+            </div>
           </ScrollArea>
         </main>
       </div>
