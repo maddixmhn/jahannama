@@ -34,6 +34,19 @@
     --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
     --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
   }
+
+  .dark {
+    --background: 222 47% 8%;
+    --foreground: 210 40% 96%;
+    --card: 222 40% 12%;
+    --card-foreground: 210 40% 96%;
+    --popover: 222 40% 12%;
+    --popover-foreground: 210 40% 96%;
+    --border: 217 30% 20%;
+    --input: 217 30% 20%;
+    --muted: 217 25% 16%;
+    --muted-foreground: 215 20% 70%;
+  }
 }
 
 @layer base {
@@ -59,9 +72,34 @@
     direction: ltr;
     font-family: 'Plus Jakarta Sans', sans-serif;
   }
+
+  html.dark body {
+    background: #090f1d;
+  }
   
   h1, h2, h3, h4, h5, h6 {
     @apply font-display font-bold;
+  }
+}
+
+.signal-marquee {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+.signal-track {
+  display: inline-flex;
+  min-width: max-content;
+  animation: signal-scroll 26s linear infinite;
+}
+
+@keyframes signal-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
   }
 }
 

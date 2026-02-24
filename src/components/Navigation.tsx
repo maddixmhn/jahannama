@@ -16,6 +16,8 @@ interface NavigationProps {
   onDashboardClick: () => void;
   locale: Locale;
   onLocaleChange: (locale: Locale) => void;
+  isDark: boolean;
+  onLogoClick: () => void;
 }
 
 const content = {
@@ -60,6 +62,8 @@ export default function Navigation({
   onDashboardClick,
   locale,
   onLocaleChange,
+  isDark,
+  onLogoClick,
 }: NavigationProps) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -79,11 +83,17 @@ export default function Navigation({
     logout();
   };
 
+  const handleLogoClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault();
+    onLogoClick();
+    document.getElementById('home')?.scrollIntoView({ behavior: 'smooth' });
+  };
+
   return (
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         isScrolled
-          ? 'bg-white/90 backdrop-blur-xl shadow-lg py-3'
+          ? 'bg-white/90 dark:bg-slate-950/90 backdrop-blur-xl shadow-lg py-3'
           : 'bg-transparent py-5'
       }`}
     >
@@ -91,6 +101,7 @@ export default function Navigation({
         <div className="flex items-center justify-between gap-4">
           <a
             href="#home"
+            onClick={handleLogoClick}
             className={`flex items-center gap-2 transition-all duration-300 ${
               isScrolled ? 'scale-95' : 'scale-100'
             }`}
@@ -98,7 +109,8 @@ export default function Navigation({
             <div className="w-10 h-10 bg-gradient-to-br from-primary to-primary-dark rounded-xl flex items-center justify-center shadow-glow">
               <span className="text-white font-bold text-lg">P</span>
             </div>
-            <span className="font-display font-bold text-xl text-navy">{t.brand}</span>
+            <span className="font-display font-bold text-xl text-navy dark:text-white">{t.brand}</span>
+            <span className={`hidden sm:inline-flex h-2.5 w-2.5 rounded-full ${isDark ? 'bg-secondary' : 'bg-primary/60'}`} />
           </a>
 
           <div className="hidden lg:flex items-center gap-8">
@@ -106,7 +118,7 @@ export default function Navigation({
               <a
                 key={link.href}
                 href={link.href}
-                className="animated-underline text-sm font-medium text-gray-700 hover:text-primary transition-colors"
+                className="animated-underline text-sm font-medium text-gray-700 dark:text-gray-200 hover:text-primary transition-colors"
               >
                 {link.label}
               </a>
@@ -145,7 +157,7 @@ export default function Navigation({
                 <Button
                   variant="ghost"
                   onClick={onAuthClick}
-                  className="text-gray-700 hover:text-primary hover:bg-primary/10"
+                  className="text-gray-700 dark:text-gray-200 hover:text-primary hover:bg-primary/10"
                 >
                   {t.login}
                 </Button>
@@ -160,7 +172,7 @@ export default function Navigation({
             <Button
               variant="outline"
               onClick={() => onLocaleChange(locale === 'fa' ? 'en' : 'fa')}
-              className="rounded-xl border-primary/20"
+              className="rounded-xl border-primary/20 dark:bg-slate-900 dark:text-gray-100 dark:border-slate-700"
               aria-label={t.switchAria}
             >
               <Languages className="w-4 h-4 mr-2" />
@@ -170,13 +182,13 @@ export default function Navigation({
 
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="lg:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors"
+            className="lg:hidden p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-slate-800 transition-colors"
             aria-label="menu"
           >
             {isMobileMenuOpen ? (
-              <X className="w-6 h-6 text-gray-700" />
+              <X className="w-6 h-6 text-gray-700 dark:text-gray-200" />
             ) : (
-              <Menu className="w-6 h-6 text-gray-700" />
+              <Menu className="w-6 h-6 text-gray-700 dark:text-gray-200" />
             )}
           </button>
         </div>
@@ -186,13 +198,13 @@ export default function Navigation({
             isMobileMenuOpen ? 'max-h-[520px] mt-4' : 'max-h-0'
           }`}
         >
-          <div className="bg-white/95 backdrop-blur-xl rounded-2xl shadow-xl p-4 space-y-2">
+          <div className="bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl rounded-2xl shadow-xl p-4 space-y-2">
             {t.links.map((link) => (
               <a
                 key={link.href}
                 href={link.href}
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="block px-4 py-3 rounded-xl text-gray-700 hover:bg-primary/10 hover:text-primary transition-colors"
+                className="block px-4 py-3 rounded-xl text-gray-700 dark:text-gray-200 hover:bg-primary/10 hover:text-primary transition-colors"
               >
                 {link.label}
               </a>

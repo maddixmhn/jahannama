@@ -48,33 +48,33 @@ export default function CTA({ onCtaClick, locale }: CTAProps) {
       <div ref={ref} className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           <div
-            className={`text-white transition-all duration-700 ${
+            className={`text-navy transition-all duration-700 ${
               isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-12'
             }`}
           >
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-display font-bold mb-6">
               {t.title}
             </h2>
-            <p className="text-lg text-white/80 mb-8 max-w-lg">
+            <p className="text-lg text-gray-700 dark:text-gray-200 mb-8 max-w-lg">
               {t.subtitle}
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4">
               <Button
                 onClick={onCtaClick}
-                className="bg-white text-primary hover:bg-white/90 text-lg px-8 py-4 rounded-xl font-medium transition-all hover:shadow-lg hover:-translate-y-0.5"
+                className="btn-primary text-lg px-8 py-4"
               >
                 {t.cta}
                 <ArrowLeft className="w-5 h-5 mr-2" />
               </Button>
             </div>
 
-            <div className="mt-8 flex items-center gap-3 text-white/80">
+            <div className="mt-8 flex items-center gap-3 text-gray-700 dark:text-gray-200">
               <Phone className="w-5 h-5" />
               <span>{t.contactLabel}</span>
               <a
                 href="tel:+15551234567"
-                className="font-medium text-white hover:underline"
+                className="font-medium text-primary hover:underline"
               >
                 +1 (555) 123-4567
               </a>
