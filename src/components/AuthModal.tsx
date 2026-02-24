@@ -1,5 +1,5 @@
 import { useState, type FormEvent } from 'react';
-import { Eye, EyeOff, Mail, Lock, User, Phone, Loader2 } from 'lucide-react';
+import { Lock, LockOpen, Mail, User, Phone, Loader2 } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -164,22 +164,22 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
                   <div className="space-y-2">
                     <Label htmlFor="login-password">Password</Label>
                     <div className="relative">
-                      <Lock className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
                       <Input
                         id="login-password"
                         type={showPassword ? 'text' : 'password'}
                         placeholder="********"
                         value={loginData.password}
                         onChange={(e) => setLoginData({ ...loginData, password: e.target.value })}
-                        className="pr-10 dark:border-slate-700 dark:bg-slate-800 dark:text-gray-100"
+                        className="pl-10 dark:border-slate-700 dark:bg-slate-800 dark:text-gray-100"
                         required
                       />
                       <button
                         type="button"
                         onClick={() => setShowPassword((prev) => !prev)}
                         className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                        aria-label="toggle-password"
                       >
-                        {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                        {showPassword ? <LockOpen className="w-5 h-5" /> : <Lock className="w-5 h-5" />}
                       </button>
                     </div>
                   </div>
@@ -245,32 +245,46 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
                   <div className="space-y-2">
                     <Label htmlFor="register-password">Password</Label>
                     <div className="relative">
-                      <Lock className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
                       <Input
                         id="register-password"
                         type={showPassword ? 'text' : 'password'}
                         placeholder="********"
                         value={registerData.password}
                         onChange={(e) => setRegisterData({ ...registerData, password: e.target.value })}
-                        className="pr-10 dark:border-slate-700 dark:bg-slate-800 dark:text-gray-100"
+                        className="pl-10 dark:border-slate-700 dark:bg-slate-800 dark:text-gray-100"
                         required
                       />
+                      <button
+                        type="button"
+                        onClick={() => setShowPassword((prev) => !prev)}
+                        className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                        aria-label="toggle-password"
+                      >
+                        {showPassword ? <LockOpen className="w-5 h-5" /> : <Lock className="w-5 h-5" />}
+                      </button>
                     </div>
                   </div>
 
                   <div className="space-y-2">
                     <Label htmlFor="register-confirm">Confirm password</Label>
                     <div className="relative">
-                      <Lock className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
                       <Input
                         id="register-confirm"
                         type={showPassword ? 'text' : 'password'}
                         placeholder="********"
                         value={registerData.confirmPassword}
                         onChange={(e) => setRegisterData({ ...registerData, confirmPassword: e.target.value })}
-                        className="pr-10 dark:border-slate-700 dark:bg-slate-800 dark:text-gray-100"
+                        className="pl-10 dark:border-slate-700 dark:bg-slate-800 dark:text-gray-100"
                         required
                       />
+                      <button
+                        type="button"
+                        onClick={() => setShowPassword((prev) => !prev)}
+                        className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                        aria-label="toggle-password"
+                      >
+                        {showPassword ? <LockOpen className="w-5 h-5" /> : <Lock className="w-5 h-5" />}
+                      </button>
                     </div>
                   </div>
 

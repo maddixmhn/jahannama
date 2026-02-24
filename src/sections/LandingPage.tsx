@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef } from 'react';
+import { useLayoutEffect, useRef, useState } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import type { Locale } from '@/App';
 import { Button } from '@/components/ui/button';
@@ -13,6 +13,8 @@ import {
   Compass,
   CheckCircle2,
   PlayCircle,
+  SlidersHorizontal,
+  X,
 } from 'lucide-react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -143,6 +145,7 @@ export default function LandingPage({
   onAuthClick,
   onDashboardClick,
 }: LandingPageProps) {
+  const [isPrefsOpen, setIsPrefsOpen] = useState(false);
   const t = content[locale];
   const { isAuthenticated } = useAuth();
   const sectionRefs = useRef<HTMLElement[]>([]);
@@ -237,10 +240,10 @@ export default function LandingPage({
 
       <header className="sticky top-0 z-50 backdrop-blur-xl bg-white/70 dark:bg-slate-950/55 border-b border-white/40 dark:border-slate-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-          <button onClick={onToggleDark} className="flex items-center gap-3">
+          <a href="#home" className="flex items-center gap-3">
             <span className="h-10 w-10 rounded-xl bg-gradient-to-br from-primary to-primary-dark text-white grid place-content-center font-bold">P</span>
             <span className="font-display font-bold text-xl">{t.brand}</span>
-          </button>
+          </a>
 
           <nav className="hidden lg:flex items-center gap-8 text-sm text-slate-600 dark:text-slate-300">
             {t.nav.map((item) => (
@@ -251,22 +254,6 @@ export default function LandingPage({
           </nav>
 
           <div className="flex items-center gap-2">
-            <Button
-              variant="outline"
-              onClick={onToggleDark}
-              className="rounded-xl border-primary/20 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
-            >
-              {isDark ? <Sun className="w-4 h-4 mr-2" /> : <Moon className="w-4 h-4 mr-2" />}
-              {isDark ? t.light : t.dark}
-            </Button>
-            <Button
-              variant="outline"
-              onClick={() => onLocaleChange(locale === 'fa' ? 'en' : 'fa')}
-              className="rounded-xl border-primary/20 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
-            >
-              <Languages className="w-4 h-4 mr-2" />
-              {locale === 'fa' ? 'EN' : 'FA'}
-            </Button>
             <Button onClick={isAuthenticated ? onDashboardClick : onAuthClick} className="btn-primary">
               {isAuthenticated ? t.dashboard : t.login}
             </Button>
@@ -388,6 +375,39 @@ export default function LandingPage({
 
         <section id="contact" className="pb-12" />
       </main>
+
+      <div className="fixed bottom-6 right-6 z-[70]">
+        {isPrefsOpen && (
+          <div className="mb-3 w-64 rounded-2xl border border-white/60 dark:border-slate-700 bg-white/90 dark:bg-slate-900/95 shadow-2xl backdrop-blur-xl p-4">
+            <p className="text-xs uppercase tracking-[0.18em] text-gray-500 dark:text-gray-400 mb-3">Preferences</p>
+            <div className="space-y-2">
+              <Button
+                variant="outline"
+                onClick={onToggleDark}
+                className="w-full justify-start dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
+              >
+                {isDark ? <Sun className="w-4 h-4 mr-2" /> : <Moon className="w-4 h-4 mr-2" />}
+                {isDark ? t.light : t.dark}
+              </Button>
+              <Button
+                variant="outline"
+                onClick={() => onLocaleChange(locale === 'fa' ? 'en' : 'fa')}
+                className="w-full justify-start dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
+              >
+                <Languages className="w-4 h-4 mr-2" />
+                {locale === 'fa' ? 'Switch to English' : 'تغییر به فارسی'}
+              </Button>
+            </div>
+          </div>
+        )}
+        <button
+          onClick={() => setIsPrefsOpen((p) => !p)}
+          className="h-14 w-14 rounded-full grid place-content-center bg-primary text-white shadow-lg hover:bg-primary-dark transition-colors"
+          aria-label="open-preferences"
+        >
+          {isPrefsOpen ? <X className="w-5 h-5" /> : <SlidersHorizontal className="w-5 h-5" />}
+        </button>
+      </div>
     </div>
   );
 }
