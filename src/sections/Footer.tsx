@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, type FormEvent } from 'react';
 import {
   Send,
   Facebook,
@@ -71,7 +71,7 @@ export default function Footer({ locale }: FooterProps) {
   const { ref, isVisible } = useScrollReveal<HTMLDivElement>();
   const t = content[locale];
 
-  const handleSubscribe = (e: React.FormEvent) => {
+  const handleSubscribe = (e: FormEvent) => {
     e.preventDefault();
     if (email) {
       setIsSubscribed(true);

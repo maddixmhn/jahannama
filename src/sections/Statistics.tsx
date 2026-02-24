@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, type ElementType } from 'react';
 import { Briefcase, Users, Headphones, Clock, Award, Globe } from 'lucide-react';
 import { useScrollReveal, useCountUp } from '@/hooks/useScrollReveal';
 import type { Locale } from '@/App';
@@ -47,7 +47,7 @@ function StatCard({
   value: number;
   suffix: string;
   label: string;
-  icon: React.ElementType;
+  icon: ElementType;
   delay: number;
   isVisible: boolean;
 }) {

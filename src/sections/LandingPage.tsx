@@ -16,6 +16,16 @@ import {
 } from 'lucide-react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import {
+  ResponsiveContainer,
+  AreaChart,
+  Area,
+  Line,
+  XAxis,
+  YAxis,
+  Tooltip,
+  CartesianGrid,
+} from 'recharts';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -31,7 +41,13 @@ interface LandingPageProps {
 const content = {
   fa: {
     brand: 'Panahyar',
-    nav: ['خانه', 'خدمات', 'فرایند', 'نتایج', 'تماس'],
+    nav: [
+      { label: 'خانه', href: '#home' },
+      { label: 'خدمات', href: '#features' },
+      { label: 'فرایند', href: '#process' },
+      { label: 'نتایج', href: '#insights' },
+      { label: 'تماس', href: '#contact' },
+    ],
     heroLabel: 'راهبری هوشمند پرونده مهاجرت',
     heroTitleA: 'پلتفرم نسل جدید',
     heroTitleB: 'مدیریت مسیر مهاجرت',
@@ -67,7 +83,13 @@ const content = {
   },
   en: {
     brand: 'Panahyar',
-    nav: ['Home', 'Services', 'Process', 'Results', 'Contact'],
+    nav: [
+      { label: 'Home', href: '#home' },
+      { label: 'Services', href: '#features' },
+      { label: 'Process', href: '#process' },
+      { label: 'Results', href: '#insights' },
+      { label: 'Contact', href: '#contact' },
+    ],
     heroLabel: 'Smart Immigration Case Navigation',
     heroTitleA: 'A New-Gen Platform for',
     heroTitleB: 'Immigration Journey Management',
@@ -103,6 +125,16 @@ const content = {
   },
 };
 
+const chartData = [
+  { name: 'W1', confidence: 42, speed: 25 },
+  { name: 'W2', confidence: 51, speed: 39 },
+  { name: 'W3', confidence: 63, speed: 44 },
+  { name: 'W4', confidence: 70, speed: 61 },
+  { name: 'W5', confidence: 78, speed: 68 },
+  { name: 'W6', confidence: 86, speed: 74 },
+  { name: 'W7', confidence: 94, speed: 82 },
+];
+
 export default function LandingPage({
   locale,
   onLocaleChange,
@@ -124,11 +156,9 @@ export default function LandingPage({
   const addSection = (el: HTMLElement | null) => {
     if (el && !sectionRefs.current.includes(el)) sectionRefs.current.push(el);
   };
-
   const addCard = (el: HTMLDivElement | null) => {
     if (el && !cardRefs.current.includes(el)) cardRefs.current.push(el);
   };
-
   const addBubble = (el: HTMLDivElement | null) => {
     if (el && !bubbleRefs.current.includes(el)) bubbleRefs.current.push(el);
   };
@@ -145,10 +175,7 @@ export default function LandingPage({
 
       sectionRefs.current.forEach((section) => {
         gsap.from(section, {
-          scrollTrigger: {
-            trigger: section,
-            start: 'top 76%',
-          },
+          scrollTrigger: { trigger: section, start: 'top 76%' },
           y: 50,
           opacity: 0,
           duration: 0.9,
@@ -158,33 +185,13 @@ export default function LandingPage({
 
       cardRefs.current.forEach((card, index) => {
         gsap.from(card, {
-          scrollTrigger: {
-            trigger: card,
-            start: 'top 84%',
-          },
+          scrollTrigger: { trigger: card, start: 'top 84%' },
           y: 40,
           opacity: 0,
           duration: 0.6,
           delay: index * 0.08,
           ease: 'power2.out',
         });
-      });
-
-      gsap.to('[data-orb="a"]', {
-        y: -28,
-        x: 18,
-        repeat: -1,
-        yoyo: true,
-        duration: 4.2,
-        ease: 'sine.inOut',
-      });
-      gsap.to('[data-orb="b"]', {
-        y: 24,
-        x: -20,
-        repeat: -1,
-        yoyo: true,
-        duration: 5,
-        ease: 'sine.inOut',
       });
 
       bubbleRefs.current.forEach((bubble, index) => {
@@ -212,8 +219,6 @@ export default function LandingPage({
   return (
     <div className="min-h-screen bg-[#f5f8ff] text-slate-900 dark:bg-[#060b16] dark:text-slate-100 transition-colors duration-500">
       <div className="fixed inset-0 pointer-events-none overflow-hidden">
-        <div data-orb="a" className="absolute -top-20 -left-20 h-72 w-72 rounded-full bg-primary/25 blur-3xl" />
-        <div data-orb="b" className="absolute top-1/2 -right-24 h-80 w-80 rounded-full bg-secondary/20 blur-3xl" />
         {[...Array(14)].map((_, i) => (
           <div
             key={i}
@@ -238,7 +243,11 @@ export default function LandingPage({
           </button>
 
           <nav className="hidden lg:flex items-center gap-8 text-sm text-slate-600 dark:text-slate-300">
-            {t.nav.map((item) => <a key={item} href="#" className="hover:text-primary transition-colors">{item}</a>)}
+            {t.nav.map((item) => (
+              <a key={item.href} href={item.href} className="hover:text-primary transition-colors">
+                {item.label}
+              </a>
+            ))}
           </nav>
 
           <div className="flex items-center gap-2">
@@ -266,7 +275,7 @@ export default function LandingPage({
       </header>
 
       <main className="relative">
-        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-20">
+        <section id="home" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-20">
           <div className="grid lg:grid-cols-[1.1fr_0.9fr] gap-12 items-center">
             <div>
               <div data-hero-el className="inline-flex items-center gap-2 rounded-full bg-primary/10 dark:bg-primary/20 border border-primary/20 px-4 py-2 text-primary text-sm mb-6">
@@ -299,17 +308,34 @@ export default function LandingPage({
 
             <div data-hero-el className="relative">
               <div className="rounded-[2rem] p-6 border border-white/70 dark:border-slate-700/80 bg-white/72 dark:bg-slate-900/78 backdrop-blur-2xl shadow-2xl">
-                <img src="/images/hero-bg.jpg" alt="hero" className="rounded-2xl h-[460px] w-full object-cover" />
+                <div className="rounded-2xl h-[340px] w-full bg-white/70 dark:bg-slate-900/70 border border-primary/10 dark:border-slate-700 p-3">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <AreaChart data={chartData}>
+                      <defs>
+                        <linearGradient id="c1" x1="0" y1="0" x2="0" y2="1">
+                          <stop offset="5%" stopColor="#1B8BFF" stopOpacity={0.35} />
+                          <stop offset="95%" stopColor="#1B8BFF" stopOpacity={0} />
+                        </linearGradient>
+                      </defs>
+                      <CartesianGrid strokeDasharray="3 3" stroke="rgba(148,163,184,0.25)" />
+                      <XAxis dataKey="name" tick={{ fill: '#94A3B8', fontSize: 12 }} axisLine={false} tickLine={false} />
+                      <YAxis tick={{ fill: '#94A3B8', fontSize: 12 }} axisLine={false} tickLine={false} />
+                      <Tooltip />
+                      <Area type="monotone" dataKey="confidence" stroke="#1B8BFF" fill="url(#c1)" strokeWidth={3} />
+                      <Line type="monotone" dataKey="speed" stroke="#FF6B35" strokeWidth={2} dot={false} />
+                    </AreaChart>
+                  </ResponsiveContainer>
+                </div>
                 <div className="mt-4 grid grid-cols-2 gap-3">
-                  <div className="rounded-xl bg-primary/10 dark:bg-primary/15 p-4"><p className="text-xs text-slate-500 dark:text-slate-400">Case Confidence</p><p className="text-xl font-bold text-primary">94%</p></div>
-                  <div className="rounded-xl bg-secondary/10 dark:bg-secondary/15 p-4"><p className="text-xs text-slate-500 dark:text-slate-400">Avg. Timeline</p><p className="text-xl font-bold text-secondary">-32%</p></div>
+                  <div className="rounded-xl bg-primary/10 dark:bg-primary/15 p-4"><p className="text-xs text-slate-500 dark:text-slate-400">Case confidence</p><p className="text-xl font-bold text-primary">94%</p></div>
+                  <div className="rounded-xl bg-secondary/10 dark:bg-secondary/15 p-4"><p className="text-xs text-slate-500 dark:text-slate-400">Process speed</p><p className="text-xl font-bold text-secondary">+32%</p></div>
                 </div>
               </div>
             </div>
           </div>
         </section>
 
-        <section ref={addSection} className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
+        <section id="features" ref={addSection} className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
           <h2 className="text-3xl lg:text-4xl font-display font-bold text-slate-900 dark:text-white">{t.featureTitle}</h2>
           <p className="mt-4 text-lg text-slate-600 dark:text-slate-300">{t.featureText}</p>
           <div className="mt-10 grid md:grid-cols-3 gap-5">
@@ -328,7 +354,7 @@ export default function LandingPage({
           </div>
         </section>
 
-        <section ref={addSection} className="py-24 bg-slate-950 text-white relative overflow-hidden">
+        <section id="process" ref={addSection} className="py-24 bg-slate-950 text-white relative overflow-hidden">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,#1b8bff33,transparent_40%),radial-gradient(circle_at_bottom_right,#ff6b3533,transparent_40%)]" />
           <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <h2 className="text-3xl lg:text-4xl font-display font-bold">{t.timelineTitle}</h2>
@@ -345,7 +371,7 @@ export default function LandingPage({
           </div>
         </section>
 
-        <section ref={addSection} className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
+        <section id="insights" ref={addSection} className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
           <div className="rounded-[2rem] border border-primary/20 bg-white dark:bg-slate-900 shadow-2xl px-8 py-14 lg:px-12 lg:py-16">
             <h2 className="text-3xl lg:text-5xl font-display font-bold text-slate-900 dark:text-white">{t.ctaTitle}</h2>
             <p className="mt-4 text-lg text-slate-600 dark:text-slate-300 max-w-2xl">{t.ctaText}</p>
@@ -359,6 +385,8 @@ export default function LandingPage({
             </div>
           </div>
         </section>
+
+        <section id="contact" className="pb-12" />
       </main>
     </div>
   );

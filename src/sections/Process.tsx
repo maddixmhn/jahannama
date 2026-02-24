@@ -1,4 +1,4 @@
-import { MessageSquare, ClipboardCheck, FileText, Send, Trophy } from 'lucide-react';
+import { type ElementType, MessageSquare, ClipboardCheck, FileText, Send, Trophy } from 'lucide-react';
 import { useScrollReveal } from '@/hooks/useScrollReveal';
 import type { Locale } from '@/App';
 
@@ -35,7 +35,7 @@ const content = {
   },
 };
 
-const iconMap: Record<string, React.ElementType> = {
+const iconMap: Record<string, ElementType> = {
   message: MessageSquare,
   clipboard: ClipboardCheck,
   file: FileText,

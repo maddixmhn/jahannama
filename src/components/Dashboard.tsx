@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useState, type ElementType } from 'react';
 import {
   LayoutDashboard,
   FolderOpen,
@@ -35,7 +35,7 @@ interface DashboardProps {
 
 type DashboardTab = 'dashboard' | 'cases' | 'documents' | 'messages' | 'appointments' | 'settings';
 
-const sidebarItems: Array<{ id: DashboardTab; icon: React.ElementType; label: string }> = [
+const sidebarItems: Array<{ id: DashboardTab; icon: ElementType; label: string }> = [
   { id: 'dashboard', icon: LayoutDashboard, label: 'Dashboard' },
   { id: 'cases', icon: FolderOpen, label: 'My Cases' },
   { id: 'documents', icon: FileText, label: 'Documents' },
