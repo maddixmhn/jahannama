@@ -1,4 +1,5 @@
-import { type ElementType, MessageSquare, ClipboardCheck, FileText, Send, Trophy } from 'lucide-react';
+import { MessageSquare, ClipboardCheck, FileText, Send, Trophy } from 'lucide-react';
+import type { ElementType } from 'react';
 import { useScrollReveal } from '@/hooks/useScrollReveal';
 import type { Locale } from '@/App';
 
