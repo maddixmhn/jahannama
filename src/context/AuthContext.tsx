@@ -11,23 +11,12 @@ interface AuthContextType extends AuthState {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-const MOCK_USERS: User[] = [
-  {
-    id: '1',
-    name: 'Ali Mohammadi',
-    email: 'ali@example.com',
-    phone: '09123456789',
-    role: 'user',
-    createdAt: new Date(),
-  },
-  {
-    id: 'admin-1',
-    name: 'Admin Panel',
-    email: 'admin@panahyar.com',
-    role: 'admin',
-    createdAt: new Date(),
-  },
-];
+type MockAccount = {
+  user: User;
+  password: string;
+};
+
+const MOCK_ACCOUNTS: MockAccount[] = [];
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [state, setState] = useState<AuthState>({
@@ -40,10 +29,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setState((prev) => ({ ...prev, isLoading: true }));
     await new Promise((resolve) => setTimeout(resolve, 900));
 
-    const user = MOCK_USERS.find((u) => u.email === email);
-    if (user && password === '123456') {
+    const account = MOCK_ACCOUNTS.find((a) => a.user.email === email && a.password === password);
+    if (account) {
       setState({
-        user,
+        user: account.user,
         isAuthenticated: true,
         isLoading: false,
       });
@@ -55,20 +44,27 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const register = useCallback(
-    async (name: string, email: string, phone: string | undefined, _password: string): Promise<boolean> => {
+    async (name: string, email: string, phone: string | undefined, password: string): Promise<boolean> => {
       setState((prev) => ({ ...prev, isLoading: true }));
       await new Promise((resolve) => setTimeout(resolve, 900));
+
+      const normalizedEmail = email.trim().toLowerCase();
+      const exists = MOCK_ACCOUNTS.some((a) => a.user.email.toLowerCase() === normalizedEmail);
+      if (exists) {
+        setState((prev) => ({ ...prev, isLoading: false }));
+        return false;
+      }
 
       const newUser: User = {
         id: Date.now().toString(),
         name,
-        email,
+        email: normalizedEmail,
         phone: phone?.trim() ? phone : undefined,
         role: 'user',
         createdAt: new Date(),
       };
 
-      MOCK_USERS.push(newUser);
+      MOCK_ACCOUNTS.push({ user: newUser, password });
       setState({
         user: newUser,
         isAuthenticated: true,
@@ -91,7 +87,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       createdAt: new Date(),
     };
 
-    MOCK_USERS.push(googleUser);
+    MOCK_ACCOUNTS.push({ user: googleUser, password: `google-${Date.now()}-${Math.random()}` });
     setState({
       user: googleUser,
       isAuthenticated: true,

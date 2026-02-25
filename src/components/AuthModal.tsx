@@ -17,7 +17,7 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
-  const { login, register, loginWithGoogle } = useAuth();
+  const { login, register } = useAuth();
 
   const [loginData, setLoginData] = useState({ email: '', password: '' });
   const [registerData, setRegisterData] = useState({
@@ -73,19 +73,6 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
     onClose();
   };
 
-  const handleGoogle = async () => {
-    setError('');
-    setIsLoading(true);
-    const success = await loginWithGoogle();
-    setIsLoading(false);
-    if (!success) {
-      setError('Google sign-in failed.');
-      return;
-    }
-    reset();
-    onClose();
-  };
-
   return (
     <Dialog
       open={isOpen}
@@ -132,17 +119,6 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
 
               {error && <div className="mb-4 rounded-xl bg-error/10 text-error px-3 py-2 text-sm text-center">{error}</div>}
 
-              <Button
-                type="button"
-                variant="outline"
-                onClick={handleGoogle}
-                disabled={isLoading}
-                className="w-full mb-5 dark:border-slate-700 dark:text-slate-100 dark:hover:bg-slate-800"
-              >
-                {isLoading ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : null}
-                Continue with Google
-              </Button>
-
               <TabsContent value="login">
                 <form onSubmit={handleLogin} className="space-y-4">
                   <div className="space-y-2">
@@ -187,9 +163,6 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
                   <Button type="submit" className="w-full btn-primary" disabled={isLoading}>
                     {isLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : 'Sign in'}
                   </Button>
-                  <p className="text-xs text-center text-gray-500 dark:text-gray-400">
-                    Admin demo: admin@panahyar.com / 123456
-                  </p>
                 </form>
               </TabsContent>
 

@@ -6,6 +6,7 @@ import {
   Moon,
   Sun,
   Languages,
+  Menu,
   ArrowUpRight,
   Sparkles,
   ShieldCheck,
@@ -146,6 +147,7 @@ export default function LandingPage({
   onDashboardClick,
 }: LandingPageProps) {
   const [isPrefsOpen, setIsPrefsOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const t = content[locale];
   const { isAuthenticated } = useAuth();
   const sectionRefs = useRef<HTMLElement[]>([]);
@@ -239,24 +241,75 @@ export default function LandingPage({
       </div>
 
       <header className="sticky top-0 z-50 backdrop-blur-xl bg-white/70 dark:bg-slate-950/55 border-b border-white/40 dark:border-slate-800">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-          <a href="#home" className="flex items-center gap-3">
-            <span className="h-10 w-10 rounded-xl bg-gradient-to-br from-primary to-primary-dark text-white grid place-content-center font-bold">P</span>
-            <span className="font-display font-bold text-xl">{t.brand}</span>
-          </a>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="h-20 flex items-center justify-between">
+            <a
+              href="#home"
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="flex items-center gap-3"
+            >
+              <span className="h-10 w-10 rounded-xl bg-gradient-to-br from-primary to-primary-dark text-white grid place-content-center font-bold">P</span>
+              <span className="font-display font-bold text-xl">{t.brand}</span>
+            </a>
 
-          <nav className="hidden lg:flex items-center gap-8 text-sm text-slate-600 dark:text-slate-300">
-            {t.nav.map((item) => (
-              <a key={item.href} href={item.href} className="hover:text-primary transition-colors">
-                {item.label}
-              </a>
-            ))}
-          </nav>
+            <nav className="hidden lg:flex items-center gap-8 text-sm text-slate-600 dark:text-slate-300">
+              {t.nav.map((item) => (
+                <a key={item.href} href={item.href} className="hover:text-primary transition-colors">
+                  {item.label}
+                </a>
+              ))}
+            </nav>
 
-          <div className="flex items-center gap-2">
-            <Button onClick={isAuthenticated ? onDashboardClick : onAuthClick} className="btn-primary">
-              {isAuthenticated ? t.dashboard : t.login}
-            </Button>
+            <div className="flex items-center gap-2">
+              <Button
+                onClick={isAuthenticated ? onDashboardClick : onAuthClick}
+                className="btn-primary hidden sm:inline-flex"
+              >
+                {isAuthenticated ? t.dashboard : t.login}
+              </Button>
+              <button
+                type="button"
+                onClick={() => setIsMobileMenuOpen((prev) => !prev)}
+                className="lg:hidden h-10 w-10 rounded-xl border border-slate-200 dark:border-slate-700 grid place-content-center hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+                aria-label="toggle-mobile-menu"
+              >
+                {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+              </button>
+            </div>
+          </div>
+
+          <div
+            className={`lg:hidden overflow-hidden transition-all duration-300 ${
+              isMobileMenuOpen ? 'max-h-[420px] pb-4' : 'max-h-0'
+            }`}
+          >
+            <div className="rounded-2xl border border-white/50 dark:border-slate-700 bg-white/90 dark:bg-slate-900/95 backdrop-blur-xl p-3">
+              <div className="space-y-1">
+                {t.nav.map((item) => (
+                  <a
+                    key={item.href}
+                    href={item.href}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="block px-3 py-2 rounded-lg text-slate-700 dark:text-slate-200 hover:bg-primary/10 hover:text-primary transition-colors"
+                  >
+                    {item.label}
+                  </a>
+                ))}
+              </div>
+              <Button
+                onClick={() => {
+                  setIsMobileMenuOpen(false);
+                  if (isAuthenticated) {
+                    onDashboardClick();
+                  } else {
+                    onAuthClick();
+                  }
+                }}
+                className="btn-primary w-full mt-3"
+              >
+                {isAuthenticated ? t.dashboard : t.login}
+              </Button>
+            </div>
           </div>
         </div>
       </header>
@@ -373,7 +426,36 @@ export default function LandingPage({
           </div>
         </section>
 
-        <section id="contact" className="pb-12" />
+        <section id="contact" ref={addSection} className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
+          <div className="rounded-[1.75rem] border border-primary/15 bg-white/80 dark:bg-slate-900/75 dark:border-slate-700 p-6 sm:p-8 lg:p-10 shadow-xl backdrop-blur-xl">
+            <h2 className="text-2xl sm:text-3xl font-display font-bold text-slate-900 dark:text-white">
+              {locale === 'fa' ? 'تماس با ما' : 'Contact Us'}
+            </h2>
+            <p className="mt-3 text-slate-600 dark:text-slate-300">
+              {locale === 'fa'
+                ? 'برای مشاوره یا پیگیری پرونده، از راه‌های زیر با ما در ارتباط باشید.'
+                : 'For consultation or case follow-up, reach us through the channels below.'}
+            </p>
+            <div className="mt-6 grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              <a href="mailto:info@panahyar.com" className="rounded-xl border border-slate-200 dark:border-slate-700 p-4 hover:border-primary/40 transition-colors">
+                <p className="text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400">Email</p>
+                <p className="mt-2 font-semibold text-slate-900 dark:text-slate-100">info@panahyar.com</p>
+              </a>
+              <a href="tel:+15551234567" className="rounded-xl border border-slate-200 dark:border-slate-700 p-4 hover:border-primary/40 transition-colors">
+                <p className="text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400">Phone</p>
+                <p className="mt-2 font-semibold text-slate-900 dark:text-slate-100">+1 555 123 4567</p>
+              </a>
+              <div className="rounded-xl border border-slate-200 dark:border-slate-700 p-4">
+                <p className="text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400">
+                  {locale === 'fa' ? 'پشتیبانی' : 'Support'}
+                </p>
+                <p className="mt-2 font-semibold text-slate-900 dark:text-slate-100">
+                  {locale === 'fa' ? 'پاسخ‌گویی ۲۴/۷' : '24/7 Response'}
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
       </main>
 
       <div className="fixed bottom-6 right-6 z-[70]">
