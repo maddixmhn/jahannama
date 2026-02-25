@@ -16,6 +16,8 @@ import {
   ShoppingCart,
   Check,
   X,
+  Send,
+  Clock3,
 } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import { Button } from '@/components/ui/button';
@@ -25,45 +27,54 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Separator } from '@/components/ui/separator';
-import type { Case, Activity } from '@/types';
+import { Textarea } from '@/components/ui/textarea';
+import type { Case } from '@/types';
 
 interface DashboardProps {
   onClose: () => void;
   onHomeClick: () => void;
 }
 
-type UserTab = 'dashboard' | 'cases' | 'documents' | 'messages' | 'appointments' | 'settings';
+type UserTab = 'dashboard' | 'orders' | 'cases' | 'documents' | 'messages' | 'appointments' | 'settings';
 type AdminTab = 'admin-overview' | 'requests' | 'orders' | 'messages' | 'appointments' | 'settings';
 type DashboardTab = UserTab | AdminTab;
 
-type AdminRequest = {
+type OrderStatus = 'pending' | 'approved' | 'processing' | 'completed' | 'rejected';
+type AppointmentStatus = 'requested' | 'booked' | 'done' | 'rejected';
+
+type ServiceOrder = {
   id: string;
   customer: string;
+  customerEmail: string;
   service: string;
-  status: 'pending' | 'approved' | 'rejected';
+  notes: string;
+  budget: number;
+  status: OrderStatus;
+  createdAt: string;
 };
-type AdminOrder = {
+
+type SupportMessage = {
+  id: string;
+  fromName: string;
+  fromEmail: string;
+  subject: string;
+  message: string;
+  adminReply?: string;
+  createdAt: string;
+};
+
+type AppointmentRequest = {
   id: string;
   customer: string;
-  packageName: string;
-  amount: number;
-  status: 'new' | 'processing' | 'completed';
-};
-type AdminMessage = {
-  id: string;
-  from: string;
-  text: string;
-  replied: boolean;
-};
-type AdminAppointment = {
-  id: string;
-  customer: string;
+  customerEmail: string;
   slot: string;
-  status: 'requested' | 'booked' | 'done';
+  topic: string;
+  status: AppointmentStatus;
 };
 
 const userSidebar: Array<{ id: UserTab; icon: ElementType; label: string }> = [
   { id: 'dashboard', icon: LayoutDashboard, label: 'Dashboard' },
+  { id: 'orders', icon: ShoppingCart, label: 'Service Orders' },
   { id: 'cases', icon: FolderOpen, label: 'My Cases' },
   { id: 'documents', icon: FileText, label: 'Documents' },
   { id: 'messages', icon: MessageSquare, label: 'Messages' },
@@ -82,52 +93,36 @@ const adminSidebar: Array<{ id: AdminTab; icon: ElementType; label: string }> = 
 
 const mockCases: Case[] = [
   {
-    id: '1',
-    title: 'Asylum request',
+    id: 'C-1001',
+    title: 'Asylum Request',
     status: 'in-progress',
-    createdAt: new Date('2024-01-15'),
-    updatedAt: new Date('2024-02-20'),
-    description: 'Documents under review',
+    createdAt: new Date('2026-01-15'),
+    updatedAt: new Date('2026-02-20'),
+    description: 'Documents under legal review',
   },
   {
-    id: '2',
-    title: 'Work visa',
+    id: 'C-1002',
+    title: 'Work Permit',
     status: 'pending',
-    createdAt: new Date('2024-02-10'),
-    updatedAt: new Date('2024-02-10'),
-    description: 'Waiting for final files',
+    createdAt: new Date('2026-02-10'),
+    updatedAt: new Date('2026-02-10'),
+    description: 'Waiting for financial records',
   },
 ];
 
-const mockActivities: Activity[] = [
-  {
-    id: '1',
-    type: 'case_update',
-    title: 'Your case moved to the next step',
-    date: new Date('2024-02-20'),
-    status: 'completed',
-  },
-  {
-    id: '2',
-    type: 'document_upload',
-    title: 'A new file was uploaded',
-    date: new Date('2024-02-18'),
-    status: 'completed',
-  },
-  {
-    id: '3',
-    type: 'message',
-    title: 'New advisor message',
-    date: new Date('2024-02-15'),
-    status: 'pending',
-  },
+const servicesCatalog = [
+  'Asylum Filing',
+  'Skilled Worker Route',
+  'Family Reunification',
+  'Student Visa',
+  'Document Review',
 ];
 
-const userStats = [
-  { id: 'cases', label: 'Active cases', value: '2', icon: FolderOpen, color: 'bg-primary/10 text-primary' },
-  { id: 'documents', label: 'Pending docs', value: '3', icon: FileText, color: 'bg-warning/10 text-warning' },
-  { id: 'messages', label: 'Unread messages', value: '5', icon: MessageSquare, color: 'bg-secondary/10 text-secondary' },
-  { id: 'appointments', label: 'Next appointment', value: '3 days', icon: Calendar, color: 'bg-success/10 text-success' },
+const userStatsBase = [
+  { id: 'cases', label: 'Active cases', icon: FolderOpen, color: 'bg-primary/10 text-primary' },
+  { id: 'orders', label: 'Open orders', icon: ShoppingCart, color: 'bg-secondary/10 text-secondary' },
+  { id: 'messages', label: 'Unread replies', icon: MessageSquare, color: 'bg-warning/10 text-warning' },
+  { id: 'appointments', label: 'Upcoming appointments', icon: Calendar, color: 'bg-success/10 text-success' },
 ];
 
 export default function Dashboard({ onClose, onHomeClick }: DashboardProps) {
@@ -135,26 +130,56 @@ export default function Dashboard({ onClose, onHomeClick }: DashboardProps) {
   const isAdmin = user?.role === 'admin';
   const [activeTab, setActiveTab] = useState<DashboardTab>(isAdmin ? 'admin-overview' : 'dashboard');
 
-  const [adminRequests, setAdminRequests] = useState<AdminRequest[]>([
-    { id: 'R-1001', customer: 'Sarah M', service: 'Asylum Filing', status: 'pending' },
-    { id: 'R-1002', customer: 'John D', service: 'Family Reunification', status: 'pending' },
-    { id: 'R-1003', customer: 'Ahmad K', service: 'Travel Document', status: 'approved' },
+  const [orders, setOrders] = useState<ServiceOrder[]>([
+    {
+      id: 'O-2001',
+      customer: 'Test User',
+      customerEmail: 'user.panel@panahyar.test',
+      service: 'Asylum Filing',
+      notes: 'Need full package with legal review.',
+      budget: 950,
+      status: 'pending',
+      createdAt: '2026-02-20',
+    },
   ]);
-  const [adminOrders, setAdminOrders] = useState<AdminOrder[]>([
-    { id: 'O-501', customer: 'Maria L', packageName: 'Premium Legal', amount: 890, status: 'new' },
-    { id: 'O-502', customer: 'David P', packageName: 'Document Pack', amount: 240, status: 'processing' },
-    { id: 'O-503', customer: 'Leila N', packageName: 'Settlement Plus', amount: 460, status: 'completed' },
+
+  const [appointments, setAppointments] = useState<AppointmentRequest[]>([
+    {
+      id: 'A-3001',
+      customer: 'Test User',
+      customerEmail: 'user.panel@panahyar.test',
+      slot: '2026-03-05 10:00',
+      topic: 'Eligibility review',
+      status: 'requested',
+    },
   ]);
-  const [adminMessages, setAdminMessages] = useState<AdminMessage[]>([
-    { id: 'M-1', from: 'Sarah M', text: 'Can I update my appointment date?', replied: false },
-    { id: 'M-2', from: 'Ahmad K', text: 'I uploaded my passport. Please review.', replied: false },
-    { id: 'M-3', from: 'John D', text: 'Need help with sponsorship docs.', replied: true },
+
+  const [messages, setMessages] = useState<SupportMessage[]>([
+    {
+      id: 'M-4001',
+      fromName: 'Test User',
+      fromEmail: 'user.panel@panahyar.test',
+      subject: 'Document checklist',
+      message: 'Please confirm if translated bank statements are required.',
+      createdAt: '2026-02-22',
+    },
   ]);
-  const [adminAppointments, setAdminAppointments] = useState<AdminAppointment[]>([
-    { id: 'A-1', customer: 'Sarah M', slot: '2026-03-02 10:00', status: 'requested' },
-    { id: 'A-2', customer: 'John D', slot: '2026-03-02 14:30', status: 'booked' },
-    { id: 'A-3', customer: 'Ahmad K', slot: '2026-03-03 09:15', status: 'requested' },
-  ]);
+
+  const [orderForm, setOrderForm] = useState({ service: servicesCatalog[0], budget: '800', notes: '' });
+  const [appointmentForm, setAppointmentForm] = useState({ slot: '', topic: '' });
+  const [messageForm, setMessageForm] = useState({ subject: '', message: '' });
+
+  const currentEmail = user?.email ?? '';
+  const userOrders = orders.filter((o) => o.customerEmail === currentEmail);
+  const userAppointments = appointments.filter((a) => a.customerEmail === currentEmail);
+  const userMessages = messages.filter((m) => m.fromEmail === currentEmail);
+
+  const userStats = [
+    { ...userStatsBase[0], value: String(mockCases.length) },
+    { ...userStatsBase[1], value: String(userOrders.filter((o) => o.status !== 'completed' && o.status !== 'rejected').length) },
+    { ...userStatsBase[2], value: String(userMessages.filter((m) => Boolean(m.adminReply)).length) },
+    { ...userStatsBase[3], value: String(userAppointments.filter((a) => a.status === 'booked').length) },
+  ];
 
   const handleLogout = () => {
     logout();
@@ -167,17 +192,66 @@ export default function Dashboard({ onClose, onHomeClick }: DashboardProps) {
     [activeTab, sidebar]
   );
 
-  const updateRequestStatus = (id: string, status: AdminRequest['status']) => {
-    setAdminRequests((prev) => prev.map((r) => (r.id === id ? { ...r, status } : r)));
+  const updateOrderStatus = (id: string, status: OrderStatus) => {
+    setOrders((prev) => prev.map((o) => (o.id === id ? { ...o, status } : o)));
   };
-  const updateOrderStatus = (id: string, status: AdminOrder['status']) => {
-    setAdminOrders((prev) => prev.map((o) => (o.id === id ? { ...o, status } : o)));
+
+  const updateAppointmentStatus = (id: string, status: AppointmentStatus) => {
+    setAppointments((prev) => prev.map((a) => (a.id === id ? { ...a, status } : a)));
   };
-  const replyToMessage = (id: string) => {
-    setAdminMessages((prev) => prev.map((m) => (m.id === id ? { ...m, replied: true } : m)));
+
+  const replyToMessage = (id: string, reply: string) => {
+    setMessages((prev) => prev.map((m) => (m.id === id ? { ...m, adminReply: reply } : m)));
   };
-  const bookAppointment = (id: string) => {
-    setAdminAppointments((prev) => prev.map((a) => (a.id === id ? { ...a, status: 'booked' } : a)));
+
+  const submitOrder = () => {
+    if (!user) return;
+    setOrders((prev) => [
+      {
+        id: `O-${Date.now()}`,
+        customer: user.name,
+        customerEmail: user.email,
+        service: orderForm.service,
+        notes: orderForm.notes.trim(),
+        budget: Number(orderForm.budget) || 0,
+        status: 'pending',
+        createdAt: new Date().toISOString().slice(0, 10),
+      },
+      ...prev,
+    ]);
+    setOrderForm({ service: servicesCatalog[0], budget: '800', notes: '' });
+  };
+
+  const submitAppointment = () => {
+    if (!user || !appointmentForm.slot || !appointmentForm.topic.trim()) return;
+    setAppointments((prev) => [
+      {
+        id: `A-${Date.now()}`,
+        customer: user.name,
+        customerEmail: user.email,
+        slot: appointmentForm.slot,
+        topic: appointmentForm.topic.trim(),
+        status: 'requested',
+      },
+      ...prev,
+    ]);
+    setAppointmentForm({ slot: '', topic: '' });
+  };
+
+  const submitMessage = () => {
+    if (!user || !messageForm.subject.trim() || !messageForm.message.trim()) return;
+    setMessages((prev) => [
+      {
+        id: `M-${Date.now()}`,
+        fromName: user.name,
+        fromEmail: user.email,
+        subject: messageForm.subject.trim(),
+        message: messageForm.message.trim(),
+        createdAt: new Date().toISOString().slice(0, 10),
+      },
+      ...prev,
+    ]);
+    setMessageForm({ subject: '', message: '' });
   };
 
   const renderUserDashboard = () => (
@@ -185,7 +259,7 @@ export default function Dashboard({ onClose, onHomeClick }: DashboardProps) {
       <div className="mb-8">
         <h1 className="text-2xl font-bold mb-2">Welcome back, {user?.name}!</h1>
         <p className="text-gray-500 dark:text-gray-400">
-          Use the sidebar to switch sections. Each section is clickable and loads its own content.
+          Manage your migration journey: service orders, appointments, and secure messaging with admin.
         </p>
       </div>
 
@@ -209,63 +283,211 @@ export default function Dashboard({ onClose, onHomeClick }: DashboardProps) {
     </>
   );
 
+  const renderUserOrders = () => (
+    <div className="grid lg:grid-cols-2 gap-6">
+      <Card className="dark:bg-slate-900 dark:border-slate-800">
+        <CardHeader>
+          <CardTitle>Create Service Order</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-3">
+          <select
+            value={orderForm.service}
+            onChange={(e) => setOrderForm((prev) => ({ ...prev, service: e.target.value }))}
+            className="w-full h-10 rounded-md border border-input bg-transparent px-3 py-2 text-sm"
+          >
+            {servicesCatalog.map((service) => (
+              <option key={service} value={service}>{service}</option>
+            ))}
+          </select>
+          <Input
+            value={orderForm.budget}
+            onChange={(e) => setOrderForm((prev) => ({ ...prev, budget: e.target.value }))}
+            placeholder="Budget (USD)"
+            className="number-ltr"
+          />
+          <Textarea
+            value={orderForm.notes}
+            onChange={(e) => setOrderForm((prev) => ({ ...prev, notes: e.target.value }))}
+            placeholder="Order details"
+          />
+          <Button className="btn-primary" onClick={submitOrder}>Submit Order</Button>
+        </CardContent>
+      </Card>
+
+      <Card className="dark:bg-slate-900 dark:border-slate-800">
+        <CardHeader>
+          <CardTitle>My Orders</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-3">
+          {userOrders.map((order) => (
+            <div key={order.id} className="rounded-xl border border-gray-200 dark:border-slate-700 p-4">
+              <div className="flex items-center justify-between gap-3">
+                <p className="font-semibold">{order.service}</p>
+                <Badge>{order.status}</Badge>
+              </div>
+              <p className="text-sm text-gray-500 dark:text-gray-400 mt-1 number-ltr">{order.id} | {order.createdAt}</p>
+              <p className="text-sm text-gray-600 dark:text-gray-300 mt-2">{order.notes || 'No extra notes'}</p>
+              <p className="text-sm mt-2">Budget: <span className="number-ltr">${order.budget}</span></p>
+            </div>
+          ))}
+          {userOrders.length === 0 && <p className="text-sm text-gray-500">No order submitted yet.</p>}
+        </CardContent>
+      </Card>
+    </div>
+  );
+
+  const renderUserAppointments = () => (
+    <div className="grid lg:grid-cols-2 gap-6">
+      <Card className="dark:bg-slate-900 dark:border-slate-800">
+        <CardHeader>
+          <CardTitle>Request Appointment</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-3">
+          <Input
+            type="datetime-local"
+            value={appointmentForm.slot}
+            onChange={(e) => setAppointmentForm((prev) => ({ ...prev, slot: e.target.value }))}
+            className="number-ltr"
+          />
+          <Input
+            value={appointmentForm.topic}
+            onChange={(e) => setAppointmentForm((prev) => ({ ...prev, topic: e.target.value }))}
+            placeholder="Topic"
+          />
+          <Button className="btn-primary" onClick={submitAppointment}>Send Request</Button>
+        </CardContent>
+      </Card>
+
+      <Card className="dark:bg-slate-900 dark:border-slate-800">
+        <CardHeader>
+          <CardTitle>My Appointments</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-3">
+          {userAppointments.map((app) => (
+            <div key={app.id} className="rounded-xl border border-gray-200 dark:border-slate-700 p-4">
+              <div className="flex items-center justify-between">
+                <p className="font-semibold">{app.topic}</p>
+                <Badge>{app.status}</Badge>
+              </div>
+              <p className="text-sm text-gray-500 mt-2 flex items-center gap-2 number-ltr">
+                <Clock3 className="w-4 h-4" /> {app.slot}
+              </p>
+            </div>
+          ))}
+          {userAppointments.length === 0 && <p className="text-sm text-gray-500">No appointment requested yet.</p>}
+        </CardContent>
+      </Card>
+    </div>
+  );
+
+  const renderUserMessages = () => (
+    <div className="grid lg:grid-cols-2 gap-6">
+      <Card className="dark:bg-slate-900 dark:border-slate-800">
+        <CardHeader>
+          <CardTitle>Message Admin</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-3">
+          <Input
+            value={messageForm.subject}
+            onChange={(e) => setMessageForm((prev) => ({ ...prev, subject: e.target.value }))}
+            placeholder="Subject"
+          />
+          <Textarea
+            value={messageForm.message}
+            onChange={(e) => setMessageForm((prev) => ({ ...prev, message: e.target.value }))}
+            placeholder="Your message"
+          />
+          <Button className="btn-primary" onClick={submitMessage}>
+            <Send className="w-4 h-4 mr-2" /> Send
+          </Button>
+        </CardContent>
+      </Card>
+
+      <Card className="dark:bg-slate-900 dark:border-slate-800">
+        <CardHeader>
+          <CardTitle>Conversation</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-3">
+          {userMessages.map((msg) => (
+            <div key={msg.id} className="rounded-xl border border-gray-200 dark:border-slate-700 p-4">
+              <p className="font-semibold">{msg.subject}</p>
+              <p className="text-sm text-gray-600 dark:text-gray-300 mt-1">{msg.message}</p>
+              <p className="text-xs text-gray-500 mt-2 number-ltr">{msg.createdAt}</p>
+              {msg.adminReply ? (
+                <div className="mt-3 rounded-lg bg-primary/10 p-3 text-sm">
+                  <p className="font-medium text-primary">Admin Reply</p>
+                  <p>{msg.adminReply}</p>
+                </div>
+              ) : (
+                <p className="mt-3 text-xs text-gray-500">Waiting for admin reply</p>
+              )}
+            </div>
+          ))}
+          {userMessages.length === 0 && <p className="text-sm text-gray-500">No message sent yet.</p>}
+        </CardContent>
+      </Card>
+    </div>
+  );
+
   const renderAdminOverview = () => (
     <>
       <div className="mb-8">
         <h1 className="text-2xl font-bold mb-2">Admin Control Center</h1>
         <p className="text-gray-500 dark:text-gray-400">
-          Manage requests, orders, customer messages, and appointment booking from one place.
+          Full relationship map between users and operations: orders, appointments, and support messages.
         </p>
       </div>
 
       <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-        <Card className="dark:bg-slate-900 dark:border-slate-800"><CardContent className="p-5"><p className="text-sm text-gray-500">Pending requests</p><p className="text-3xl font-bold text-primary number-ltr">{adminRequests.filter((r) => r.status === 'pending').length}</p></CardContent></Card>
-        <Card className="dark:bg-slate-900 dark:border-slate-800"><CardContent className="p-5"><p className="text-sm text-gray-500">Open orders</p><p className="text-3xl font-bold text-secondary number-ltr">{adminOrders.filter((o) => o.status !== 'completed').length}</p></CardContent></Card>
-        <Card className="dark:bg-slate-900 dark:border-slate-800"><CardContent className="p-5"><p className="text-sm text-gray-500">Unreplied messages</p><p className="text-3xl font-bold text-warning number-ltr">{adminMessages.filter((m) => !m.replied).length}</p></CardContent></Card>
-        <Card className="dark:bg-slate-900 dark:border-slate-800"><CardContent className="p-5"><p className="text-sm text-gray-500">Requested appointments</p><p className="text-3xl font-bold text-success number-ltr">{adminAppointments.filter((a) => a.status === 'requested').length}</p></CardContent></Card>
+        <Card className="dark:bg-slate-900 dark:border-slate-800"><CardContent className="p-5"><p className="text-sm text-gray-500">Pending requests</p><p className="text-3xl font-bold text-primary number-ltr">{orders.filter((o) => o.status === 'pending').length}</p></CardContent></Card>
+        <Card className="dark:bg-slate-900 dark:border-slate-800"><CardContent className="p-5"><p className="text-sm text-gray-500">Open orders</p><p className="text-3xl font-bold text-secondary number-ltr">{orders.filter((o) => o.status !== 'completed' && o.status !== 'rejected').length}</p></CardContent></Card>
+        <Card className="dark:bg-slate-900 dark:border-slate-800"><CardContent className="p-5"><p className="text-sm text-gray-500">Unreplied messages</p><p className="text-3xl font-bold text-warning number-ltr">{messages.filter((m) => !m.adminReply).length}</p></CardContent></Card>
+        <Card className="dark:bg-slate-900 dark:border-slate-800"><CardContent className="p-5"><p className="text-sm text-gray-500">Requested appointments</p><p className="text-3xl font-bold text-success number-ltr">{appointments.filter((a) => a.status === 'requested').length}</p></CardContent></Card>
       </div>
     </>
   );
 
-  const renderRequests = () => (
+  const renderAdminRequests = () => (
     <Card className="dark:bg-slate-900 dark:border-slate-800">
-      <CardHeader><CardTitle>Customer Requests</CardTitle></CardHeader>
+      <CardHeader><CardTitle>Customer Requests Queue</CardTitle></CardHeader>
       <CardContent className="space-y-3">
-        {adminRequests.map((item) => (
+        {orders.filter((o) => o.status === 'pending').map((item) => (
           <div key={item.id} className="rounded-xl border border-gray-200 dark:border-slate-700 p-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
-              <p className="font-semibold">{item.customer}</p>
-              <p className="text-sm text-gray-500 dark:text-gray-400">{item.service}</p>
-              <Badge className="mt-2">{item.status}</Badge>
+              <p className="font-semibold">{item.customer} - {item.service}</p>
+              <p className="text-sm text-gray-500 dark:text-gray-400 number-ltr">{item.customerEmail} | {item.id}</p>
+              <p className="text-sm mt-2">{item.notes || 'No notes'}</p>
             </div>
             <div className="flex gap-2">
-              <Button size="sm" className="btn-primary" onClick={() => updateRequestStatus(item.id, 'approved')}>
+              <Button size="sm" className="btn-primary" onClick={() => updateOrderStatus(item.id, 'approved')}>
                 <Check className="w-4 h-4 mr-1" /> Approve
               </Button>
-              <Button size="sm" variant="outline" onClick={() => updateRequestStatus(item.id, 'rejected')} className="dark:border-slate-700">
+              <Button size="sm" variant="outline" onClick={() => updateOrderStatus(item.id, 'rejected')} className="dark:border-slate-700">
                 <X className="w-4 h-4 mr-1" /> Reject
               </Button>
             </div>
           </div>
         ))}
+        {orders.filter((o) => o.status === 'pending').length === 0 && <p className="text-sm text-gray-500">No pending request.</p>}
       </CardContent>
     </Card>
   );
 
-  const renderOrders = () => (
+  const renderAdminOrders = () => (
     <Card className="dark:bg-slate-900 dark:border-slate-800">
       <CardHeader><CardTitle>Order Management</CardTitle></CardHeader>
       <CardContent className="space-y-3">
-        {adminOrders.map((order) => (
+        {orders.map((order) => (
           <div key={order.id} className="rounded-xl border border-gray-200 dark:border-slate-700 p-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
-              <p className="font-semibold">{order.customer}</p>
-              <p className="text-sm text-gray-500 dark:text-gray-400">{order.packageName} - <span className="number-ltr">${order.amount}</span></p>
+              <p className="font-semibold">{order.customer} - {order.service}</p>
+              <p className="text-sm text-gray-500 dark:text-gray-400 number-ltr">{order.customerEmail} | {order.id}</p>
+              <p className="text-sm text-gray-600 dark:text-gray-300 mt-1">Budget: <span className="number-ltr">${order.budget}</span></p>
               <Badge className="mt-2">{order.status}</Badge>
             </div>
             <div className="flex gap-2">
-              <Button size="sm" variant="outline" onClick={() => updateOrderStatus(order.id, 'processing')} className="dark:border-slate-700">Set Processing</Button>
-              <Button size="sm" className="btn-primary" onClick={() => updateOrderStatus(order.id, 'completed')}>Set Completed</Button>
+              <Button size="sm" variant="outline" onClick={() => updateOrderStatus(order.id, 'processing')} className="dark:border-slate-700">Processing</Button>
+              <Button size="sm" className="btn-primary" onClick={() => updateOrderStatus(order.id, 'completed')}>Completed</Button>
             </div>
           </div>
         ))}
@@ -277,16 +499,19 @@ export default function Dashboard({ onClose, onHomeClick }: DashboardProps) {
     <Card className="dark:bg-slate-900 dark:border-slate-800">
       <CardHeader><CardTitle>Message Center</CardTitle></CardHeader>
       <CardContent className="space-y-3">
-        {adminMessages.map((msg) => (
-          <div key={msg.id} className="rounded-xl border border-gray-200 dark:border-slate-700 p-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
-            <div>
-              <p className="font-semibold">{msg.from}</p>
-              <p className="text-sm text-gray-500 dark:text-gray-400">{msg.text}</p>
-              <Badge className="mt-2">{msg.replied ? 'Replied' : 'Pending reply'}</Badge>
-            </div>
-            <Button size="sm" className="btn-primary" onClick={() => replyToMessage(msg.id)} disabled={msg.replied}>
-              {msg.replied ? 'Replied' : 'Reply'}
-            </Button>
+        {messages.map((msg) => (
+          <div key={msg.id} className="rounded-xl border border-gray-200 dark:border-slate-700 p-4">
+            <p className="font-semibold">{msg.fromName} - {msg.subject}</p>
+            <p className="text-sm text-gray-500 dark:text-gray-400 number-ltr">{msg.fromEmail} | {msg.createdAt}</p>
+            <p className="text-sm mt-2">{msg.message}</p>
+            {msg.adminReply ? (
+              <div className="mt-3 rounded-lg bg-success/10 p-3 text-sm">
+                <p className="font-medium text-success">Reply sent</p>
+                <p>{msg.adminReply}</p>
+              </div>
+            ) : (
+              <Button size="sm" className="btn-primary mt-3" onClick={() => replyToMessage(msg.id, 'We reviewed your request. The advisor will contact you within 24 hours.')}>Quick Reply</Button>
+            )}
           </div>
         ))}
       </CardContent>
@@ -297,16 +522,19 @@ export default function Dashboard({ onClose, onHomeClick }: DashboardProps) {
     <Card className="dark:bg-slate-900 dark:border-slate-800">
       <CardHeader><CardTitle>Appointment Booking</CardTitle></CardHeader>
       <CardContent className="space-y-3">
-        {adminAppointments.map((app) => (
+        {appointments.map((app) => (
           <div key={app.id} className="rounded-xl border border-gray-200 dark:border-slate-700 p-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
-              <p className="font-semibold">{app.customer}</p>
+              <p className="font-semibold">{app.customer} - {app.topic}</p>
+              <p className="text-sm text-gray-500 dark:text-gray-400 number-ltr">{app.customerEmail}</p>
               <p className="text-sm text-gray-500 dark:text-gray-400 number-ltr">{app.slot}</p>
               <Badge className="mt-2">{app.status}</Badge>
             </div>
-            <Button size="sm" className="btn-primary" onClick={() => bookAppointment(app.id)} disabled={app.status !== 'requested'}>
-              {app.status === 'requested' ? 'Book Time' : 'Booked'}
-            </Button>
+            <div className="flex gap-2">
+              <Button size="sm" className="btn-primary" onClick={() => updateAppointmentStatus(app.id, 'booked')} disabled={app.status !== 'requested'}>Book</Button>
+              <Button size="sm" variant="outline" onClick={() => updateAppointmentStatus(app.id, 'done')} className="dark:border-slate-700" disabled={app.status !== 'booked'}>Done</Button>
+              <Button size="sm" variant="outline" onClick={() => updateAppointmentStatus(app.id, 'rejected')} className="dark:border-slate-700" disabled={app.status === 'done'}>Reject</Button>
+            </div>
           </div>
         ))}
       </CardContent>
@@ -332,14 +560,16 @@ export default function Dashboard({ onClose, onHomeClick }: DashboardProps) {
     switch (activeTab as UserTab) {
       case 'dashboard':
         return renderUserDashboard();
+      case 'orders':
+        return renderUserOrders();
       case 'cases':
         return renderSimpleList('My Cases', mockCases.map((c) => `${c.title} - ${c.description}`));
       case 'documents':
         return renderSimpleList('Documents', ['Passport scan', 'Identity card', 'Application form', 'Address proof']);
       case 'messages':
-        return renderSimpleList('Messages', mockActivities.filter((a) => a.type === 'message').map((m) => m.title));
+        return renderUserMessages();
       case 'appointments':
-        return renderSimpleList('Appointments', ['Consultation call - Monday 10:00', 'Document review - Wednesday 15:00']);
+        return renderUserAppointments();
       case 'settings':
         return (
           <div className="grid md:grid-cols-2 gap-6">
@@ -370,9 +600,9 @@ export default function Dashboard({ onClose, onHomeClick }: DashboardProps) {
       case 'admin-overview':
         return renderAdminOverview();
       case 'requests':
-        return renderRequests();
+        return renderAdminRequests();
       case 'orders':
-        return renderOrders();
+        return renderAdminOrders();
       case 'messages':
         return renderAdminMessages();
       case 'appointments':

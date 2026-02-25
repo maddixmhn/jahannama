@@ -12,22 +12,17 @@ import {
   ShieldCheck,
   Waypoints,
   Compass,
+  FileCheck2,
+  Route,
+  Clock3,
+  MapPinned,
+  BriefcaseBusiness,
   CheckCircle2,
   PlayCircle,
   X,
 } from 'lucide-react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import {
-  ResponsiveContainer,
-  AreaChart,
-  Area,
-  Line,
-  XAxis,
-  YAxis,
-  Tooltip,
-  CartesianGrid,
-} from 'recharts';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -127,15 +122,14 @@ const content = {
   },
 };
 
-const chartData = [
-  { name: 'W1', confidence: 42, speed: 25 },
-  { name: 'W2', confidence: 51, speed: 39 },
-  { name: 'W3', confidence: 63, speed: 44 },
-  { name: 'W4', confidence: 70, speed: 61 },
-  { name: 'W5', confidence: 78, speed: 68 },
-  { name: 'W6', confidence: 86, speed: 74 },
-  { name: 'W7', confidence: 94, speed: 82 },
-];
+const journeySnapshot = {
+  progress: 68,
+  profile: 'Skilled Worker',
+  target: 'Canada',
+  eta: '4-6 months',
+  docsReady: 9,
+  docsTotal: 12,
+};
 
 export default function LandingPage({
   locale,
@@ -377,23 +371,63 @@ export default function LandingPage({
 
             <div data-hero-el className="relative">
               <div className="rounded-[2rem] p-6 border border-white/70 dark:border-slate-700/80 bg-white/72 dark:bg-slate-900/78 backdrop-blur-2xl shadow-2xl">
-                <div className="rounded-2xl h-[340px] w-full bg-white/70 dark:bg-slate-900/70 border border-primary/10 dark:border-slate-700 p-3">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <AreaChart data={chartData}>
-                      <defs>
-                        <linearGradient id="c1" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="5%" stopColor="#1B8BFF" stopOpacity={0.35} />
-                          <stop offset="95%" stopColor="#1B8BFF" stopOpacity={0} />
-                        </linearGradient>
-                      </defs>
-                      <CartesianGrid strokeDasharray="3 3" stroke="rgba(148,163,184,0.25)" />
-                      <XAxis dataKey="name" tick={{ fill: '#94A3B8', fontSize: 12 }} axisLine={false} tickLine={false} />
-                      <YAxis tick={{ fill: '#94A3B8', fontSize: 12 }} axisLine={false} tickLine={false} />
-                      <Tooltip />
-                      <Area type="monotone" dataKey="confidence" stroke="#1B8BFF" fill="url(#c1)" strokeWidth={3} />
-                      <Line type="monotone" dataKey="speed" stroke="#FF6B35" strokeWidth={2} dot={false} />
-                    </AreaChart>
-                  </ResponsiveContainer>
+                <div className="rounded-2xl w-full bg-white/70 dark:bg-slate-900/70 border border-primary/10 dark:border-slate-700 p-5">
+                  <div className="flex items-start justify-between">
+                    <div>
+                      <p className="text-xs uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">
+                        {locale === 'fa' ? 'Migration Object' : 'Journey Object'}
+                      </p>
+                      <p className="mt-2 text-xl font-bold text-slate-900 dark:text-white">
+                        {locale === 'fa' ? 'Migration Readiness Snapshot' : 'Migration Readiness Snapshot'}
+                      </p>
+                    </div>
+                    <div className="h-11 w-11 rounded-xl bg-primary/15 grid place-content-center">
+                      <Route className="w-5 h-5 text-primary" />
+                    </div>
+                  </div>
+
+                  <div className="mt-5">
+                    <div className="h-2 rounded-full bg-slate-200 dark:bg-slate-700">
+                      <div
+                        className="h-2 rounded-full bg-gradient-to-r from-primary to-secondary"
+                        style={{ width: `${journeySnapshot.progress}%` }}
+                      />
+                    </div>
+                    <div className="mt-2 text-sm text-slate-600 dark:text-slate-300 number-ltr">
+                      {journeySnapshot.progress}% {locale === 'fa' ? 'Progress' : 'Progress'}
+                    </div>
+                  </div>
+
+                  <div className="mt-5 grid grid-cols-2 gap-3 text-sm">
+                    <div className="rounded-xl border border-slate-200 dark:border-slate-700 p-3">
+                      <p className="text-slate-500 dark:text-slate-400">{locale === 'fa' ? 'Route' : 'Route'}</p>
+                      <p className="mt-1 font-semibold text-slate-900 dark:text-slate-100 flex items-center gap-2">
+                        <BriefcaseBusiness className="w-4 h-4 text-primary" />
+                        {journeySnapshot.profile}
+                      </p>
+                    </div>
+                    <div className="rounded-xl border border-slate-200 dark:border-slate-700 p-3">
+                      <p className="text-slate-500 dark:text-slate-400">{locale === 'fa' ? 'Destination' : 'Destination'}</p>
+                      <p className="mt-1 font-semibold text-slate-900 dark:text-slate-100 flex items-center gap-2">
+                        <MapPinned className="w-4 h-4 text-secondary" />
+                        {journeySnapshot.target}
+                      </p>
+                    </div>
+                    <div className="rounded-xl border border-slate-200 dark:border-slate-700 p-3">
+                      <p className="text-slate-500 dark:text-slate-400">{locale === 'fa' ? 'Doc Readiness' : 'Doc Readiness'}</p>
+                      <p className="mt-1 font-semibold text-slate-900 dark:text-slate-100 number-ltr flex items-center gap-2">
+                        <FileCheck2 className="w-4 h-4 text-success" />
+                        {journeySnapshot.docsReady}/{journeySnapshot.docsTotal}
+                      </p>
+                    </div>
+                    <div className="rounded-xl border border-slate-200 dark:border-slate-700 p-3">
+                      <p className="text-slate-500 dark:text-slate-400">{locale === 'fa' ? 'ETA' : 'ETA'}</p>
+                      <p className="mt-1 font-semibold text-slate-900 dark:text-slate-100 number-ltr flex items-center gap-2">
+                        <Clock3 className="w-4 h-4 text-warning" />
+                        {journeySnapshot.eta}
+                      </p>
+                    </div>
+                  </div>
                 </div>
                 <div className="mt-4 grid grid-cols-2 gap-3">
                   <div className="rounded-xl bg-primary/10 dark:bg-primary/15 p-4"><p className="text-xs text-slate-500 dark:text-slate-400">Case confidence</p><p className="text-xl font-bold text-primary number-ltr">94%</p></div>

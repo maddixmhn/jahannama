@@ -16,7 +16,30 @@ type MockAccount = {
   password: string;
 };
 
-const MOCK_ACCOUNTS: MockAccount[] = [];
+const SEEDED_ACCOUNTS: MockAccount[] = [
+  {
+    user: {
+      id: 'admin-seed-1',
+      name: 'Admin Panahyar',
+      email: 'admin.panel@panahyar.test',
+      role: 'admin',
+      createdAt: new Date('2026-01-01'),
+    },
+    password: 'Admin@2026',
+  },
+  {
+    user: {
+      id: 'user-seed-1',
+      name: 'Test User',
+      email: 'user.panel@panahyar.test',
+      role: 'user',
+      createdAt: new Date('2026-01-01'),
+    },
+    password: 'User@2026',
+  },
+];
+
+const MOCK_ACCOUNTS: MockAccount[] = [...SEEDED_ACCOUNTS];
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [state, setState] = useState<AuthState>({
