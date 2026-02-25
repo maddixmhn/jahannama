@@ -73,10 +73,10 @@ export default function CTA({ onCtaClick, locale }: CTAProps) {
               <Phone className="w-5 h-5" />
               <span>{t.contactLabel}</span>
               <a
-                href="tel:+15551234567"
-                className="font-medium text-primary hover:underline"
+                href="tel:+16692476782"
+                className="font-medium text-primary hover:underline number-ltr"
               >
-                +1 (555) 123-4567
+                +16692476782
               </a>
             </div>
           </div>

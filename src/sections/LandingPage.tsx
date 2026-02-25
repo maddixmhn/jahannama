@@ -14,7 +14,6 @@ import {
   Compass,
   CheckCircle2,
   PlayCircle,
-  SlidersHorizontal,
   X,
 } from 'lucide-react';
 import gsap from 'gsap';
@@ -146,7 +145,6 @@ export default function LandingPage({
   onAuthClick,
   onDashboardClick,
 }: LandingPageProps) {
-  const [isPrefsOpen, setIsPrefsOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const t = content[locale];
   const { isAuthenticated } = useAuth();
@@ -243,14 +241,26 @@ export default function LandingPage({
       <header className="sticky top-0 z-50 backdrop-blur-xl bg-white/70 dark:bg-slate-950/55 border-b border-white/40 dark:border-slate-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="h-20 flex items-center justify-between">
-            <a
-              href="#home"
-              onClick={() => setIsMobileMenuOpen(false)}
-              className="flex items-center gap-3"
-            >
-              <span className="h-10 w-10 rounded-xl bg-gradient-to-br from-primary to-primary-dark text-white grid place-content-center font-bold">P</span>
-              <span className="font-display font-bold text-xl">{t.brand}</span>
-            </a>
+            <div className="flex items-center gap-2">
+              <a
+                href="#home"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="flex items-center gap-3"
+              >
+                <span className="h-10 w-10 rounded-xl bg-gradient-to-br from-primary to-primary-dark text-white grid place-content-center font-bold">P</span>
+                <span className="font-display font-bold text-xl">{t.brand}</span>
+              </a>
+              <Button
+                type="button"
+                variant="ghost"
+                size="icon"
+                onClick={onToggleDark}
+                className="rounded-xl text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800"
+                aria-label={isDark ? t.light : t.dark}
+              >
+                {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+              </Button>
+            </div>
 
             <nav className="hidden lg:flex items-center gap-8 text-sm text-slate-600 dark:text-slate-300">
               {t.nav.map((item) => (
@@ -261,6 +271,16 @@ export default function LandingPage({
             </nav>
 
             <div className="flex items-center gap-2">
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => onLocaleChange(locale === 'fa' ? 'en' : 'fa')}
+                className="hidden sm:inline-flex rounded-xl border-primary/20 dark:bg-slate-900 dark:text-gray-100 dark:border-slate-700"
+                aria-label="switch-language"
+              >
+                <Languages className="w-4 h-4 mr-2" />
+                {locale === 'fa' ? 'EN' : 'FA'}
+              </Button>
               <Button
                 onClick={isAuthenticated ? onDashboardClick : onAuthClick}
                 className="btn-primary hidden sm:inline-flex"
@@ -309,6 +329,15 @@ export default function LandingPage({
               >
                 {isAuthenticated ? t.dashboard : t.login}
               </Button>
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => onLocaleChange(locale === 'fa' ? 'en' : 'fa')}
+                className="w-full mt-2 rounded-xl border-primary/20 dark:bg-slate-900 dark:text-gray-100 dark:border-slate-700"
+              >
+                <Languages className="w-4 h-4 mr-2" />
+                {locale === 'fa' ? 'Switch to English' : 'تغییر به فارسی'}
+              </Button>
             </div>
           </div>
         </div>
@@ -340,9 +369,9 @@ export default function LandingPage({
                 </Button>
               </div>
               <div data-hero-el className="mt-10 flex flex-wrap gap-8 text-sm">
-                <div><p className="text-3xl font-bold text-slate-900 dark:text-white">500+</p><p className="text-slate-500 dark:text-slate-400">{t.kpi1}</p></div>
-                <div><p className="text-3xl font-bold text-slate-900 dark:text-white">98%</p><p className="text-slate-500 dark:text-slate-400">{t.kpi2}</p></div>
-                <div><p className="text-3xl font-bold text-slate-900 dark:text-white">24/7</p><p className="text-slate-500 dark:text-slate-400">{t.kpi3}</p></div>
+                <div><p className="text-3xl font-bold text-slate-900 dark:text-white number-ltr">500+</p><p className="text-slate-500 dark:text-slate-400">{t.kpi1}</p></div>
+                <div><p className="text-3xl font-bold text-slate-900 dark:text-white number-ltr">98%</p><p className="text-slate-500 dark:text-slate-400">{t.kpi2}</p></div>
+                <div><p className="text-3xl font-bold text-slate-900 dark:text-white number-ltr">24/7</p><p className="text-slate-500 dark:text-slate-400">{t.kpi3}</p></div>
               </div>
             </div>
 
@@ -367,8 +396,8 @@ export default function LandingPage({
                   </ResponsiveContainer>
                 </div>
                 <div className="mt-4 grid grid-cols-2 gap-3">
-                  <div className="rounded-xl bg-primary/10 dark:bg-primary/15 p-4"><p className="text-xs text-slate-500 dark:text-slate-400">Case confidence</p><p className="text-xl font-bold text-primary">94%</p></div>
-                  <div className="rounded-xl bg-secondary/10 dark:bg-secondary/15 p-4"><p className="text-xs text-slate-500 dark:text-slate-400">Process speed</p><p className="text-xl font-bold text-secondary">+32%</p></div>
+                  <div className="rounded-xl bg-primary/10 dark:bg-primary/15 p-4"><p className="text-xs text-slate-500 dark:text-slate-400">Case confidence</p><p className="text-xl font-bold text-primary number-ltr">94%</p></div>
+                  <div className="rounded-xl bg-secondary/10 dark:bg-secondary/15 p-4"><p className="text-xs text-slate-500 dark:text-slate-400">Process speed</p><p className="text-xl font-bold text-secondary number-ltr">+32%</p></div>
                 </div>
               </div>
             </div>
@@ -436,14 +465,10 @@ export default function LandingPage({
                 ? 'برای مشاوره یا پیگیری پرونده، از راه‌های زیر با ما در ارتباط باشید.'
                 : 'For consultation or case follow-up, reach us through the channels below.'}
             </p>
-            <div className="mt-6 grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              <a href="mailto:info@panahyar.com" className="rounded-xl border border-slate-200 dark:border-slate-700 p-4 hover:border-primary/40 transition-colors">
-                <p className="text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400">Email</p>
-                <p className="mt-2 font-semibold text-slate-900 dark:text-slate-100">info@panahyar.com</p>
-              </a>
-              <a href="tel:+15551234567" className="rounded-xl border border-slate-200 dark:border-slate-700 p-4 hover:border-primary/40 transition-colors">
+            <div className="mt-6 grid sm:grid-cols-2 gap-4">
+              <a href="tel:+16692476782" className="rounded-xl border border-slate-200 dark:border-slate-700 p-4 hover:border-primary/40 transition-colors">
                 <p className="text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400">Phone</p>
-                <p className="mt-2 font-semibold text-slate-900 dark:text-slate-100">+1 555 123 4567</p>
+                <p className="mt-2 font-semibold text-slate-900 dark:text-slate-100 number-ltr">+16692476782</p>
               </a>
               <div className="rounded-xl border border-slate-200 dark:border-slate-700 p-4">
                 <p className="text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400">
@@ -458,38 +483,19 @@ export default function LandingPage({
         </section>
       </main>
 
-      <div className="fixed bottom-6 right-6 z-[70]">
-        {isPrefsOpen && (
-          <div className="mb-3 w-64 rounded-2xl border border-white/60 dark:border-slate-700 bg-white/90 dark:bg-slate-900/95 shadow-2xl backdrop-blur-xl p-4">
-            <p className="text-xs uppercase tracking-[0.18em] text-gray-500 dark:text-gray-400 mb-3">Preferences</p>
-            <div className="space-y-2">
-              <Button
-                variant="outline"
-                onClick={onToggleDark}
-                className="w-full justify-start dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
-              >
-                {isDark ? <Sun className="w-4 h-4 mr-2" /> : <Moon className="w-4 h-4 mr-2" />}
-                {isDark ? t.light : t.dark}
-              </Button>
-              <Button
-                variant="outline"
-                onClick={() => onLocaleChange(locale === 'fa' ? 'en' : 'fa')}
-                className="w-full justify-start dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
-              >
-                <Languages className="w-4 h-4 mr-2" />
-                {locale === 'fa' ? 'Switch to English' : 'تغییر به فارسی'}
-              </Button>
-            </div>
+      <footer className="border-t border-white/50 dark:border-slate-800 bg-white/60 dark:bg-slate-950/40 backdrop-blur-xl">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div>
+            <p className="font-display font-bold text-slate-900 dark:text-white">Panahyar</p>
+            <p className="text-sm text-slate-600 dark:text-slate-400">
+              {locale === 'fa' ? 'پلتفرم مدیریت مسیر مهاجرت' : 'Immigration journey management platform'}
+            </p>
           </div>
-        )}
-        <button
-          onClick={() => setIsPrefsOpen((p) => !p)}
-          className="h-14 w-14 rounded-full grid place-content-center bg-primary text-white shadow-lg hover:bg-primary-dark transition-colors"
-          aria-label="open-preferences"
-        >
-          {isPrefsOpen ? <X className="w-5 h-5" /> : <SlidersHorizontal className="w-5 h-5" />}
-        </button>
-      </div>
+          <a href="tel:+16692476782" className="text-sm text-primary hover:text-primary-dark transition-colors number-ltr">
+            +16692476782
+          </a>
+        </div>
+      </footer>
     </div>
   );
 }

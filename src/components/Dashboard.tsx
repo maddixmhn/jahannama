@@ -29,6 +29,7 @@ import type { Case, Activity } from '@/types';
 
 interface DashboardProps {
   onClose: () => void;
+  onHomeClick: () => void;
 }
 
 type UserTab = 'dashboard' | 'cases' | 'documents' | 'messages' | 'appointments' | 'settings';
@@ -129,7 +130,7 @@ const userStats = [
   { id: 'appointments', label: 'Next appointment', value: '3 days', icon: Calendar, color: 'bg-success/10 text-success' },
 ];
 
-export default function Dashboard({ onClose }: DashboardProps) {
+export default function Dashboard({ onClose, onHomeClick }: DashboardProps) {
   const { user, logout } = useAuth();
   const isAdmin = user?.role === 'admin';
   const [activeTab, setActiveTab] = useState<DashboardTab>(isAdmin ? 'admin-overview' : 'dashboard');
@@ -195,7 +196,7 @@ export default function Dashboard({ onClose }: DashboardProps) {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-gray-500 dark:text-gray-400 text-sm mb-1">{stat.label}</p>
-                  <p className="text-2xl font-bold dark:text-white">{stat.value}</p>
+                  <p className="text-2xl font-bold dark:text-white number-ltr">{stat.value}</p>
                 </div>
                 <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${stat.color}`}>
                   <stat.icon className="w-6 h-6" />
@@ -218,10 +219,10 @@ export default function Dashboard({ onClose }: DashboardProps) {
       </div>
 
       <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-        <Card className="dark:bg-slate-900 dark:border-slate-800"><CardContent className="p-5"><p className="text-sm text-gray-500">Pending requests</p><p className="text-3xl font-bold text-primary">{adminRequests.filter((r) => r.status === 'pending').length}</p></CardContent></Card>
-        <Card className="dark:bg-slate-900 dark:border-slate-800"><CardContent className="p-5"><p className="text-sm text-gray-500">Open orders</p><p className="text-3xl font-bold text-secondary">{adminOrders.filter((o) => o.status !== 'completed').length}</p></CardContent></Card>
-        <Card className="dark:bg-slate-900 dark:border-slate-800"><CardContent className="p-5"><p className="text-sm text-gray-500">Unreplied messages</p><p className="text-3xl font-bold text-warning">{adminMessages.filter((m) => !m.replied).length}</p></CardContent></Card>
-        <Card className="dark:bg-slate-900 dark:border-slate-800"><CardContent className="p-5"><p className="text-sm text-gray-500">Requested appointments</p><p className="text-3xl font-bold text-success">{adminAppointments.filter((a) => a.status === 'requested').length}</p></CardContent></Card>
+        <Card className="dark:bg-slate-900 dark:border-slate-800"><CardContent className="p-5"><p className="text-sm text-gray-500">Pending requests</p><p className="text-3xl font-bold text-primary number-ltr">{adminRequests.filter((r) => r.status === 'pending').length}</p></CardContent></Card>
+        <Card className="dark:bg-slate-900 dark:border-slate-800"><CardContent className="p-5"><p className="text-sm text-gray-500">Open orders</p><p className="text-3xl font-bold text-secondary number-ltr">{adminOrders.filter((o) => o.status !== 'completed').length}</p></CardContent></Card>
+        <Card className="dark:bg-slate-900 dark:border-slate-800"><CardContent className="p-5"><p className="text-sm text-gray-500">Unreplied messages</p><p className="text-3xl font-bold text-warning number-ltr">{adminMessages.filter((m) => !m.replied).length}</p></CardContent></Card>
+        <Card className="dark:bg-slate-900 dark:border-slate-800"><CardContent className="p-5"><p className="text-sm text-gray-500">Requested appointments</p><p className="text-3xl font-bold text-success number-ltr">{adminAppointments.filter((a) => a.status === 'requested').length}</p></CardContent></Card>
       </div>
     </>
   );
@@ -259,7 +260,7 @@ export default function Dashboard({ onClose }: DashboardProps) {
           <div key={order.id} className="rounded-xl border border-gray-200 dark:border-slate-700 p-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
               <p className="font-semibold">{order.customer}</p>
-              <p className="text-sm text-gray-500 dark:text-gray-400">{order.packageName} - ${order.amount}</p>
+              <p className="text-sm text-gray-500 dark:text-gray-400">{order.packageName} - <span className="number-ltr">${order.amount}</span></p>
               <Badge className="mt-2">{order.status}</Badge>
             </div>
             <div className="flex gap-2">
@@ -300,7 +301,7 @@ export default function Dashboard({ onClose }: DashboardProps) {
           <div key={app.id} className="rounded-xl border border-gray-200 dark:border-slate-700 p-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
               <p className="font-semibold">{app.customer}</p>
-              <p className="text-sm text-gray-500 dark:text-gray-400">{app.slot}</p>
+              <p className="text-sm text-gray-500 dark:text-gray-400 number-ltr">{app.slot}</p>
               <Badge className="mt-2">{app.status}</Badge>
             </div>
             <Button size="sm" className="btn-primary" onClick={() => bookAppointment(app.id)} disabled={app.status !== 'requested'}>
@@ -396,12 +397,12 @@ export default function Dashboard({ onClose }: DashboardProps) {
       <div className="flex h-full">
         <aside className="w-72 bg-navy dark:bg-slate-900 text-white hidden lg:flex flex-col border-r border-white/10">
           <div className="p-6">
-            <div className="flex items-center gap-3 mb-8">
+            <button type="button" onClick={onHomeClick} className="flex items-center gap-3 mb-8">
               <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center">
                 <span className="font-bold text-lg">P</span>
               </div>
               <span className="font-display font-bold text-xl">{isAdmin ? 'Admin Panel' : 'Panahyar'}</span>
-            </div>
+            </button>
 
             <nav className="space-y-1">
               {sidebar.map((item) => (
@@ -438,7 +439,9 @@ export default function Dashboard({ onClose }: DashboardProps) {
                 <button onClick={onClose} className="p-2 hover:bg-gray-100 dark:hover:bg-slate-800 rounded-lg">
                   <ChevronLeft className="w-6 h-6 dark:text-gray-100" />
                 </button>
-                <span className="font-display font-bold text-lg dark:text-white">{isAdmin ? 'Admin Panel' : 'Panahyar'}</span>
+                <button type="button" onClick={onHomeClick} className="font-display font-bold text-lg dark:text-white">
+                  {isAdmin ? 'Admin Panel' : 'Panahyar'}
+                </button>
               </div>
 
               <div className="hidden md:flex items-center gap-4 flex-1 max-w-xl">

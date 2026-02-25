@@ -18,6 +18,10 @@ function App() {
   
   const openDashboard = () => setIsDashboardOpen(true);
   const closeDashboard = () => setIsDashboardOpen(false);
+  const goHomeFromDashboard = () => {
+    setIsDashboardOpen(false);
+    document.getElementById('home')?.scrollIntoView({ behavior: 'smooth' });
+  };
 
   useEffect(() => {
     document.documentElement.lang = locale;
@@ -46,7 +50,7 @@ function App() {
         />
 
         {isDashboardOpen && (
-          <Dashboard onClose={closeDashboard} />
+          <Dashboard onClose={closeDashboard} onHomeClick={goHomeFromDashboard} />
         )}
       </div>
     </AuthProvider>
