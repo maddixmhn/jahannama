@@ -628,7 +628,9 @@ export default function Dashboard({ onClose, onHomeClick }: DashboardProps) {
         <aside className="w-72 bg-navy dark:bg-slate-900 text-white hidden lg:flex flex-col border-r border-white/10">
           <div className="p-6">
             <button type="button" onClick={onHomeClick} className="flex items-center gap-3 mb-8">
-              <img src="/images/panahyar-mark.svg" alt="Panahyar logo" className="w-10 h-10" />
+              <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center">
+                <span className="font-bold text-lg">P</span>
+              </div>
               <span className="font-display font-bold text-xl">{isAdmin ? 'Admin Panel' : 'Panahyar'}</span>
             </button>
 
@@ -668,7 +670,6 @@ export default function Dashboard({ onClose, onHomeClick }: DashboardProps) {
                   <ChevronLeft className="w-6 h-6 dark:text-gray-100" />
                 </button>
                 <button type="button" onClick={onHomeClick} className="flex items-center gap-2 font-display font-bold text-lg dark:text-white">
-                  <img src="/images/panahyar-mark.svg" alt="Panahyar logo" className="w-7 h-7" />
                   {isAdmin ? 'Admin Panel' : 'Panahyar'}
                 </button>
               </div>

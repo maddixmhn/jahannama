@@ -106,7 +106,9 @@ export default function Navigation({
               isScrolled ? 'scale-95' : 'scale-100'
             }`}
           >
-            <img src="/images/panahyar-mark.svg" alt="Panahyar logo" className="w-10 h-10 shadow-glow" />
+            <div className="w-10 h-10 bg-gradient-to-br from-primary to-primary-dark rounded-xl flex items-center justify-center shadow-glow">
+              <span className="text-white font-bold text-lg">P</span>
+            </div>
             <span className="font-display font-bold text-xl text-navy dark:text-white">{t.brand}</span>
             <span className={`hidden sm:inline-flex h-2.5 w-2.5 rounded-full ${isDark ? 'bg-secondary' : 'bg-primary/60'}`} />
           </a>

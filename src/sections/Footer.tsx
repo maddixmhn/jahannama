@@ -105,7 +105,9 @@ export default function Footer({ locale }: FooterProps) {
               }`}
             >
               <div className="flex items-center gap-3 mb-6">
-                <img src="/images/panahyar-mark.svg" alt="Panahyar logo" className="w-10 h-10" />
+                <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center">
+                  <span className="font-bold text-lg">P</span>
+                </div>
                 <span className="font-display font-bold text-xl">Panahyar</span>
               </div>
               <p className="text-gray-400 mb-6 leading-relaxed">{t.about}</p>
