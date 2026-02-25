@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { SpeedInsights } from '@vercel/speed-insights/react';
 import { AuthProvider } from '@/context/AuthContext';
 import AuthModal from '@/components/AuthModal';
 import Dashboard from '@/components/Dashboard';
@@ -48,6 +49,8 @@ function App() {
         {isDashboardOpen && (
           <Dashboard onClose={closeDashboard} />
         )}
+        
+        <SpeedInsights />
       </div>
     </AuthProvider>
   );
