@@ -241,7 +241,7 @@ export default function LandingPage({
                 onClick={() => setIsMobileMenuOpen(false)}
                 className="flex items-center gap-3"
               >
-                <span className="h-10 w-10 rounded-xl bg-gradient-to-br from-primary to-primary-dark text-white grid place-content-center font-bold">P</span>
+                <img src="/images/panahyar-mark.svg" alt="Panahyar logo" className="h-10 w-10" />
                 <span className="font-display font-bold text-xl">{t.brand}</span>
               </a>
               <Button
@@ -520,10 +520,7 @@ export default function LandingPage({
       <footer className="border-t border-white/50 dark:border-slate-800 bg-white/60 dark:bg-slate-950/40 backdrop-blur-xl">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div>
-            <p className="font-display font-bold text-slate-900 dark:text-white">Panahyar</p>
-            <p className="text-sm text-slate-600 dark:text-slate-400">
-              {locale === 'fa' ? 'پلتفرم مدیریت مسیر مهاجرت' : 'Immigration journey management platform'}
-            </p>
+            <img src="/images/panahyar-logo.svg" alt="Panahyar Case Management" className="h-16 w-auto" />
           </div>
           <a href="tel:+16692476782" className="text-sm text-primary hover:text-primary-dark transition-colors number-ltr">
             +16692476782
