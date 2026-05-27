@@ -11,21 +11,21 @@ module.exports = {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         primary: {
-          DEFAULT: "#1B8BFF",
-          dark: "#0A6DD6",
-          light: "#E8F4FF",
+          DEFAULT: "#0D7377",
+          dark: "#0A5A5E",
+          light: "#E6F4F4",
           foreground: "#FFFFFF",
         },
         secondary: {
-          DEFAULT: "#FF6B35",
+          DEFAULT: "#F4A261",
           foreground: "#FFFFFF",
         },
         success: "#10B981",
         warning: "#F59E0B",
         error: "#EF4444",
         navy: {
-          DEFAULT: "#1A1A2E",
-          dark: "#0F172A",
+          DEFAULT: "#0A0F1E",
+          dark: "#060B16",
         },
         muted: {
           DEFAULT: "hsl(var(--muted))",
@@ -45,8 +45,8 @@ module.exports = {
         },
       },
       fontFamily: {
-        display: ['Outfit', 'sans-serif'],
-        body: ['"Plus Jakarta Sans"', 'sans-serif'],
+        display: ['Sora', 'sans-serif'],
+        body: ['"DM Sans"', 'sans-serif'],
         persian: ['Vazirmatn', 'sans-serif'],
       },
       borderRadius: {
@@ -60,8 +60,8 @@ module.exports = {
       },
       boxShadow: {
         xs: "0 1px 2px 0 rgb(0 0 0 / 0.05)",
-        glow: "0 0 40px rgba(27, 139, 255, 0.3)",
-        "glow-lg": "0 0 60px rgba(27, 139, 255, 0.4)",
+        glow: "0 0 40px rgba(13, 115, 119, 0.32)",
+        "glow-lg": "0 0 60px rgba(13, 115, 119, 0.4)",
         card: "0 4px 20px rgba(0, 0, 0, 0.08)",
         "card-hover": "0 8px 40px rgba(0, 0, 0, 0.12)",
       },

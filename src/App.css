@@ -7,13 +7,13 @@ html {
 
 /* Custom selection color */
 ::selection {
-  background-color: rgba(27, 139, 255, 0.2);
+  background-color: rgba(13, 115, 119, 0.22);
   color: inherit;
 }
 
 /* Focus styles */
 *:focus-visible {
-  outline: 2px solid #1B8BFF;
+  outline: 2px solid #0D7377;
   outline-offset: 2px;
 }
 
@@ -24,7 +24,7 @@ html {
 
 .btn-lift:hover {
   transform: translateY(-2px);
-  box-shadow: 0 10px 30px rgba(27, 139, 255, 0.3);
+  box-shadow: 0 10px 30px rgba(13, 115, 119, 0.3);
 }
 
 /* Card hover effects */
@@ -49,7 +49,7 @@ html {
 }
 
 .animated-gradient-text {
-  background: linear-gradient(90deg, #1B8BFF, #FF6B35, #1B8BFF);
+  background: linear-gradient(90deg, #0D7377, #F4A261, #0D7377);
   background-size: 200% auto;
   -webkit-background-clip: text;
   background-clip: text;
@@ -90,11 +90,11 @@ html {
 
 /* Glow effects */
 .glow-primary {
-  box-shadow: 0 0 40px rgba(27, 139, 255, 0.4);
+  box-shadow: 0 0 40px rgba(13, 115, 119, 0.4);
 }
 
 .glow-secondary {
-  box-shadow: 0 0 40px rgba(255, 107, 53, 0.4);
+  box-shadow: 0 0 40px rgba(244, 162, 97, 0.4);
 }
 
 /* Underline animation */
@@ -176,12 +176,12 @@ html {
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  background: rgba(27, 139, 255, 0.3);
+  background: rgba(13, 115, 119, 0.3);
   border-radius: 3px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: rgba(27, 139, 255, 0.5);
+  background: rgba(13, 115, 119, 0.5);
 }
 
 /* Persian number support */
