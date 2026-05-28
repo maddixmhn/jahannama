@@ -18,6 +18,12 @@ export type RssNewsItem = {
 
 export const rssSources: RssFeedSource[] = [
   {
+    id: 'unhcr',
+    title: 'UNHCR - UN Refugee Agency',
+    siteUrl: 'https://www.unhcr.org/news',
+    feedUrl: 'https://www.unhcr.org/us/news/feed',
+  },
+  {
     id: 'ircc',
     title: 'IRCC Newsroom',
     siteUrl: 'https://www.canada.ca/en/immigration-refugees-citizenship/news.html',
@@ -37,6 +43,12 @@ export const rssSources: RssFeedSource[] = [
     siteUrl: 'https://news.google.com',
     feedUrl:
       'https://news.google.com/rss/search?q=refugee+resettlement+immigration&hl=en-US&gl=US&ceid=US:en',
+  },
+  {
+    id: 'reliefweb',
+    title: 'ReliefWeb - Humanitarian News',
+    siteUrl: 'https://reliefweb.int',
+    feedUrl: 'https://reliefweb.int/api/enews',
   },
 ];
 

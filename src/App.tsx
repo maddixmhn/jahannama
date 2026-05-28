@@ -1,8 +1,12 @@
 import { useEffect, useState } from 'react';
+import { HelmetProvider } from 'react-helmet-async';
+import { Toaster } from 'sonner';
 import { AuthProvider } from '@/context/AuthContext';
 import AuthModal from '@/components/AuthModal';
 import Dashboard from '@/components/Dashboard';
 import LandingPage from '@/sections/LandingPage';
+import ParallaxBackground from '@/components/ParallaxBackground';
+import DrDadbinChat from '@/components/DrDadbinChat';
 import './App.css';
 
 export type Locale = 'fa' | 'en';
@@ -20,6 +24,7 @@ function App() {
   });
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [isDashboardOpen, setIsDashboardOpen] = useState(false);
+  const [isChatOpen, setIsChatOpen] = useState(false);
 
   const openAuthModal = () => setIsAuthModalOpen(true);
   const closeAuthModal = () => setIsAuthModalOpen(false);
@@ -43,27 +48,60 @@ function App() {
   }, [isDark]);
 
   return (
-    <AuthProvider>
-      <div className="min-h-screen bg-background text-foreground transition-colors">
-        <LandingPage
-          locale={locale}
-          onLocaleChange={setLocale}
-          isDark={isDark}
-          onToggleDark={() => setIsDark((prev) => !prev)}
-          onAuthClick={openAuthModal}
-          onDashboardClick={openDashboard}
-        />
+    <HelmetProvider>
+      <AuthProvider>
+        <div className="min-h-screen bg-background text-foreground transition-colors relative">
+          {/* Fixed Parallax Background */}
+          <ParallaxBackground isDark={isDark} />
+          
+          {/* Main Content */}
+          <div className="relative z-10">
+            <LandingPage
+              locale={locale}
+              onLocaleChange={setLocale}
+              isDark={isDark}
+              onToggleDark={() => setIsDark((prev) => !prev)}
+              onAuthClick={openAuthModal}
+              onDashboardClick={openDashboard}
+            />
+          </div>
 
-        <AuthModal 
-          isOpen={isAuthModalOpen} 
-          onClose={closeAuthModal} 
-        />
+          {/* Auth Modal */}
+          <AuthModal 
+            isOpen={isAuthModalOpen} 
+            onClose={closeAuthModal} 
+          />
 
-        {isDashboardOpen && (
-          <Dashboard onClose={closeDashboard} onHomeClick={goHomeFromDashboard} />
-        )}
-      </div>
-    </AuthProvider>
+          {/* Dashboard */}
+          {isDashboardOpen && (
+            <Dashboard onClose={closeDashboard} onHomeClick={goHomeFromDashboard} />
+          )}
+
+          {/* Dr. Dadbin AI Chat Widget */}
+          <DrDadbinChat
+            locale={locale}
+            isOpen={isChatOpen}
+            onClose={() => setIsChatOpen(false)}
+            onOpen={() => setIsChatOpen(true)}
+          />
+
+          {/* Toast Notifications */}
+          <Toaster
+            position="bottom-center"
+            toastOptions={{
+              duration: 4000,
+              style: {
+                background: isDark ? '#1e293b' : '#ffffff',
+                color: isDark ? '#f1f5f9' : '#0f172a',
+                border: isDark ? '1px solid #334155' : '1px solid #e2e8f0',
+                borderRadius: '12px',
+                boxShadow: '0 10px 40px rgba(0,0,0,0.15)',
+              },
+            }}
+          />
+        </div>
+      </AuthProvider>
+    </HelmetProvider>
   );
 }
 

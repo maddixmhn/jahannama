@@ -1,4 +1,4 @@
-﻿import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import type { Locale } from '@/App';
 import { Button } from '@/components/ui/button';
@@ -446,12 +446,31 @@ export default function LandingPage({ locale, onLocaleChange, isDark, onToggleDa
       </main>
 
       <footer className="border-t border-white/50 dark:border-slate-800 bg-white/60 dark:bg-slate-950/40 backdrop-blur-xl">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-          <div>
-            <p className="font-display font-bold text-slate-900 dark:text-white">Panahyar</p>
-            <p className="text-sm text-slate-600 dark:text-slate-400">{locale === 'fa' ? 'پلتفرم مدیریت مسیر مهاجرت' : 'Immigration journey management platform'}</p>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          {/* Legal Disclaimer */}
+          <div className="mb-6 p-4 rounded-xl bg-primary/5 dark:bg-primary/10 border border-primary/10 dark:border-primary/20">
+            <p className={`text-xs leading-relaxed ${locale === 'fa' ? 'text-right' : 'text-left'}`}>
+              {locale === 'fa' ? (
+                <>
+                  این وب‌سایت با دامنه رسمی{' '}
+                  <span className="font-semibold text-primary">panahyar.online</span>، کاملاً تابع قوانین جمهوری اسلامی ایران بوده و هیچ‌گونه خدمات غیرقانونی ارائه نمی‌دهد. خدمات این سامانه صرفاً شامل مشاوره تخصصی، کیس‌اینجینیرینگ و راهنمایی‌های حقوقی با همکاری وکلای مهاجرتی مجرب برای اتباع و شهروندان غیرایرانی است. این سرویس تحت هیچ شرایطی اقدام به جعل یا ساخت کیس پناهندگی نمی‌کند.
+                </>
+              ) : (
+                <>
+                  This website with the official domain{' '}
+                  <span className="font-semibold text-primary">panahyar.online</span> fully complies with the laws of the Islamic Republic of Iran and does not provide any illegal services. The services of this platform are limited to specialized consultation, case engineering, and legal guidance in cooperation with experienced immigration lawyers for non-Iranian nationals and citizens. This service does not under any circumstances engage in falsification or fabrication of asylum cases.
+                </>
+              )}
+            </p>
           </div>
-          <a href="tel:+16692476782" className="text-sm text-primary hover:text-primary-dark transition-colors number-ltr">+16692476782</a>
+
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <div>
+              <p className="font-display font-bold text-slate-900 dark:text-white">Panahyar</p>
+              <p className="text-sm text-slate-600 dark:text-slate-400">{locale === 'fa' ? 'پلتفرم مدیریت مسیر مهاجرت' : 'Immigration journey management platform'}</p>
+            </div>
+            <a href="tel:+16692476782" className="text-sm text-primary hover:text-primary-dark transition-colors number-ltr">+16692476782</a>
+          </div>
         </div>
       </footer>
     </div>
