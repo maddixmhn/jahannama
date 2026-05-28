@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 140" role="img" aria-labelledby="title desc">
+  <title id="title">Panahyar Mark</title>
+  <desc id="desc">Panahyar circular mark in blue tones with a central ring.</desc>
+  <defs>
+    <linearGradient id="leftG" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#4FA8DE"/>
+      <stop offset="100%" stop-color="#2F6EA9"/>
+    </linearGradient>
+    <linearGradient id="rightG" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#58B4E6"/>
+      <stop offset="100%" stop-color="#295E96"/>
+    </linearGradient>
+  </defs>
+
+  <g transform="translate(40,10)">
+    <circle cx="60" cy="50" r="50" fill="url(#leftG)"/>
+    <circle cx="140" cy="50" r="50" fill="url(#rightG)"/>
+
+    <path d="M92 0A50 50 0 0 0 60 100A50 50 0 0 0 92 0Z" fill="#1F4E86"/>
+    <path d="M108 0A50 50 0 0 1 140 100A50 50 0 0 1 108 0Z" fill="#1A4B84"/>
+
+    <circle cx="100" cy="50" r="24" fill="none" stroke="#FFFFFF" stroke-width="10"/>
+    <circle cx="100" cy="50" r="16" fill="#356EA8"/>
+    <rect x="96" y="72" width="8" height="30" rx="4" fill="#FFFFFF"/>
+  </g>
+</svg>
