@@ -1,0 +1,43 @@
+# ============================================================
+# پناه‌یار | .htaccess پوشه public (document root توصیه‌شده)
+# ============================================================
+
+RewriteEngine On
+Options -Indexes -MultiViews
+
+# هدایت HTTP به HTTPS
+RewriteCond %{HTTPS} off
+RewriteCond %{HTTP:X-Forwarded-Proto} !https
+RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
+
+# اگر کاربر مستقیماً .php را تایپ کرد → ریدایرکت ۳۰۱ به نسخه بدون پسوند
+RewriteCond %{THE_REQUEST} \s/+([^.\s?]+)\.php[\s?] [NC]
+RewriteRule ^ /%1 [R=301,L]
+
+# نگاشت داخلی URL بدون پسوند به فایل .php واقعی
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}\.php -f
+RewriteRule ^(.+?)/?$ $1.php [L]
+
+# هدرهای امنیتی
+<IfModule mod_headers.c>
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set X-Frame-Options "SAMEORIGIN"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set Permissions-Policy "geolocation=(), microphone=(), camera=()"
+  Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+</IfModule>
+
+# مسدودسازی فایل‌های مخفی و حساس
+<FilesMatch "^\.|\.(sql|md|log|ini|sh|bak)$">
+  Require all denied
+</FilesMatch>
+
+# کش استاتیک
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType text/css "access plus 7 days"
+  ExpiresByType application/javascript "access plus 7 days"
+  ExpiresByType image/webp "access plus 30 days"
+  ExpiresByType image/png "access plus 30 days"
+</IfModule>

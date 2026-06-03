@@ -1,0 +1,22 @@
+# ============================================================
+# پناه‌یار | .htaccess ریشه
+# اگر امکان تنظیم DocumentRoot روی پوشه public وجود دارد، آن را انجام دهید
+# و این فایل ضروری نیست. در غیر این صورت این فایل ترافیک را به public هدایت می‌کند.
+# ============================================================
+
+RewriteEngine On
+
+# جلوگیری از دسترسی مستقیم به پوشه‌های حساس
+RewriteRule ^(config|includes|sql)/ - [F,L]
+
+# هدایت همه درخواست‌ها به پوشه public
+RewriteCond %{REQUEST_URI} !^/public/
+RewriteRule ^(.*)$ public/$1 [L]
+
+# مسدودسازی فایل‌های حساس
+<FilesMatch "\.(sql|md|log|ini|sh)$">
+  Require all denied
+</FilesMatch>
+
+# جلوگیری از فهرست‌برداری دایرکتوری
+Options -Indexes

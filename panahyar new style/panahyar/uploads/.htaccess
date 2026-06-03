@@ -1,0 +1,17 @@
+# ============================================================
+# پناه‌یار | محافظت پوشه uploads
+# مدارک کاربران حساس‌اند: دسترسی مستقیم و اجرای اسکریپت ممنوع.
+# فایل‌ها فقط از طریق admin/download.php با احراز هویت سرو می‌شوند.
+# ============================================================
+
+# مسدودسازی کامل دسترسی مستقیم
+Require all denied
+
+# جلوگیری از اجرای هر اسکریپتی در این پوشه
+<FilesMatch "\.(php|phtml|php3|php4|php5|pl|py|cgi|sh|asp|aspx)$">
+  Require all denied
+</FilesMatch>
+
+php_flag engine off
+Options -ExecCGI -Indexes
+AddType text/plain .php .phtml .php3 .pl .py .cgi
