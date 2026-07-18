@@ -6,25 +6,25 @@ interface SignalStripProps {
 
 const content = {
   fa: {
-    title: 'نمای زنده مسیر مهاجرت',
+    title: 'ویژگی‌های قالب',
     items: [
-      'تحلیل پرونده در 48 ساعت',
-      'نقشه اقدام شخصی سازی شده',
-      'پیگیری مرحله ای پرونده',
-      'پشتیبانی انسانی 24/7',
-      'گزارش شفاف پیشرفت',
-      'راهنمای کامل مدارک',
+      'طراحی ریسپانسیو',
+      'پشتیبانی از راست‌چین و چپ‌چین',
+      'تم دارک و لایت',
+      'انیمیشن‌های GSAP',
+      'کامپوننت‌های shadcn/ui',
+      'TypeScript',
     ],
   },
   en: {
-    title: 'Live Journey Signal',
+    title: 'Template Features',
     items: [
-      '48-hour case review',
-      'Personalized action roadmap',
-      'Milestone-based follow-up',
-      'Human support 24/7',
-      'Transparent progress reports',
-      'Complete document guidance',
+      'Responsive Design',
+      'RTL & LTR Support',
+      'Dark & Light Theme',
+      'GSAP Animations',
+      'shadcn/ui Components',
+      'TypeScript',
     ],
   },
 };

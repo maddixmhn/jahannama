@@ -1,5 +1,5 @@
 import { useEffect, useRef, type ElementType } from 'react';
-import { Briefcase, Users, Headphones, Clock, Award, Globe } from 'lucide-react';
+import { Code, Users, Headphones, Clock, Award, Box } from 'lucide-react';
 import { useScrollReveal, useCountUp } from '@/hooks/useScrollReveal';
 import type { Locale } from '@/App';
 
@@ -9,29 +9,29 @@ interface StatisticsProps {
 
 const content = {
   fa: {
-    badge: 'آمار و ارقام',
-    title: 'اعتماد ما در اعداد دیده می شود',
-    subtitle: 'سال ها تجربه و صدها پرونده موفق، پشتوانه کیفیت خدمات ماست.',
+    badge: 'آمار قالب',
+    title: 'آمار و ویژگی‌های قالب',
+    subtitle: 'یک قالب کامل با تمام آنچه نیاز دارید.',
     stats: [
-      { id: '1', value: 500, suffix: '+', label: 'پرونده موفق', icon: Briefcase },
-      { id: '2', value: 98, suffix: '%', label: 'رضایت مشتری', icon: Users },
-      { id: '3', value: 50, suffix: '+', label: 'مشاور متخصص', icon: Headphones },
+      { id: '1', value: 60, suffix: '+', label: 'کامپوننت', icon: Box },
+      { id: '2', value: 100, suffix: '%', label: 'TypeScript', icon: Code },
+      { id: '3', value: 50, suffix: '+', label: 'فایل منبع', icon: Users },
       { id: '4', value: 24, suffix: '/7', label: 'پشتیبانی', icon: Clock },
-      { id: '5', value: 15, suffix: '+', label: 'سال تجربه', icon: Award },
-      { id: '6', value: 30, suffix: '+', label: 'کشور تحت پوشش', icon: Globe },
+      { id: '5', value: 3, suffix: '', label: 'تم رنگی', icon: Award },
+      { id: '6', value: 2, suffix: '', label: 'زبان', icon: Headphones },
     ],
   },
   en: {
-    badge: 'By The Numbers',
-    title: 'Our impact in measurable results',
-    subtitle: 'Years of experience and successful outcomes define our reliability.',
+    badge: 'Template Stats',
+    title: 'Template statistics & features',
+    subtitle: 'A complete template with everything you need.',
     stats: [
-      { id: '1', value: 500, suffix: '+', label: 'Successful cases', icon: Briefcase },
-      { id: '2', value: 98, suffix: '%', label: 'Client satisfaction', icon: Users },
-      { id: '3', value: 50, suffix: '+', label: 'Expert advisors', icon: Headphones },
-      { id: '4', value: 24, suffix: '/7', label: 'Support hours', icon: Clock },
-      { id: '5', value: 15, suffix: '+', label: 'Years of experience', icon: Award },
-      { id: '6', value: 30, suffix: '+', label: 'Countries covered', icon: Globe },
+      { id: '1', value: 60, suffix: '+', label: 'Components', icon: Box },
+      { id: '2', value: 100, suffix: '%', label: 'TypeScript', icon: Code },
+      { id: '3', value: 50, suffix: '+', label: 'Source files', icon: Users },
+      { id: '4', value: 24, suffix: '/7', label: 'Support', icon: Clock },
+      { id: '5', value: 3, suffix: '', label: 'Color themes', icon: Award },
+      { id: '6', value: 2, suffix: '', label: 'Languages', icon: Headphones },
     ],
   },
 };

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { ArrowLeft, Clock, Users, Globe, Shield, ChevronDown } from 'lucide-react';
+import { ArrowLeft, Code, Palette, Users, Shield, ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import type { Locale } from '@/App';
 
@@ -10,37 +10,37 @@ interface HeroProps {
 
 const content = {
   fa: {
-    badge: 'مورد اعتماد هزاران نفر',
-    title1: 'سفر شما به سوی',
-    title2: 'آغازی نو',
-    title3: 'اینجا شروع می شود',
+    badge: 'متن‌باز و رایگان',
+    title1: 'یک قالب React',
+    title2: 'حرفه‌ای و مدرن',
+    title3: 'با تم دارک',
     subtitle:
-      'راهنمای حرفه ای برای متقاضیان پناهندگی و مهاجرت. همراه شما از ارزیابی پرونده تا اقدام نهایی.',
-    cta: 'مشاوره رایگان',
-    services: 'مشاهده خدمات',
+      'قالب ریسپانسیو با پشتیبانی از RTL/LTR، انیمیشن‌های GSAP و کامپوننت‌های shadcn/ui. مناسب برای پروژه‌های فارسی و انگلیسی.',
+    cta: 'شروع کنید',
+    services: 'مشاهده ویژگی‌ها',
     scroll: 'اسکرول کنید',
-    cards: ['پردازش سریع', 'تیم متخصص', 'شبکه جهانی'],
+    cards: ['واکنش‌گرا', 'تم دارک/لایت', 'TypeScript'],
     stats: [
-      { value: '500+', label: 'پرونده موفق' },
-      { value: '98%', label: 'رضایت کاربران' },
-      { value: '24/7', label: 'پشتیبانی' },
+      { value: '60+', label: 'کامپوننت' },
+      { value: '100%', label: 'TypeScript' },
+      { value: 'RTL/LTR', label: 'دو زبانه' },
     ],
   },
   en: {
-    badge: 'Trusted by thousands of clients',
-    title1: 'Your path toward',
-    title2: 'a new beginning',
-    title3: 'starts right here',
+    badge: 'Open source & free',
+    title1: 'A modern',
+    title2: 'professional',
+    title3: 'React template',
     subtitle:
-      'Professional guidance for asylum and immigration applicants, from early assessment to final submission.',
-    cta: 'Free Consultation',
-    services: 'Explore Services',
+      'Responsive template with RTL/LTR support, GSAP animations, and shadcn/ui components. Perfect for bilingual Persian and English projects.',
+    cta: 'Get Started',
+    services: 'View Features',
     scroll: 'Scroll down',
-    cards: ['Fast Processing', 'Expert Team', 'Global Network'],
+    cards: ['Responsive', 'Dark/Light', 'TypeScript'],
     stats: [
-      { value: '500+', label: 'Successful cases' },
-      { value: '98%', label: 'Client satisfaction' },
-      { value: '24/7', label: 'Support' },
+      { value: '60+', label: 'Components' },
+      { value: '100%', label: 'TypeScript' },
+      { value: 'RTL/LTR', label: 'Bilingual' },
     ],
   },
 };
@@ -157,17 +157,16 @@ export default function Hero({ onCtaClick, locale }: HeroProps) {
                 isLoaded ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-12 scale-95'
               }`}
             >
-              <div className="relative rounded-3xl overflow-hidden shadow-2xl">
-                <img
-                  src="/images/hero-bg.jpg"
-                  alt="Hero"
-                  className="w-full h-[400px] lg:h-[520px] object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-navy/35 to-transparent" />
+              <div className="relative rounded-3xl overflow-hidden shadow-2xl bg-gradient-to-br from-primary/10 to-secondary/10 p-8">
+                <div className="text-center py-12">
+                  <Code className="w-20 h-20 mx-auto text-primary" />
+                  <p className="mt-4 text-2xl font-bold text-navy">WebStruct Dark</p>
+                  <p className="text-gray-500">{locale === 'fa' ? 'قالب React + TypeScript' : 'React + TypeScript Template'}</p>
+                </div>
               </div>
 
               {t.cards.map((label, index) => {
-                const Icon = index === 0 ? Clock : index === 1 ? Users : Globe;
+                const Icon = index === 0 ? Code : index === 1 ? Palette : Users;
                 const positionClass =
                   index === 0
                     ? '-top-5 -right-6'

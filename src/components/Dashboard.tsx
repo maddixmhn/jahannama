@@ -134,8 +134,8 @@ export default function Dashboard({ onClose, onHomeClick }: DashboardProps) {
     {
       id: 'O-2001',
       customer: 'Test User',
-      customerEmail: 'user.panel@panahyar.test',
-      service: 'Asylum Filing',
+      customerEmail: 'user@webstruct.dev',
+      service: 'Web Development',
       notes: 'Need full package with legal review.',
       budget: 950,
       status: 'pending',
@@ -147,7 +147,7 @@ export default function Dashboard({ onClose, onHomeClick }: DashboardProps) {
     {
       id: 'A-3001',
       customer: 'Test User',
-      customerEmail: 'user.panel@panahyar.test',
+       customerEmail: 'user@webstruct.dev',
       slot: '2026-03-05 10:00',
       topic: 'Eligibility review',
       status: 'requested',
@@ -158,7 +158,7 @@ export default function Dashboard({ onClose, onHomeClick }: DashboardProps) {
     {
       id: 'M-4001',
       fromName: 'Test User',
-      fromEmail: 'user.panel@panahyar.test',
+      fromEmail: 'user@webstruct.dev',
       subject: 'Document checklist',
       message: 'Please confirm if translated bank statements are required.',
       createdAt: '2026-02-22',
@@ -631,7 +631,7 @@ export default function Dashboard({ onClose, onHomeClick }: DashboardProps) {
               <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center">
                 <span className="font-bold text-lg">P</span>
               </div>
-              <span className="font-display font-bold text-xl">{isAdmin ? 'Admin Panel' : 'Panahyar'}</span>
+              <span className="font-display font-bold text-xl">{isAdmin ? 'Admin Panel' : 'WebStruct Dark'}</span>
             </button>
 
             <nav className="space-y-1">
@@ -670,7 +670,7 @@ export default function Dashboard({ onClose, onHomeClick }: DashboardProps) {
                   <ChevronLeft className="w-6 h-6 dark:text-gray-100" />
                 </button>
                 <button type="button" onClick={onHomeClick} className="flex items-center gap-2 font-display font-bold text-lg dark:text-white">
-                  {isAdmin ? 'Admin Panel' : 'Panahyar'}
+                  {isAdmin ? 'Admin Panel' : 'WebStruct Dark'}
                 </button>
               </div>
 

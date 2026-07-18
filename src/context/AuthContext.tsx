@@ -20,8 +20,8 @@ const SEEDED_ACCOUNTS: MockAccount[] = [
   {
     user: {
       id: 'admin-seed-1',
-      name: 'Admin Panahyar',
-      email: 'admin.panel@panahyar.test',
+      name: 'Admin WebStruct',
+      email: 'admin@webstruct.dev',
       role: 'admin',
       createdAt: new Date('2026-01-01'),
     },
@@ -31,7 +31,7 @@ const SEEDED_ACCOUNTS: MockAccount[] = [
     user: {
       id: 'user-seed-1',
       name: 'Test User',
-      email: 'user.panel@panahyar.test',
+      email: 'user@webstruct.dev',
       role: 'user',
       createdAt: new Date('2026-01-01'),
     },

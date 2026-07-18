@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 50">
+  <rect width="200" height="50" rx="10" fill="#1e293b"/>
+  <text x="20" y="32" fill="#fbbf24" font-size="14" font-weight="bold">WebStruct</text>
+  <text x="100" y="32" fill="#94a3b8" font-size="10">Dark</text>
+</svg>

@@ -1,73 +1,87 @@
-# React + TypeScript + Vite
+# WebStruct Dark — وب‌ساخت دارک
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**WebStruct Dark** is a modern, open-source React template with a dark theme. This bilingual (Persian/English) template is built with React 19, TypeScript, Tailwind CSS, and includes beautiful GSAP animations, RTL/LTR support, and shadcn/ui components.
 
-Currently, two official plugins are available:
+**وب‌ساخت دارک** یک قالب React مدرن و متن‌باز با تم دارک است. این قالب دو زبانه (فارسی/انگلیسی) با React 19، TypeScript، Tailwind CSS ساخته شده و شامل انیمیشن‌های GSAP، پشتیبانی از راست‌چین و چپ‌چین و کامپوننت‌های shadcn/ui می‌باشد.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## React Compiler
+## Features — ویژگی‌ها
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- ⚛ **React 19** — Latest React with hooks and concurrent features
+- 🦾 **TypeScript** — Full type safety and developer experience
+- 🎨 **Tailwind CSS** — Utility-first styling with dark mode
+- 🌓 **Dark/Light Mode** — Toggle between dark and light themes
+- 🌐 **RTL/LTR Support** — Full bilingual Persian and English interface
+- 🎞 **GSAP Animations** — Smooth scroll-triggered animations
+- 🧩 **shadcn/ui** — Beautiful and accessible UI components
+- 📱 **Responsive** — Mobile-first responsive design
+- 📰 **RSS Feeds** — Built-in RSS news aggregator
+- 🔓 **Open Source** — Free under the MIT license
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Quick Start — شروع سریع
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+```bash
+# Clone the repository
+git clone <repo-url>
+cd jahanpima
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+# Install dependencies — نصب وابستگی‌ها
+npm install --legacy-peer-deps
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+# Start development server — اجرای سرور توسعه
+npm run dev
+
+# Build for production — ساخت نسخه نهایی
+npm run build
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Deploy on Vercel — استقرار در Vercel
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new)
+
+Simply connect your Git repository or use the Vercel CLI:
+
+```bash
+npm i -g vercel
+vercel
 ```
+
+The `vercel.json` file is already configured for this project.
+
+---
+
+## Project Structure — ساختار پروژه
+
+```
+src/
+├── components/       # Reusable components — کامپوننت‌های قابل استفاده
+│   └── ui/           # shadcn/ui components
+├── context/          # React context providers
+├── hooks/            # Custom React hooks
+├── lib/              # Utility functions and RSS
+├── sections/         # Page sections — بخش‌های صفحه
+└── types/            # TypeScript types
+public/
+└── images/           # Static assets
+```
+
+---
+
+## Customization — شخصی‌سازی
+
+Edit `tailwind.config.js` to customize colors, fonts, and theme. The primary and secondary colors are defined in `src/index.css` using CSS custom properties.
+
+برای تغییر رنگ‌ها، فونت‌ها و تم، فایل `tailwind.config.js` را ویرایش کنید.
+
+---
+
+## License — مجوز
+
+MIT License — free for personal and commercial use.
+
+مجوز MIT — آزاد برای استفاده شخصی و تجاری.

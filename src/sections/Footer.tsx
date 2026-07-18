@@ -1,14 +1,5 @@
 import { useState, type FormEvent } from 'react';
-import {
-  Send,
-  Facebook,
-  Twitter,
-  Instagram,
-  Linkedin,
-  MapPin,
-  Phone,
-  Mail,
-} from 'lucide-react';
+import { Send, Github, Twitter, Linkedin, Mail } from 'lucide-react';
 import { useScrollReveal } from '@/hooks/useScrollReveal';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -21,48 +12,46 @@ interface FooterProps {
 
 const content = {
   fa: {
-    about: 'همراه مطمئن شما در مسیر مهاجرت و پناهندگی با رویکرد حرفه ای و انسانی.',
-    services: 'خدمات',
+    about: 'یک قالب React مدرن، متن‌باز و حرفه‌ای با تم دارک.',
+    features: 'ویژگی‌ها',
     company: 'شرکت',
     resources: 'منابع',
     legal: 'قانونی',
-    servicesLinks: ['مشاوره پناهندگی', 'مدارک سفر', 'حمایت حقوقی', 'اسکان اولیه'],
-    companyLinks: ['درباره ما', 'تیم ما', 'فرصت های شغلی', 'تماس با ما'],
-    resourceLinks: ['وبلاگ', 'سوالات متداول', 'مطالعات موردی', 'نظرات'],
-    legalLinks: ['حریم خصوصی', 'شرایط استفاده', 'سیاست کوکی'],
+    featuresLinks: ['طراحی ریسپانسیو', 'پشتیبانی RTL/LTR', 'تم دارک/لایت', 'انیمیشن GSAP'],
+    companyLinks: ['درباره پروژه', 'مشارکت', 'مستندات', 'تماس'],
+    resourceLinks: ['گیت‌هاب', 'سایت رسمی', 'قالب‌های بیشتر', 'وبلاگ'],
+    legalLinks: ['حریم خصوصی', 'شرایط استفاده', 'مجوز MIT'],
     newsletter: 'خبرنامه',
-    subscribeText: 'برای دریافت آخرین اخبار و راهنماها عضو شوید.',
+    subscribeText: 'برای دریافت آخرین به‌روزرسانی‌ها عضو شوید.',
     emailPlaceholder: 'ایمیل خود را وارد کنید',
     success: 'با موفقیت ثبت شد',
     follow: 'ما را دنبال کنید',
-    copyright: '© 2026 Panahyar. تمام حقوق محفوظ است.',
-    address: 'تهران، خیابان ولیعصر',
+    copyright: '© 2026 WebStruct Dark. تحت مجوز MIT.',
   },
   en: {
-    about: 'Your trusted immigration partner with a practical and human-centered approach.',
-    services: 'Services',
+    about: 'A modern, open-source, professional React template with dark theme.',
+    features: 'Features',
     company: 'Company',
     resources: 'Resources',
     legal: 'Legal',
-    servicesLinks: ['Asylum Guidance', 'Travel Documents', 'Legal Support', 'Settlement Help'],
-    companyLinks: ['About', 'Team', 'Careers', 'Contact'],
-    resourceLinks: ['Blog', 'FAQ', 'Case Studies', 'Testimonials'],
-    legalLinks: ['Privacy Policy', 'Terms of Use', 'Cookie Policy'],
+    featuresLinks: ['Responsive Design', 'RTL/LTR Support', 'Dark/Light Mode', 'GSAP Animation'],
+    companyLinks: ['About Project', 'Contribute', 'Documentation', 'Contact'],
+    resourceLinks: ['GitHub', 'Official Site', 'More Templates', 'Blog'],
+    legalLinks: ['Privacy', 'Terms', 'MIT License'],
     newsletter: 'Newsletter',
-    subscribeText: 'Get updates, practical insights, and migration tips.',
+    subscribeText: 'Subscribe to get the latest updates.',
     emailPlaceholder: 'Enter your email',
     success: 'Subscribed successfully',
     follow: 'Follow us',
-    copyright: '© 2026 Panahyar. All rights reserved.',
-    address: 'Valiasr Street, Tehran',
+    copyright: '© 2026 WebStruct Dark. Licensed under MIT.',
   },
 };
 
 const socialLinks = [
-  { icon: Facebook, href: '#', label: 'Facebook' },
+  { icon: Github, href: '#', label: 'GitHub' },
   { icon: Twitter, href: '#', label: 'Twitter' },
-  { icon: Instagram, href: '#', label: 'Instagram' },
   { icon: Linkedin, href: '#', label: 'LinkedIn' },
+  { icon: Mail, href: '#', label: 'Email' },
 ];
 
 export default function Footer({ locale }: FooterProps) {
@@ -106,32 +95,18 @@ export default function Footer({ locale }: FooterProps) {
             >
               <div className="flex items-center gap-3 mb-6">
                 <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center">
-                  <span className="font-bold text-lg">P</span>
+                  <span className="font-bold text-lg">W</span>
                 </div>
-                <span className="font-display font-bold text-xl">Panahyar</span>
+                <span className="font-display font-bold text-xl">WebStruct Dark</span>
               </div>
               <p className="text-gray-400 mb-6 leading-relaxed">{t.about}</p>
-              <div className="space-y-3">
-                <div className="flex items-center gap-3 text-gray-400">
-                  <MapPin className="w-5 h-5 text-primary" />
-                  <span>{t.address}</span>
-                </div>
-                <div className="flex items-center gap-3 text-gray-400">
-                  <Phone className="w-5 h-5 text-primary" />
-                  <span className="number-ltr">+16692476782</span>
-                </div>
-                <div className="flex items-center gap-3 text-gray-400">
-                  <Mail className="w-5 h-5 text-primary" />
-                  <span>info@panahyar.com</span>
-                </div>
-              </div>
             </div>
 
             <div className="lg:col-span-5 grid grid-cols-2 sm:grid-cols-4 gap-8">
               <div>
-                <h4 className="font-bold mb-4">{t.services}</h4>
+                <h4 className="font-bold mb-4">{t.features}</h4>
                 <ul className="space-y-3">
-                  {t.servicesLinks.map((item) => <li key={item}><a href="#services" className="text-gray-400 hover:text-primary transition-colors text-sm">{item}</a></li>)}
+                  {t.featuresLinks.map((item) => <li key={item}><a href="#features" className="text-gray-400 hover:text-primary transition-colors text-sm">{item}</a></li>)}
                 </ul>
               </div>
               <div>
@@ -143,7 +118,7 @@ export default function Footer({ locale }: FooterProps) {
               <div>
                 <h4 className="font-bold mb-4">{t.resources}</h4>
                 <ul className="space-y-3">
-                  {t.resourceLinks.map((item) => <li key={item}><a href="#testimonials" className="text-gray-400 hover:text-primary transition-colors text-sm">{item}</a></li>)}
+                  {t.resourceLinks.map((item) => <li key={item}><a href="#" className="text-gray-400 hover:text-primary transition-colors text-sm">{item}</a></li>)}
                 </ul>
               </div>
               <div>

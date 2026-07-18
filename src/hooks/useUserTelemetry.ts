@@ -103,7 +103,7 @@ export function useUserTelemetry() {
       setTelemetry(telemetryData);
       
       // Store in localStorage for persistence
-      localStorage.setItem('pyar-telemetry', JSON.stringify({
+      localStorage.setItem('webstruct-telemetry', JSON.stringify({
         ...telemetryData,
         session: {
           ...telemetryData.session,
@@ -147,7 +147,7 @@ export function useUserTelemetry() {
   }, [collectTelemetry]);
 
   const clearTelemetry = useCallback(() => {
-    localStorage.removeItem('pyar-telemetry');
+    localStorage.removeItem('webstruct-telemetry');
     setTelemetry(null);
   }, []);
 
@@ -157,7 +157,7 @@ export function useUserTelemetry() {
 // Utility function to get stored telemetry
 export function getStoredTelemetry(): UserTelemetry | null {
   try {
-    const stored = localStorage.getItem('pyar-telemetry');
+    const stored = localStorage.getItem('webstruct-telemetry');
     if (stored) {
       const parsed = JSON.parse(stored);
       return {
@@ -184,12 +184,12 @@ export function logUserActivity(action: string, metadata?: Record<string, any>) 
   };
 
   // Get existing activities
-  const activities = JSON.parse(localStorage.getItem('pyar-activities') || '[]');
+  const activities = JSON.parse(localStorage.getItem('webstruct-activities') || '[]');
   activities.push(activity);
 
   // Keep only last 100 activities
   const trimmed = activities.slice(-100);
-  localStorage.setItem('pyar-activities', JSON.stringify(trimmed));
+  localStorage.setItem('webstruct-activities', JSON.stringify(trimmed));
 
   return activity;
 }
@@ -197,7 +197,7 @@ export function logUserActivity(action: string, metadata?: Record<string, any>) 
 // Utility to get user activities
 export function getUserActivities(): Array<{ timestamp: string; action: string; metadata?: Record<string, any>; url: string }> {
   try {
-    return JSON.parse(localStorage.getItem('pyar-activities') || '[]');
+    return JSON.parse(localStorage.getItem('webstruct-activities') || '[]');
   } catch {
     return [];
   }

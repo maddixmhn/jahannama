@@ -18,37 +18,36 @@ export type RssNewsItem = {
 
 export const rssSources: RssFeedSource[] = [
   {
-    id: 'unhcr',
-    title: 'UNHCR - UN Refugee Agency',
-    siteUrl: 'https://www.unhcr.org/news',
-    feedUrl: 'https://www.unhcr.org/us/news/feed',
+    id: 'hackernews',
+    title: 'Hacker News',
+    siteUrl: 'https://news.ycombinator.com',
+    feedUrl: 'https://hnrss.org/frontpage',
   },
   {
-    id: 'ircc',
-    title: 'IRCC Newsroom',
-    siteUrl: 'https://www.canada.ca/en/immigration-refugees-citizenship/news.html',
-    feedUrl:
-      'https://api.io.canada.ca/io-server/gc/news/en/v2?dept=departmentofcitizenshipandimmigration&sort=publishedDate&orderBy=desc&publishedDate%3E=2021-07-23&pick=50&format=atom&atomtitle=Immigration,%20Refugees%20and%20Citizenship%20Canada',
+    id: 'devto',
+    title: 'Dev.to',
+    siteUrl: 'https://dev.to',
+    feedUrl: 'https://dev.to/feed',
   },
   {
-    id: 'google-humanitarian-visa',
-    title: 'Google News: Humanitarian Visa',
+    id: 'google-tech',
+    title: 'Google News: Technology',
     siteUrl: 'https://news.google.com',
     feedUrl:
-      'https://news.google.com/rss/search?q=humanitarian+visa+OR+asylum+policy&hl=en-US&gl=US&ceid=US:en',
+      'https://news.google.com/rss/search?q=technology+web+development+react&hl=en-US&gl=US&ceid=US:en',
   },
   {
-    id: 'google-refugee-immigration',
-    title: 'Google News: Refugee Immigration',
-    siteUrl: 'https://news.google.com',
+    id: 'github-trending',
+    title: 'GitHub Trending',
+    siteUrl: 'https://github.com/trending',
     feedUrl:
-      'https://news.google.com/rss/search?q=refugee+resettlement+immigration&hl=en-US&gl=US&ceid=US:en',
+      'https://news.google.com/rss/search?q=github+trending+open+source&hl=en-US&gl=US&ceid=US:en',
   },
   {
-    id: 'reliefweb',
-    title: 'ReliefWeb - Humanitarian News',
-    siteUrl: 'https://reliefweb.int',
-    feedUrl: 'https://reliefweb.int/api/enews',
+    id: 'css-tricks',
+    title: 'CSS-Tricks',
+    siteUrl: 'https://css-tricks.com',
+    feedUrl: 'https://css-tricks.com/feed/',
   },
 ];
 

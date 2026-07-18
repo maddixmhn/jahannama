@@ -38,84 +38,82 @@ interface LandingPageProps {
 
 const content = {
   fa: {
-    brand: 'Panahyar',
+    brand: 'وب‌ساخت دارک',
     nav: [
       { label: 'خانه', href: '#home' },
-      { label: 'خدمات', href: '#features' },
-      { label: 'فرایند', href: '#process' },
-      { label: 'نتایج', href: '#insights' },
-      { label: 'اخبار', href: '#rss' },
+      { label: 'ویژگی‌ها', href: '#features' },
+      { label: 'راهنما', href: '#process' },
+      { label: 'مستندات', href: '#insights' },
       { label: 'تماس', href: '#contact' },
     ],
-    heroLabel: 'راهبری هوشمند پرونده مهاجرت',
-    heroTitleA: 'پلتفرم نسل جدید',
-    heroTitleB: 'مدیریت مسیر مهاجرت',
-    heroText: 'از ارزیابی اولیه تا نتیجه نهایی، مسیر شما با داده، تجربه حقوقی و پشتیبانی انسانی مدیریت می‌شود.',
-    heroPrimary: 'شروع مشاوره',
-    heroSecondary: 'مشاهده مسیر',
-    kpi1: 'پرونده فعال',
-    kpi2: 'رضایت کاربران',
+    heroLabel: 'قالب ریسپانسیو حرفه‌ای',
+    heroTitleA: 'طراحی مدرن و',
+    heroTitleB: 'تجربه کاربری عالی',
+    heroText: 'یک قالب React متن‌باز با تم دارک، انیمیشن‌های GSAP، پشتیبانی کامل از راست‌چین و چپ‌چین و کامپوننت‌های shadcn/ui.',
+    heroPrimary: 'شروع کنید',
+    heroSecondary: 'مشاهده Demo',
+    kpi1: 'کامپوننت',
+    kpi2: 'تم دارک/لایت',
     kpi3: 'پشتیبانی',
-    featureTitle: 'تجربه محصولی، نه فقط خدماتی',
-    featureText: 'همه چیز در یک داشبورد قابل پیگیری، شفاف و مرحله‌ای است.',
+    featureTitle: 'ویژگی‌های حرفه‌ای',
+    featureText: 'هر آنچه برای ساخت یک وب‌سایت مدرن نیاز دارید، در این قالب فراهم است.',
     features: [
-      ['Case Engine', 'تحلیل سریع پرونده و اولویت‌بندی ریسک‌ها'],
-      ['Route Map', 'نقشه اقدام شخصی‌سازی شده برای هر پرونده'],
-      ['Live Follow-up', 'پیگیری مرحله‌ای با اعلان‌های دقیق'],
+      ['طراحی ریسپانسیو', 'نمایش عالی در تمام دستگاه‌ها با Tailwind CSS'],
+      ['پشتیبانی RTL/LTR', 'سازگاری کامل با زبان‌های راست‌چین و چپ‌چین'],
+      ['حالت دارک/لایت', 'تغییر خودکار و دستی بین تم تاریک و روشن'],
     ],
-    timelineTitle: 'فرایند چهار مرحله‌ای',
+    timelineTitle: 'مراحل استفاده',
     timeline: [
-      ['1', 'ارزیابی هوشمند', 'تحلیل کامل شرایط و مستندات اولیه'],
-      ['2', 'چیدمان استراتژی', 'انتخاب مسیر کم‌ریسک و قابل دفاع'],
-      ['3', 'اجرا و ارسال', 'آماده‌سازی پرونده و ثبت رسمی'],
-      ['4', 'مانیتورینگ نتیجه', 'پیگیری و اقدام‌های تکمیلی'],
+      ['1', 'نصب آسان', 'نصب با یک دستور npm و آماده اجرا'],
+      ['2', 'شخصی‌سازی', 'تغییر رنگ‌ها، فونت‌ها و محتوا'],
+      ['3', 'ریسپانسیو', 'سازگار با موبایل، تبلت و دسکتاپ'],
+      ['4', 'متن‌باز', 'کاملاً رایگان و متن‌باز تحت مجوز MIT'],
     ],
-    ctaTitle: 'آماده شروع مسیر جدید هستید؟',
-    ctaText: 'همین امروز جلسه رایگان بگیرید و برنامه اقدام خود را دریافت کنید.',
-    ctaButton: 'رزرو جلسه',
-    watch: 'دموی مسیر',
+    ctaTitle: 'آماده شروع هستید؟',
+    ctaText: 'این قالب را روی Vercel مستقر کنید و پروژه خود را شروع کنید.',
+    ctaButton: 'شروع کنید',
+    watch: 'مشاهده Demo',
     login: 'ورود',
     dashboard: 'داشبورد',
     dark: 'دارک',
     light: 'لایت',
   },
   en: {
-    brand: 'Panahyar',
+    brand: 'WebStruct Dark',
     nav: [
       { label: 'Home', href: '#home' },
-      { label: 'Services', href: '#features' },
-      { label: 'Process', href: '#process' },
-      { label: 'Results', href: '#insights' },
-      { label: 'RSS News', href: '#rss' },
+      { label: 'Features', href: '#features' },
+      { label: 'Guide', href: '#process' },
+      { label: 'Docs', href: '#insights' },
       { label: 'Contact', href: '#contact' },
     ],
-    heroLabel: 'Smart Immigration Case Navigation',
-    heroTitleA: 'A New-Gen Platform for',
-    heroTitleB: 'Immigration Journey Management',
-    heroText: 'From early assessment to final outcome, your case is managed with legal expertise, data insights, and human support.',
-    heroPrimary: 'Start Consultation',
-    heroSecondary: 'View Journey',
-    kpi1: 'active cases',
-    kpi2: 'client satisfaction',
-    kpi3: 'support',
-    featureTitle: 'A product-like experience, not just a service',
-    featureText: 'Everything is trackable, transparent, and milestone-driven in one dashboard.',
+    heroLabel: 'Professional Responsive Template',
+    heroTitleA: 'Modern Design &',
+    heroTitleB: 'Great User Experience',
+    heroText: 'An open-source React template with dark theme, GSAP animations, full RTL/LTR support, and shadcn/ui components.',
+    heroPrimary: 'Get Started',
+    heroSecondary: 'View Demo',
+    kpi1: 'Components',
+    kpi2: 'Dark/Light',
+    kpi3: 'Support',
+    featureTitle: 'Professional Features',
+    featureText: 'Everything you need to build a modern website is included in this template.',
     features: [
-      ['Case Engine', 'Fast case analysis and risk prioritization'],
-      ['Route Map', 'Personalized action map for each profile'],
-      ['Live Follow-up', 'Milestone tracking with clear notifications'],
+      ['Responsive Design', 'Perfect display on all devices with Tailwind CSS'],
+      ['RTL/LTR Support', 'Full compatibility with right-to-left and left-to-right languages'],
+      ['Dark/Light Mode', 'Automatic and manual switching between dark and light themes'],
     ],
-    timelineTitle: 'Four-step execution flow',
+    timelineTitle: 'How to Use',
     timeline: [
-      ['1', 'Smart Assessment', 'Comprehensive eligibility and profile review'],
-      ['2', 'Strategy Layer', 'Low-risk and defensible route planning'],
-      ['3', 'Execution & Filing', 'Document prep and official submission'],
-      ['4', 'Outcome Monitoring', 'Continuous follow-up and support actions'],
+      ['1', 'Easy Install', 'Install with a single npm command and start developing'],
+      ['2', 'Customize', 'Change colors, fonts, and content to match your brand'],
+      ['3', 'Responsive', 'Compatible with mobile, tablet, and desktop devices'],
+      ['4', 'Open Source', 'Completely free and open source under the MIT license'],
     ],
-    ctaTitle: 'Ready to begin your next chapter?',
-    ctaText: 'Book a free session today and get your tailored action plan.',
-    ctaButton: 'Book Session',
-    watch: 'Watch Journey Demo',
+    ctaTitle: 'Ready to get started?',
+    ctaText: 'Deploy this template on Vercel and start your project in minutes.',
+    ctaButton: 'Get Started',
+    watch: 'View Demo',
     login: 'Sign in',
     dashboard: 'Dashboard',
     dark: 'Dark',
@@ -125,11 +123,11 @@ const content = {
 
 const journeySnapshot = {
   progress: 68,
-  profile: 'Skilled Worker',
-  target: 'Canada',
-  eta: '4-6 months',
-  docsReady: 9,
-  docsTotal: 12,
+  profile: 'shadcn/ui',
+  target: 'Tailwind',
+  eta: '2 min',
+  docsReady: 24,
+  docsTotal: 24,
 };
 
 export default function LandingPage({ locale, onLocaleChange, isDark, onToggleDark, onAuthClick, onDashboardClick }: LandingPageProps) {
@@ -244,7 +242,7 @@ export default function LandingPage({ locale, onLocaleChange, isDark, onToggleDa
           <div className="h-20 flex items-center justify-between">
             <div className="flex items-center gap-2">
               <a href="#home" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center gap-3">
-                <span className="h-10 w-10 rounded-xl bg-gradient-to-br from-primary to-primary-dark text-white grid place-content-center font-bold">P</span>
+                <span className="h-10 w-10 rounded-xl bg-gradient-to-br from-primary to-primary-dark text-white grid place-content-center font-bold">W</span>
                 <span className="font-display font-bold text-xl">{t.brand}</span>
               </a>
               <Button type="button" variant="ghost" size="icon" onClick={onToggleDark} className="rounded-xl text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800" aria-label={isDark ? t.light : t.dark}>
@@ -320,25 +318,25 @@ export default function LandingPage({ locale, onLocaleChange, isDark, onToggleDa
                 <div className="rounded-2xl w-full bg-white/70 dark:bg-slate-900/70 border border-primary/10 dark:border-slate-700 p-5">
                   <div className="flex items-start justify-between">
                     <div>
-                      <p className="text-xs uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">{locale === 'fa' ? 'نمای کلی پرونده' : 'Journey Object'}</p>
-                      <p className="mt-2 text-xl font-bold text-slate-900 dark:text-white">{locale === 'fa' ? 'خلاصه آمادگی مهاجرت' : 'Migration Readiness Snapshot'}</p>
+                      <p className="text-xs uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">{locale === 'fa' ? 'نمای کلی قالب' : 'Template Overview'}</p>
+                      <p className="mt-2 text-xl font-bold text-slate-900 dark:text-white">{locale === 'fa' ? 'آماده‌سازی پروژه' : 'Project Readiness Snapshot'}</p>
                     </div>
                     <div className="h-11 w-11 rounded-xl bg-primary/15 grid place-content-center"><Route className="w-5 h-5 text-primary" /></div>
                   </div>
                   <div className="mt-5">
                     <div className="h-2 rounded-full bg-slate-200 dark:bg-slate-700"><div className="h-2 rounded-full bg-gradient-to-r from-primary to-secondary" style={{ width: `${journeySnapshot.progress}%` }} /></div>
-                    <div className="mt-2 text-sm text-slate-600 dark:text-slate-300 number-ltr">{journeySnapshot.progress}% {locale === 'fa' ? 'پیشرفت' : 'Progress'}</div>
+                    <div className="mt-2 text-sm text-slate-600 dark:text-slate-300 number-ltr">{journeySnapshot.progress}% {locale === 'fa' ? 'آمادگی' : 'Ready'}</div>
                   </div>
                   <div className="mt-5 grid grid-cols-2 gap-3 text-sm">
-                    <div className="rounded-xl border border-slate-200 dark:border-slate-700 p-3"><p className="text-slate-500 dark:text-slate-400">{locale === 'fa' ? 'مسیر' : 'Route'}</p><p className="mt-1 font-semibold text-slate-900 dark:text-slate-100 flex items-center gap-2"><BriefcaseBusiness className="w-4 h-4 text-primary" />{journeySnapshot.profile}</p></div>
-                    <div className="rounded-xl border border-slate-200 dark:border-slate-700 p-3"><p className="text-slate-500 dark:text-slate-400">{locale === 'fa' ? 'مقصد' : 'Destination'}</p><p className="mt-1 font-semibold text-slate-900 dark:text-slate-100 flex items-center gap-2"><MapPinned className="w-4 h-4 text-secondary" />{journeySnapshot.target}</p></div>
-                    <div className="rounded-xl border border-slate-200 dark:border-slate-700 p-3"><p className="text-slate-500 dark:text-slate-400">{locale === 'fa' ? 'آمادگی مدارک' : 'Doc Readiness'}</p><p className="mt-1 font-semibold text-slate-900 dark:text-slate-100 number-ltr flex items-center gap-2"><FileCheck2 className="w-4 h-4 text-success" />{journeySnapshot.docsReady}/{journeySnapshot.docsTotal}</p></div>
-                    <div className="rounded-xl border border-slate-200 dark:border-slate-700 p-3"><p className="text-slate-500 dark:text-slate-400">{locale === 'fa' ? 'زمان تقریبی' : 'ETA'}</p><p className="mt-1 font-semibold text-slate-900 dark:text-slate-100 number-ltr flex items-center gap-2"><Clock3 className="w-4 h-4 text-warning" />{journeySnapshot.eta}</p></div>
+                    <div className="rounded-xl border border-slate-200 dark:border-slate-700 p-3"><p className="text-slate-500 dark:text-slate-400">{locale === 'fa' ? 'کامپوننت' : 'Component'}</p><p className="mt-1 font-semibold text-slate-900 dark:text-slate-100 flex items-center gap-2"><BriefcaseBusiness className="w-4 h-4 text-primary" />{journeySnapshot.profile}</p></div>
+                    <div className="rounded-xl border border-slate-200 dark:border-slate-700 p-3"><p className="text-slate-500 dark:text-slate-400">{locale === 'fa' ? 'فریم‌ورک' : 'Framework'}</p><p className="mt-1 font-semibold text-slate-900 dark:text-slate-100 flex items-center gap-2"><MapPinned className="w-4 h-4 text-secondary" />{journeySnapshot.target}</p></div>
+                    <div className="rounded-xl border border-slate-200 dark:border-slate-700 p-3"><p className="text-slate-500 dark:text-slate-400">{locale === 'fa' ? 'کامپوننت‌ها' : 'Components'}</p><p className="mt-1 font-semibold text-slate-900 dark:text-slate-100 number-ltr flex items-center gap-2"><FileCheck2 className="w-4 h-4 text-success" />{journeySnapshot.docsReady}/{journeySnapshot.docsTotal}</p></div>
+                    <div className="rounded-xl border border-slate-200 dark:border-slate-700 p-3"><p className="text-slate-500 dark:text-slate-400">{locale === 'fa' ? 'زمان نصب' : 'Setup'}</p><p className="mt-1 font-semibold text-slate-900 dark:text-slate-100 number-ltr flex items-center gap-2"><Clock3 className="w-4 h-4 text-warning" />{journeySnapshot.eta}</p></div>
                   </div>
                 </div>
                 <div className="mt-4 grid grid-cols-2 gap-3">
-                  <div className="rounded-xl bg-primary/10 dark:bg-primary/15 p-4"><p className="text-xs text-slate-500 dark:text-slate-400">Case confidence</p><p className="text-xl font-bold text-primary number-ltr">94%</p></div>
-                  <div className="rounded-xl bg-secondary/10 dark:bg-secondary/15 p-4"><p className="text-xs text-slate-500 dark:text-slate-400">Process speed</p><p className="text-xl font-bold text-secondary number-ltr">+32%</p></div>
+                  <div className="rounded-xl bg-primary/10 dark:bg-primary/15 p-4"><p className="text-xs text-slate-500 dark:text-slate-400">TypeScript</p><p className="text-xl font-bold text-primary number-ltr">100%</p></div>
+                  <div className="rounded-xl bg-secondary/10 dark:bg-secondary/15 p-4"><p className="text-xs text-slate-500 dark:text-slate-400">GSAP Ready</p><p className="text-xl font-bold text-secondary number-ltr">✓</p></div>
                 </div>
               </div>
             </div>
@@ -393,10 +391,10 @@ export default function LandingPage({ locale, onLocaleChange, isDark, onToggleDa
         <section id="contact" ref={addSection} className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
           <div className="rounded-[1.75rem] border border-primary/15 bg-white/80 dark:bg-slate-900/75 dark:border-slate-700 p-6 sm:p-8 lg:p-10 shadow-xl backdrop-blur-xl">
             <h2 className="text-2xl sm:text-3xl font-display font-bold text-slate-900 dark:text-white">{locale === 'fa' ? 'تماس با ما' : 'Contact Us'}</h2>
-            <p className="mt-3 text-slate-600 dark:text-slate-300">{locale === 'fa' ? 'برای مشاوره یا پیگیری پرونده، از راه‌های زیر با ما در ارتباط باشید.' : 'For consultation or case follow-up, reach us through the channels below.'}</p>
+            <p className="mt-3 text-slate-600 dark:text-slate-300">{locale === 'fa' ? 'برای سوالات و پیشنهادات با ما در ارتباط باشید.' : 'For questions and suggestions, get in touch with us.'}</p>
             <div className="mt-6 grid sm:grid-cols-2 gap-4">
-              <a href="tel:+16692476782" className="rounded-xl border border-slate-200 dark:border-slate-700 p-4 hover:border-primary/40 transition-colors"><p className="text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400">Phone</p><p className="mt-2 font-semibold text-slate-900 dark:text-slate-100 number-ltr">+16692476782</p></a>
-              <div className="rounded-xl border border-slate-200 dark:border-slate-700 p-4"><p className="text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400">{locale === 'fa' ? 'پشتیبانی' : 'Support'}</p><p className="mt-2 font-semibold text-slate-900 dark:text-slate-100">{locale === 'fa' ? 'پاسخ‌گویی ۲۴/۷' : '24/7 Response'}</p></div>
+              <a href="mailto:info@webstruct.dev" className="rounded-xl border border-slate-200 dark:border-slate-700 p-4 hover:border-primary/40 transition-colors"><p className="text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400">Email</p><p className="mt-2 font-semibold text-slate-900 dark:text-slate-100">info@webstruct.dev</p></a>
+              <div className="rounded-xl border border-slate-200 dark:border-slate-700 p-4"><p className="text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400">{locale === 'fa' ? 'پشتیبانی' : 'Support'}</p><p className="mt-2 font-semibold text-slate-900 dark:text-slate-100">{locale === 'fa' ? 'مستندات کامل' : 'Full Documentation'}</p></div>
             </div>
           </div>
         </section>
@@ -404,10 +402,10 @@ export default function LandingPage({ locale, onLocaleChange, isDark, onToggleDa
         <section id="rss" ref={addSection} className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
           <div className="rounded-[1.75rem] border border-primary/20 bg-white/80 dark:bg-slate-900/75 dark:border-slate-700 p-6 sm:p-8 shadow-xl backdrop-blur-xl">
             <div className="flex flex-wrap items-center justify-between gap-3">
-              <h2 className="text-2xl sm:text-3xl font-display font-bold text-slate-900 dark:text-white">{locale === 'fa' ? 'RSS اخبار مهاجرت' : 'Immigration RSS Hub'}</h2>
-              <span className="text-xs px-3 py-1 rounded-full bg-primary/10 text-primary border border-primary/20">{locale === 'fa' ? 'منابع رسمی + خبری' : 'Official + News Sources'}</span>
+              <h2 className="text-2xl sm:text-3xl font-display font-bold text-slate-900 dark:text-white">{locale === 'fa' ? 'RSS اخبار فناوری' : 'Tech & Dev RSS Hub'}</h2>
+              <span className="text-xs px-3 py-1 rounded-full bg-primary/10 text-primary border border-primary/20">{locale === 'fa' ? 'منابع فناوری + توسعه' : 'Tech + Dev Sources'}</span>
             </div>
-            <p className="mt-3 text-slate-600 dark:text-slate-300">{locale === 'fa' ? 'این بخش خبرها را از فیدهای مرتبط با مهاجرت و ویزاهای بشردوستانه تجمیع می‌کند.' : 'This section aggregates migration and humanitarian visa updates from selected RSS feeds.'}</p>
+            <p className="mt-3 text-slate-600 dark:text-slate-300">{locale === 'fa' ? 'این بخش آخرین اخبار دنیای فناوری و توسعه را از فیدهای منتخب نمایش می‌دهد.' : 'This section aggregates the latest tech and development news from selected RSS feeds.'}</p>
 
             <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
               {rssSources.map((source) => (
@@ -422,7 +420,7 @@ export default function LandingPage({ locale, onLocaleChange, isDark, onToggleDa
 
         <section ref={addSection} className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
           <div className="rounded-[1.5rem] border border-primary/20 bg-white/90 dark:bg-slate-900/85 dark:border-slate-700 p-6 shadow-xl">
-            <h3 className="text-xl sm:text-2xl font-display font-bold text-slate-900 dark:text-white">{locale === 'fa' ? 'آخرین اخبار مهاجرت و ویزا' : 'Latest Immigration & Humanitarian Visa News'}</h3>
+            <h3 className="text-xl sm:text-2xl font-display font-bold text-slate-900 dark:text-white">{locale === 'fa' ? 'آخرین اخبار فناوری و توسعه' : 'Latest Tech & Development News'}</h3>
 
             {rssLoading && <p className="mt-4 text-sm text-slate-500 dark:text-slate-400">{locale === 'fa' ? 'در حال دریافت خبرها...' : 'Loading latest RSS headlines...'}</p>}
             {!rssLoading && rssError && <p className="mt-4 text-sm text-warning">{rssError}</p>}
@@ -447,29 +445,12 @@ export default function LandingPage({ locale, onLocaleChange, isDark, onToggleDa
 
       <footer className="border-t border-white/50 dark:border-slate-800 bg-white/60 dark:bg-slate-950/40 backdrop-blur-xl">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          {/* Legal Disclaimer */}
-          <div className="mb-6 p-4 rounded-xl bg-primary/5 dark:bg-primary/10 border border-primary/10 dark:border-primary/20">
-            <p className={`text-xs leading-relaxed ${locale === 'fa' ? 'text-right' : 'text-left'}`}>
-              {locale === 'fa' ? (
-                <>
-                  این وب‌سایت با دامنه رسمی{' '}
-                  <span className="font-semibold text-primary">panahyar.online</span>، کاملاً تابع قوانین جمهوری اسلامی ایران بوده و هیچ‌گونه خدمات غیرقانونی ارائه نمی‌دهد. خدمات این سامانه صرفاً شامل مشاوره تخصصی، کیس‌اینجینیرینگ و راهنمایی‌های حقوقی با همکاری وکلای مهاجرتی مجرب برای اتباع و شهروندان غیرایرانی است. این سرویس تحت هیچ شرایطی اقدام به جعل یا ساخت کیس پناهندگی نمی‌کند.
-                </>
-              ) : (
-                <>
-                  This website with the official domain{' '}
-                  <span className="font-semibold text-primary">panahyar.online</span> fully complies with the laws of the Islamic Republic of Iran and does not provide any illegal services. The services of this platform are limited to specialized consultation, case engineering, and legal guidance in cooperation with experienced immigration lawyers for non-Iranian nationals and citizens. This service does not under any circumstances engage in falsification or fabrication of asylum cases.
-                </>
-              )}
-            </p>
-          </div>
-
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div>
-              <p className="font-display font-bold text-slate-900 dark:text-white">Panahyar</p>
-              <p className="text-sm text-slate-600 dark:text-slate-400">{locale === 'fa' ? 'پلتفرم مدیریت مسیر مهاجرت' : 'Immigration journey management platform'}</p>
+              <p className="font-display font-bold text-slate-900 dark:text-white">WebStruct Dark</p>
+              <p className="text-sm text-slate-600 dark:text-slate-400">{locale === 'fa' ? 'قالب ریسپانسیو React - متن‌باز' : 'Open source React template'}</p>
             </div>
-            <a href="tel:+16692476782" className="text-sm text-primary hover:text-primary-dark transition-colors number-ltr">+16692476782</a>
+            <p className="text-xs text-slate-500 dark:text-slate-400">{locale === 'fa' ? 'تحت مجوز MIT - آزاد برای استفاده شخصی و تجاری' : 'MIT License — free for personal and commercial use'}</p>
           </div>
         </div>
       </footer>

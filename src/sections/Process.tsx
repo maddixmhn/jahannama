@@ -1,4 +1,4 @@
-import { MessageSquare, ClipboardCheck, FileText, Send, Trophy } from 'lucide-react';
+import { Download, Settings, Smartphone, Code, Rocket } from 'lucide-react';
 import type { ElementType } from 'react';
 import { useScrollReveal } from '@/hooks/useScrollReveal';
 import type { Locale } from '@/App';
@@ -9,39 +9,39 @@ interface ProcessProps {
 
 const content = {
   fa: {
-    badge: 'روند کار',
-    title: 'مسیر همکاری شما با ما',
-    subtitle: 'شفاف، مرحله به مرحله و قابل پیگیری',
+    badge: 'راهنما',
+    title: 'چگونه از قالب استفاده کنیم',
+    subtitle: 'مراحل ساده برای راه‌اندازی و شخصی‌سازی',
     step: 'مرحله',
     items: [
-      { icon: 'message', title: 'مشاوره اولیه', description: 'بررسی رایگان شرایط و تعیین مسیر مناسب.' },
-      { icon: 'clipboard', title: 'ارزیابی پرونده', description: 'تحلیل کامل مدارک و انتخاب استراتژی اقدام.' },
-      { icon: 'file', title: 'آماده سازی مدارک', description: 'تنظیم و تکمیل پرونده با استانداردهای حقوقی.' },
-      { icon: 'send', title: 'ارسال و پیگیری', description: 'ثبت پرونده و پیگیری وضعیت تا نتیجه نهایی.' },
-      { icon: 'trophy', title: 'موفقیت و همراهی', description: 'پس از نتیجه نیز برای شروع جدید کنار شما هستیم.' },
+      { icon: 'download', title: 'نصب', description: 'پروژه را کلون کرده و وابستگی‌ها را نصب کنید.' },
+      { icon: 'settings', title: 'تنظیمات', description: 'رنگ‌ها، فونت‌ها و تم را در فایل پیکربندی تغییر دهید.' },
+      { icon: 'smartphone', title: 'ریسپانسیو', description: 'در تمام دستگاه‌ها بدون نیاز به تنظیمات اضافه نمایش داده می‌شود.' },
+      { icon: 'code', title: 'شخصی‌سازی', description: 'کامپوننت‌ها و بخش‌ها را مطابق نیاز خود تغییر دهید.' },
+      { icon: 'rocket', title: 'انتشار', description: 'پروژه را روی Vercel یا هر هاست دلخواه مستقر کنید.' },
     ],
   },
   en: {
-    badge: 'Our Process',
-    title: 'How we work with you',
-    subtitle: 'Transparent, structured, and trackable',
+    badge: 'Guide',
+    title: 'How to use the template',
+    subtitle: 'Simple steps to set up and customize',
     step: 'Step',
     items: [
-      { icon: 'message', title: 'Initial Consultation', description: 'Free eligibility review and goal alignment.' },
-      { icon: 'clipboard', title: 'Case Evaluation', description: 'Deep assessment of your profile and documents.' },
-      { icon: 'file', title: 'Document Preparation', description: 'Complete filing package assembled with precision.' },
-      { icon: 'send', title: 'Submission & Follow-up', description: 'Formal submission and continuous status monitoring.' },
-      { icon: 'trophy', title: 'Outcome & Support', description: 'Post-approval support for your next life stage.' },
+      { icon: 'download', title: 'Install', description: 'Clone the repo and install dependencies.' },
+      { icon: 'settings', title: 'Configure', description: 'Update colors, fonts, and theme in config.' },
+      { icon: 'smartphone', title: 'Responsive', description: 'Works on all devices out of the box.' },
+      { icon: 'code', title: 'Customize', description: 'Modify components and sections as needed.' },
+      { icon: 'rocket', title: 'Deploy', description: 'Deploy to Vercel or any hosting platform.' },
     ],
   },
 };
 
 const iconMap: Record<string, ElementType> = {
-  message: MessageSquare,
-  clipboard: ClipboardCheck,
-  file: FileText,
-  send: Send,
-  trophy: Trophy,
+  download: Download,
+  settings: Settings,
+  smartphone: Smartphone,
+  code: Code,
+  rocket: Rocket,
 };
 
 export default function Process({ locale }: ProcessProps) {

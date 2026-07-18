@@ -93,7 +93,7 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
             <div className="relative h-full text-white flex flex-col justify-between">
               <div>
                 <div className="w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center mb-6 font-bold">P</div>
-                <h3 className="text-3xl font-bold mb-2">Welcome to Panahyar</h3>
+                <h3 className="text-3xl font-bold mb-2">Welcome to WebStruct Dark</h3>
                 <p className="text-white/85">Modern onboarding for migration services with faster support.</p>
               </div>
               <div className="space-y-3 text-sm">

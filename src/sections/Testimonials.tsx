@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight, Star, Quote } from 'lucide-react';
 import { useScrollReveal } from '@/hooks/useScrollReveal';
 import { Button } from '@/components/ui/button';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import type { Locale } from '@/App';
 
 interface TestimonialsProps {
@@ -12,78 +12,56 @@ interface TestimonialsProps {
 const content = {
   fa: {
     badge: 'نظرات کاربران',
-    title: 'آنچه مراجعان ما می گویند',
-    subtitle: 'تجربه های واقعی از پرونده های موفق',
+    title: 'آنچه توسعه‌دهندگان می‌گویند',
+    subtitle: 'تجربه استفاده از قالب وب‌ساخت دارک',
     items: [
       {
         id: '1',
         name: 'سارا محمدی',
-        role: 'متقاضی پناهندگی',
-        image: '/images/testimonial-1.jpg',
-        quote: 'تیم Panahyar در تمام مسیر کنار من بود و نتیجه ای عالی گرفتم.',
+        role: 'توسعه‌دهنده فرانت‌اند',
+        quote: 'قالب بسیار حرفه‌ای و کاملاً ریسپانسیو. نصب و شخصی‌سازی خیلی آسان بود.',
         rating: 5,
       },
       {
         id: '2',
         name: 'احمد کریمی',
-        role: 'پرونده مهاجرت کاری',
-        image: '/images/testimonial-2.jpg',
-        quote: 'پشتیبانی دقیق و مسئولانه باعث شد پرونده من سریع تر پیش برود.',
+        role: 'طراح وب',
+        quote: 'پشتیبانی از RTL عالی بود. دقیقاً همان چیزی که برای پروژه فارسی نیاز داشتم.',
         rating: 5,
       },
       {
         id: '3',
         name: 'ماریا لوپز',
-        role: 'اقامت خانوادگی',
-        image: '/images/testimonial-3.jpg',
-        quote: 'راهنمایی ها مرحله به مرحله بود و هیچ بخش مبهمی باقی نماند.',
-        rating: 5,
-      },
-      {
-        id: '4',
-        name: 'جان دیوید',
-        role: 'اسپانسر خانواده',
-        image: '/images/testimonial-4.jpg',
-        quote: 'از ارتباط تا پیگیری پرونده، همه چیز حرفه ای و منظم انجام شد.',
+        role: 'توسعه‌دهنده فول‌استک',
+        quote: 'انیمیشن‌های GSAP و تم دارک کیفیت بالایی دارند. پروژه من را حرفه‌ای نشان داد.',
         rating: 5,
       },
     ],
   },
   en: {
-    badge: 'Client Stories',
-    title: 'What our clients say',
-    subtitle: 'Real outcomes from real immigration journeys',
+    badge: 'Developer Stories',
+    title: 'What developers say',
+    subtitle: 'Real experiences using WebStruct Dark',
     items: [
       {
         id: '1',
         name: 'Sara Mohammadi',
-        role: 'Asylum applicant',
-        image: '/images/testimonial-1.jpg',
-        quote: 'Panahyar stayed with me through every step and delivered a great outcome.',
+        role: 'Frontend Developer',
+        quote: 'Very professional and responsive template. Easy to install and customize.',
         rating: 5,
       },
       {
         id: '2',
         name: 'Ahmad Karimi',
-        role: 'Work immigration case',
-        image: '/images/testimonial-2.jpg',
-        quote: 'Their detailed support helped my case move faster and with less stress.',
+        role: 'Web Designer',
+        quote: 'Excellent RTL support. Exactly what I needed for my Persian project.',
         rating: 5,
       },
       {
         id: '3',
         name: 'Maria Lopez',
-        role: 'Family residence path',
-        image: '/images/testimonial-3.jpg',
-        quote: 'Everything was explained clearly, step by step, with no confusion.',
-        rating: 5,
-      },
-      {
-        id: '4',
-        name: 'John David',
-        role: 'Family sponsor',
-        image: '/images/testimonial-4.jpg',
-        quote: 'Communication and follow-up were excellent from start to finish.',
+        role: 'Full-stack Developer',
+        quote: 'GSAP animations and dark theme are top quality. Made my project look professional.',
         rating: 5,
       },
     ],
@@ -162,7 +140,6 @@ export default function Testimonials({ locale }: TestimonialsProps) {
                   <div className="flex flex-col md:flex-row items-center gap-8">
                     <div className="flex-shrink-0">
                       <Avatar className="w-24 h-24 border-4 border-primary/20">
-                        <AvatarImage src={testimonial.image} alt={testimonial.name} />
                         <AvatarFallback className="bg-primary/10 text-primary text-2xl">
                           {testimonial.name.charAt(0)}
                         </AvatarFallback>

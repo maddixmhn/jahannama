@@ -1,16 +1,16 @@
 {
-  "name": "Panahyar - پلتفرم مدیریت مسیر مهاجرت",
-  "short_name": "Panahyar",
-  "description": "Professional immigration and asylum consultation platform",
+  "name": "WebStruct Dark — قالب ریسپانسیو دارک",
+  "short_name": "WebStruct Dark",
+  "description": "Open source React template with dark theme, RTL/LTR support, and GSAP animations",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#FDFBF7",
-  "theme_color": "#0D7377",
+  "background_color": "#0a0f1e",
+  "theme_color": "#0a0f1e",
   "orientation": "portrait-primary",
   "scope": "/",
   "lang": "fa",
   "dir": "rtl",
-  "categories": ["legal", "business", "productivity", "lifestyle"],
+  "categories": ["developer", "productivity", "web"],
   "icons": [
     {
       "src": "/icons/icon-72x72.png",
@@ -61,59 +61,17 @@
       "purpose": "maskable any"
     }
   ],
-  "screenshots": [
-    {
-      "src": "/screenshots/home-fa.png",
-      "sizes": "1280x720",
-      "type": "image/png",
-      "form_factor": "wide",
-      "label": "Panahyar Home Page - فارسی"
-    },
-    {
-      "src": "/screenshots/home-en.png",
-      "sizes": "1280x720",
-      "type": "image/png",
-      "form_factor": "wide",
-      "label": "Panahyar Home Page - English"
-    },
-    {
-      "src": "/screenshots/mobile-fa.png",
-      "sizes": "750x1334",
-      "type": "image/png",
-      "form_factor": "narrow",
-      "label": "Panahyar Mobile - فارسی"
-    }
-  ],
+  "screenshots": [],
   "shortcuts": [
     {
-      "name": "مشاوره رایگان",
-      "short_name": "مشاوره",
-      "description": "شروع مشاوره رایگان مهاجرت",
-      "url": "/?action=consultation",
-      "icons": [
-        {
-          "src": "/icons/shortcut-consultation.png",
-          "sizes": "96x96",
-          "type": "image/png"
-        }
-      ]
-    },
-    {
-      "name": "پیگیری پرونده",
-      "short_name": "پرونده",
-      "description": "ورود به داشبورد کاربری",
-      "url": "/?action=dashboard",
-      "icons": [
-        {
-          "src": "/icons/shortcut-dashboard.png",
-          "sizes": "96x96",
-          "type": "image/png"
-        }
-      ]
+      "name": "مستندات",
+      "short_name": "مستندات",
+      "description": "مشاهده مستندات قالب",
+      "url": "/",
+      "icons": []
     }
   ],
   "related_applications": [],
   "prefer_related_applications": false,
-  "iarc_rating_id": "",
   "handle_links": "preferred"
 }

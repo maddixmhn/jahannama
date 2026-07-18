@@ -1,4 +1,4 @@
-import { Shield, FileCheck, Scale, Home, Users, Phone } from 'lucide-react';
+import { Layout, Globe, Moon, Code, Smartphone, Palette } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import type { ElementType } from 'react';
 import type { Locale } from '@/App';
@@ -8,17 +8,17 @@ interface ServicesProps {
 }
 
 const iconMap: Record<string, ElementType> = {
-  shield: Shield,
-  passport: FileCheck,
-  scale: Scale,
-  home: Home,
-  users: Users,
-  phone: Phone,
+  layout: Layout,
+  globe: Globe,
+  moon: Moon,
+  code: Code,
+  smartphone: Smartphone,
+  palette: Palette,
 };
 
 const items = {
-  fa: ['مشاوره پناهندگی', 'مدارک سفر', 'حمایت حقوقی', 'اسکان اولیه', 'پیوستن خانواده', 'پشتیبانی اضطراری'],
-  en: ['Asylum Guidance', 'Travel Documents', 'Legal Support', 'Settlement', 'Family Reunification', 'Emergency Help'],
+  fa: ['طراحی ریسپانسیو', 'پشتیبانی RTL/LTR', 'تم دارک/لایت', 'کامپوننت‌های مدرن', 'Mobile-First', 'شخصی‌سازی آسان'],
+  en: ['Responsive Design', 'RTL/LTR Support', 'Dark/Light Theme', 'Modern Components', 'Mobile-First', 'Easy Customization'],
 };
 
 export default function Services({ locale }: ServicesProps) {

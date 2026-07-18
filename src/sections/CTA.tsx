@@ -1,4 +1,4 @@
-import { ArrowLeft, Phone } from 'lucide-react';
+import { ArrowLeft, ExternalLink } from 'lucide-react';
 import { useScrollReveal } from '@/hooks/useScrollReveal';
 import { Button } from '@/components/ui/button';
 import type { Locale } from '@/App';
@@ -10,16 +10,16 @@ interface CTAProps {
 
 const content = {
   fa: {
-    title: 'آماده شروع مسیر جدید هستید؟',
-    subtitle: 'همین امروز مشاوره رایگان بگیرید و با یک برنامه روشن جلو بروید.',
-    cta: 'مشاوره رایگان',
-    contactLabel: 'یا تماس مستقیم:',
+    title: 'آماده شروع هستید؟',
+    subtitle: 'قالب را دانلود کنید و پروژه خود را در چند دقیقه راه‌اندازی کنید.',
+    cta: 'شروع کنید',
+    contactLabel: 'مستندات کامل:',
   },
   en: {
-    title: 'Ready to start your next chapter?',
-    subtitle: 'Book a free consultation today and move forward with a clear plan.',
-    cta: 'Get Free Consultation',
-    contactLabel: 'Or call us directly:',
+    title: 'Ready to get started?',
+    subtitle: 'Download the template and launch your project in minutes.',
+    cta: 'Get Started',
+    contactLabel: 'Full documentation:',
   },
 };
 
@@ -70,13 +70,13 @@ export default function CTA({ onCtaClick, locale }: CTAProps) {
             </div>
 
             <div className="mt-8 flex items-center gap-3 text-gray-700 dark:text-gray-200">
-              <Phone className="w-5 h-5" />
+              <ExternalLink className="w-5 h-5" />
               <span>{t.contactLabel}</span>
               <a
-                href="tel:+16692476782"
-                className="font-medium text-primary hover:underline number-ltr"
+                href="https://github.com"
+                className="font-medium text-primary hover:underline"
               >
-                +16692476782
+                GitHub
               </a>
             </div>
           </div>
@@ -87,12 +87,13 @@ export default function CTA({ onCtaClick, locale }: CTAProps) {
             }`}
           >
             <div className="relative">
-              <div className="relative rounded-3xl overflow-hidden shadow-2xl">
-                <img
-                  src="/images/hero-bg.jpg"
-                  alt="Team"
-                  className="w-full h-[400px] object-cover"
-                />
+              <div className="relative rounded-3xl overflow-hidden shadow-2xl bg-gradient-to-br from-primary/20 to-secondary/20 p-12">
+                <div className="text-center">
+                  <p className="text-6xl font-bold text-primary">&lt;/&gt;</p>
+                  <p className="mt-4 text-xl text-slate-600">
+                    {locale === 'fa' ? 'قالب React حرفه‌ای' : 'Professional React Template'}
+                  </p>
+                </div>
               </div>
 
               <div className="absolute -bottom-6 -left-6 bg-white rounded-2xl shadow-xl p-6 animate-float">
@@ -103,9 +104,9 @@ export default function CTA({ onCtaClick, locale }: CTAProps) {
                     </svg>
                   </div>
                   <div>
-                    <p className="font-bold text-navy">500+</p>
+                    <p className="font-bold text-navy">60+</p>
                     <p className="text-sm text-gray-500">
-                      {locale === 'fa' ? 'پرونده موفق' : 'Successful Cases'}
+                      {locale === 'fa' ? 'کامپوننت آماده' : 'Ready Components'}
                     </p>
                   </div>
                 </div>

@@ -6,25 +6,23 @@ import AuthModal from '@/components/AuthModal';
 import Dashboard from '@/components/Dashboard';
 import LandingPage from '@/sections/LandingPage';
 import ParallaxBackground from '@/components/ParallaxBackground';
-import DrDadbinChat from '@/components/DrDadbinChat';
 import './App.css';
 
 export type Locale = 'fa' | 'en';
 
 function App() {
   const [locale, setLocale] = useState<Locale>(() => {
-    const saved = localStorage.getItem('pyar-locale');
+    const saved = localStorage.getItem('webstruct-locale');
     return saved === 'en' ? 'en' : 'fa';
   });
   const [isDark, setIsDark] = useState<boolean>(() => {
-    const saved = localStorage.getItem('pyar-theme');
+    const saved = localStorage.getItem('webstruct-theme');
     if (saved === 'dark') return true;
     if (saved === 'light') return false;
     return window.matchMedia('(prefers-color-scheme: dark)').matches;
   });
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [isDashboardOpen, setIsDashboardOpen] = useState(false);
-  const [isChatOpen, setIsChatOpen] = useState(false);
 
   const openAuthModal = () => setIsAuthModalOpen(true);
   const closeAuthModal = () => setIsAuthModalOpen(false);
@@ -39,12 +37,12 @@ function App() {
   useEffect(() => {
     document.documentElement.lang = locale;
     document.documentElement.dir = locale === 'fa' ? 'rtl' : 'ltr';
-    localStorage.setItem('pyar-locale', locale);
+    localStorage.setItem('webstruct-locale', locale);
   }, [locale]);
 
   useEffect(() => {
     document.documentElement.classList.toggle('dark', isDark);
-    localStorage.setItem('pyar-theme', isDark ? 'dark' : 'light');
+    localStorage.setItem('webstruct-theme', isDark ? 'dark' : 'light');
   }, [isDark]);
 
   return (
@@ -76,14 +74,6 @@ function App() {
           {isDashboardOpen && (
             <Dashboard onClose={closeDashboard} onHomeClick={goHomeFromDashboard} />
           )}
-
-          {/* Dr. Dadbin AI Chat Widget */}
-          <DrDadbinChat
-            locale={locale}
-            isOpen={isChatOpen}
-            onClose={() => setIsChatOpen(false)}
-            onOpen={() => setIsChatOpen(true)}
-          />
 
           {/* Toast Notifications */}
           <Toaster

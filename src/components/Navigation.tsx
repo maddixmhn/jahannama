@@ -22,7 +22,7 @@ interface NavigationProps {
 
 const content = {
   fa: {
-    brand: 'Panahyar',
+    brand: 'WebStruct Dark',
     links: [
       { href: '#home', label: 'خانه' },
       { href: '#services', label: 'خدمات' },
@@ -33,13 +33,13 @@ const content = {
     dashboard: 'پنل کاربری',
     logout: 'خروج',
     login: 'ورود',
-    cta: 'مشاوره رایگان',
+    cta: 'شروع کنید',
     mobileAuth: 'ورود / ثبت نام',
     switchAria: 'تغییر زبان',
     switchLabel: 'EN',
   },
   en: {
-    brand: 'Panahyar',
+    brand: 'WebStruct Dark',
     links: [
       { href: '#home', label: 'Home' },
       { href: '#services', label: 'Services' },
@@ -50,7 +50,7 @@ const content = {
     dashboard: 'Dashboard',
     logout: 'Logout',
     login: 'Sign in',
-    cta: 'Free Consultation',
+    cta: 'Get Started',
     mobileAuth: 'Login / Register',
     switchAria: 'Switch language',
     switchLabel: 'FA',
@@ -107,7 +107,7 @@ export default function Navigation({
             }`}
           >
             <div className="w-10 h-10 bg-gradient-to-br from-primary to-primary-dark rounded-xl flex items-center justify-center shadow-glow">
-              <span className="text-white font-bold text-lg">P</span>
+              <span className="text-white font-bold text-lg">W</span>
             </div>
             <span className="font-display font-bold text-xl text-navy dark:text-white">{t.brand}</span>
             <span className={`hidden sm:inline-flex h-2.5 w-2.5 rounded-full ${isDark ? 'bg-secondary' : 'bg-primary/60'}`} />
