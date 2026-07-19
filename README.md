@@ -26,7 +26,7 @@
 ```bash
 # Clone the repository
 git clone <repo-url>
-cd jahanpima
+cd jahannama
 
 # Install dependencies — نصب وابستگی‌ها
 npm install --legacy-peer-deps
