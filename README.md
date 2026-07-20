@@ -4,8 +4,8 @@
 
 ## Live Demo — دموی زنده
 
-- **Dark Template**: https://rhaegal1.vercel.app
-- **Blue Template**: https://viserion1.vercel.app
+- **Dark Template**: https://maddixmhn-rhaegal.vercel.app
+- **Blue Template**: https://maddixmhn-viserion.vercel.app
 
 **وب‌ساخت دارک** یک قالب React مدرن و متن‌باز با تم دارک است. این قالب دو زبانه (فارسی/انگلیسی) با React 19، TypeScript، Tailwind CSS ساخته شده و شامل انیمیشن‌های GSAP، پشتیبانی از راست‌چین و چپ‌چین و کامپوننت‌های shadcn/ui می‌باشد.
 
