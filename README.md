@@ -2,6 +2,11 @@
 
 **WebStruct Dark** is a modern, open-source React template with a dark theme. This bilingual (Persian/English) template is built with React 19, TypeScript, Tailwind CSS, and includes beautiful GSAP animations, RTL/LTR support, and shadcn/ui components.
 
+## Live Demo — دموی زنده
+
+- **Dark Template**: https://rhaegal1.vercel.app
+- **Blue Template**: https://viserion1.vercel.app
+
 **وب‌ساخت دارک** یک قالب React مدرن و متن‌باز با تم دارک است. این قالب دو زبانه (فارسی/انگلیسی) با React 19، TypeScript، Tailwind CSS ساخته شده و شامل انیمیشن‌های GSAP، پشتیبانی از راست‌چین و چپ‌چین و کامپوننت‌های shadcn/ui می‌باشد.
 
 ---
