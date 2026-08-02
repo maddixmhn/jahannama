@@ -24,6 +24,8 @@ import {
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { fetchRssNews, rssSources, type RssNewsItem } from '@/lib/rss';
+import MigrationCalculator from '@/components/MigrationCalculator';
+import CountryExplorer from '@/components/CountryExplorer';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -41,9 +43,10 @@ const content = {
     brand: 'Panahyar',
     nav: [
       { label: 'خانه', href: '#home' },
+      { label: 'ماشین‌حساب', href: '#calculator' },
+      { label: 'کشورها', href: '#countries' },
       { label: 'خدمات', href: '#features' },
       { label: 'فرایند', href: '#process' },
-      { label: 'نتایج', href: '#insights' },
       { label: 'اخبار', href: '#rss' },
       { label: 'تماس', href: '#contact' },
     ],
@@ -83,9 +86,10 @@ const content = {
     brand: 'Panahyar',
     nav: [
       { label: 'Home', href: '#home' },
+      { label: 'Calculator', href: '#calculator' },
+      { label: 'Countries', href: '#countries' },
       { label: 'Services', href: '#features' },
       { label: 'Process', href: '#process' },
-      { label: 'Results', href: '#insights' },
       { label: 'RSS News', href: '#rss' },
       { label: 'Contact', href: '#contact' },
     ],
@@ -362,6 +366,8 @@ export default function LandingPage({ locale, onLocaleChange, isDark, onToggleDa
           </div>
         </section>
 
+        <MigrationCalculator locale={locale} />
+
         <section id="process" ref={addSection} className="py-24 bg-slate-950 text-white relative overflow-hidden">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,#0d737744,transparent_40%),radial-gradient(circle_at_bottom_right,#f4a26133,transparent_40%)]" />
           <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -378,6 +384,8 @@ export default function LandingPage({ locale, onLocaleChange, isDark, onToggleDa
             </div>
           </div>
         </section>
+
+        <CountryExplorer locale={locale} />
 
         <section id="insights" ref={addSection} className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
           <div className="rounded-[2rem] border border-primary/20 bg-white dark:bg-slate-900 shadow-2xl px-8 py-14 lg:px-12 lg:py-16">
